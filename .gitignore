@@ -1,0 +1,24 @@
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/artifacts/
+frontend/*.tsbuildinfo
+
+# Java
+backend/target/
+backend/data/
+
+# Local secrets and configuration
+.local/
+.env
+.env.*
+!.env.example
+backend/src/main/resources/application-local.yml
+
+# IDE and OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db

@@ -1,0 +1,208 @@
+/* Shared semantic colors: every user page uses the same light/dark palettes. */
+:root {
+  color-scheme: light;
+  --bg: #f6f7f3;
+  --surface: #ffffff;
+  --raised: #edf1eb;
+  --border: #dee5dc;
+  --muted: #65766e;
+  --text: #263a30;
+  --accent: #b66135;
+  --chrome: #ffffff;
+  --line-strong: #ccd7cc;
+  --hover-surface: #f0f4ed;
+  --text-secondary: #3a5044;
+  --selected-bg: #4b6453;
+  --logo-border: #aabbab;
+  --active-bg: #f9eee3;
+  --active-border: #e8c8aa;
+  --accent-link-hover: #8b4321;
+  --accent-hover: #9d4e28;
+  --accent-ink: #ffffff;
+  --hover-border: #91a48f;
+  --pill-border: #d7ddc6;
+  --pill-text: #627148;
+  --badge-bg: #eaf0e7;
+  --soft-surface: #f4f7f0;
+  --progress-track: #e0e7da;
+  --field-bg: #fafbf8;
+  --card-bg: #ffffff;
+  --stat-orange: #fbecde;
+  --stat-orange-ink: #a56735;
+  --stat-green: #e9f2e9;
+  --stat-green-ink: #4b785c;
+  --stat-blue: #eaf0f6;
+  --stat-blue-ink: #58758e;
+  --stat-purple: #f0ebf5;
+  --stat-purple-ink: #816892;
+  --empty-ink: #6f8b72;
+  --empty-core: #f0f5e9;
+  --empty-edge: #e8efdf;
+  --empty-halo: #f7f9f3;
+  --empty-outline: #e8edde;
+  --positive-ink: #387347;
+  --positive-bg: #eaf4e7;
+  --error-bg: #fff0e9;
+  --error-ink: #9b4029;
+  --error-border: #ebc9bb;
+  --warning-bg: #fff5df;
+  --warning-border: #dcc08c;
+  --warning-ink: #78501f;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #252c2b;
+  --surface: #303a37;
+  --raised: #3b4841;
+  --border: #48584e;
+  --muted: #b0beb4;
+  --text: #f0f3e9;
+  --accent: #f3b582;
+  --chrome: #2b3430;
+  --line-strong: #59695d;
+  --hover-surface: #3d4b41;
+  --text-secondary: #d9e2d5;
+  --selected-bg: #536b59;
+  --logo-border: #8e9e89;
+  --active-bg: #4d4438;
+  --active-border: #8d7151;
+  --accent-link-hover: #ffcea1;
+  --accent-hover: #ffc594;
+  --accent-ink: #292c24;
+  --hover-border: #a2b298;
+  --pill-border: #6e7758;
+  --pill-text: #d1d7b4;
+  --badge-bg: #425347;
+  --soft-surface: #354239;
+  --progress-track: #59654f;
+  --field-bg: #29352e;
+  --card-bg: #354139;
+  --stat-orange: #544c3d;
+  --stat-orange-ink: #efc396;
+  --stat-green: #3e5548;
+  --stat-green-ink: #b5d4b4;
+  --stat-blue: #42515a;
+  --stat-blue-ink: #baceda;
+  --stat-purple: #534957;
+  --stat-purple-ink: #d4bedc;
+  --empty-ink: #c3d3b5;
+  --empty-core: #46573e;
+  --empty-edge: #394835;
+  --empty-halo: #344032;
+  --empty-outline: #48563f;
+  --positive-ink: #b6d5a7;
+  --positive-bg: #3c5239;
+  --error-bg: #573f35;
+  --error-ink: #ffcfb8;
+  --error-border: #9b7058;
+  --warning-bg: #544b34;
+  --warning-border: #aa925a;
+  --warning-ink: #ffe4af;
+}
+
+.theme-switch {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+}
+.theme-switch button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 28px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+}
+.theme-switch button[aria-pressed="true"] {
+  background: var(--active-bg);
+  color: var(--accent);
+}
+.theme-switch button:hover {
+  background: var(--hover-surface);
+}
+.space-cover h2,
+.home-layout h1 {
+  color: #f5f8f3;
+}
+.space-cover .eyebrow,
+.home-layout .eyebrow {
+  color: #ffd0a3;
+}
+.auth-aside {
+  color: #ffffff;
+}
+.auth-aside .aside-caption {
+  color: #dfebe2;
+}
+.auth-aside .aside-title {
+  color: #ffffff;
+}
+.link-button {
+  color: var(--muted);
+}
+.button:disabled {
+  opacity: 0.65;
+}
+.settings-section input:focus,
+.settings-section textarea:focus,
+.settings-section select:focus,
+.auth-panel input:focus {
+  outline: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.confirm-dialog::backdrop {
+  background: #17231b88;
+}
+
+@media (max-width: 1100px) {
+  .theme-switch button span {
+    display: none;
+  }
+  .theme-switch button {
+    width: 28px;
+    padding: 0;
+  }
+}
+@media (max-width: 760px) {
+  .topbar nav {
+    gap: 9px;
+  }
+}
+@media (max-width: 420px) {
+  .topbar {
+    padding: 0 10px;
+    gap: 8px;
+  }
+  .topbar .brand {
+    font-size: 13px;
+    gap: 6px;
+  }
+  .topbar .brand-mark {
+    width: 27px;
+    height: 32px;
+  }
+  .topbar nav {
+    gap: 6px;
+  }
+  .topbar nav > .button {
+    padding: 0 7px;
+    font-size: 10px;
+  }
+  .topbar nav > .button svg {
+    display: none;
+  }
+  .language-switch button {
+    min-width: 24px;
+    padding: 4px;
+  }
+  .theme-switch button {
+    width: 24px;
+  }
+}
