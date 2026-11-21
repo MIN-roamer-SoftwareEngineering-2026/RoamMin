@@ -134,3 +134,27 @@ For **Code Standards and Sprint Plan**, use the conventions in sections A and B 
 1. Supply the backend with an authorized Model Studio key, endpoint and model. Run a small itinerary and two-turn chat with test data, confirm browser rendering and record the live result with credentials redacted.
 2. Rerun builds and regressions on the revision intended for team review. Link actual issue and PR references after remote authorization, and collect evidence in the current sprint windows.
 3. Confirm the Trip and destination owners' contracts for explicit draft import, canonical place matching and map display before planning cross-module writes.
+
+## Phase 2 reverification
+
+The second phase ran on November 21, 2026 (Asia/Shanghai) from `789d101`. The unchanged checkout passed its 36 backend tests, frontend build and lint. The working-tree follow-up tightened JSON validation and provider handling, corrected frontend timeout feedback, and added a repeatable HTTPS fixture. The final scope passed 56 backend tests, eight AI browser scenarios, the user-module regression, both builds, and the three-call fixture workflow. The workflow used Fuzhou, three days and a CNY 1500 budget and verified that an existing saved trip remained identical. A no-key run and an invalid-timeout run each started the basic app and returned 503 on both AI routes. Live Model Studio verification remains pending workspace configuration.
+
+The original three commits record the initial implementation. The Phase 2 code and tests were reverified and committed locally as `69428f3` on November 21, 2026 at 19:08:59 (Asia/Shanghai) using the signed-in GitHub account's `noreply` address. The GitHub API reports read access for that account on the team repository. The PR description is a draft, and each item below is proposed. [Second-phase review and testing summary](AI_PHASE2_REVIEW.md) · [PR draft](AI_ALPHA_PR.md)
+
+| Proposed Issue | Description and acceptance criteria | Story points | SRS | Actual status and related commits |
+| --- | --- | ---: | --- | --- |
+| Integrate Qwen in the backend | Configure an authorized workspace/model, use the server-side HTTPS client and pass schema, permission and deadline checks. | 3 | FR-AI-03, FR-AI-04 | Implemented and verified against local TLS. Live model access and actual latency pending. `3cfb570`, `789d101`. |
+| Generate and display itinerary drafts | Validate input and day order. Render a three-day Fuzhou draft and compare an existing trip before and after. | 3 | FR-AI-01, FR-AI-04 | Implemented and verified with the fixture. `3cfb570`, `2434c48`. |
+| Validate multi-turn travel chat | Send bounded, ordered history with each follow-up, render replies and clear local state. | 3 | FR-AI-02, FR-AI-04 | Implemented and verified with mocks and TLS fixture. `3cfb570`, `2434c48`. |
+| Deliver the bilingual AI workspace | Verify protected navigation, both languages/themes, mobile layout, loading and retry behavior. | 3 | FR-AI-01, FR-AI-02, FR-AI-04 | Implemented and verified in Chrome. Includes the transport timeout fix. `2434c48`, `69428f3`. |
+| Harden authentication, validation and provider errors | Reject missing, invalid and expired JWTs, protect quotas, reject malformed data, sanitize errors and enforce size/time limits. | 3 | FR-AI-03, FR-AI-04 | Original safeguards in `3cfb570`. Phase 2 corrections verified and committed locally in `69428f3`. |
+| Automate Alpha regression and collect evidence | Run unit, controller, browser and TLS tests, keep reproducible screenshots, and record live results when configured. | 3 | FR-AI-01–04 | Local checks and screenshots complete. Live-provider evidence and remote references pending. `3cfb570`, `2434c48`, `789d101`. |
+
+| Essay window | Evidence at the time of this report |
+| --- | --- |
+| November 21–22 | Work actually performed on November 21 includes the initial commits, baseline revalidation, observed parsing and timeout problems, local HTTPS fixture screenshots, and the verified Phase 2 commit `69428f3`. |
+| November 23–24 | No evidence recorded. Planned workspace configuration and live smoke test if credentials become available. |
+| November 25–26 | No evidence recorded. Planned review of teammate integration and an actual branch review if authorized. |
+| November 27–28 | No evidence recorded. Planned final regression and delivery evidence for the revision selected by the team. |
+
+For the Testing Essay, map each finding and test case to sections C and E of the Phase 2 report. For the Sprint Summary, include the initial draft and chat implementation, scoped JSON and transport fixes, and verified results. Note shared-rate controls, confirmed Trip imports and destination/map contracts as candidates for Beta collaboration.
