@@ -1,5 +1,7 @@
 # RoamMin 团队代码规范
 
+[English version](CODING_STANDARDS.en.md)
+
 本规范适用于 MIN-roamer Alpha 冲刺期间的 React / TypeScript 前端、Java 17 / Spring Boot 后端和项目文档。Java 部分参考 [《阿里巴巴 Java 开发手册（终极版 v1.3.0）》](https://developer.aliyun.com/special/tech-java)。
 
 ## 通用约定
