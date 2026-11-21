@@ -30,6 +30,8 @@ Provider credentials are read from the backend environment. Verification checked
 - Local HTTPS fixture: browser sign-in, three-day Fuzhou draft at CNY 1500, two chat turns with context, and an unchanged pre-existing saved trip. Verified 429/502/504 handling, including an oversized response and a body-read timeout.
 - Missing credentials and invalid timeout configuration: the real application started, account operations worked, and both AI endpoints returned 503.
 
+- Real Beijing Model Studio `qwen-plus` passed a minimal JSON probe and the browser workflow. A three-day Fuzhou itinerary and two contextual chat turns rendered successfully. The existing test trip stayed identical.
+
 ## Screenshots
 
 Local Alpha evidence captured from the HTTPS fixture:
@@ -37,9 +39,11 @@ Local Alpha evidence captured from the HTTPS fixture:
 - `frontend/artifacts/ai-phase2/https/itinerary-light.png` — desktop itinerary, three days.
 - `frontend/artifacts/ai-phase2/https/chat-dark-mobile.png` — contextual chat, dark theme, 320px viewport.
 
+Live-provider copies are saved under `frontend/artifacts/ai-phase2/live/` with the same filenames.
+
 ## Known limitations
 
-The Model Studio credential and workspace permission for `qwen-plus` were verified. Live inference returned HTTP 403 `AccessDenied.Unpurchased`, so the itinerary and two-turn chat still need a live rerun after the account holder activates Model Studio. Drafts and chat history are page-scoped. Suggestions and estimates require traveler verification. Rate counters are per process.
+Drafts and chat history are page-scoped. Suggestions and estimates require traveler verification. Rate counters are per process.
 
 ## Integration notes
 
