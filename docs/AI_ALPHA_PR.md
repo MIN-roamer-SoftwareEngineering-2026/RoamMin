@@ -39,7 +39,7 @@ Local Alpha evidence captured from the HTTPS fixture:
 
 ## Known limitations
 
-Live Model Studio verification is pending an authorized workspace configuration. Drafts and chat history are page-scoped. Suggestions and estimates require traveler verification. Rate counters are per process.
+The Model Studio credential and workspace permission for `qwen-plus` were verified. Live inference returned HTTP 403 `AccessDenied.Unpurchased`, so the itinerary and two-turn chat still need a live rerun after the account holder activates Model Studio. Drafts and chat history are page-scoped. Suggestions and estimates require traveler verification. Rate counters are per process.
 
 ## Integration notes
 

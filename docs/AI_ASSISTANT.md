@@ -44,6 +44,8 @@ On macOS with zsh, run this from the project root and enter the key at the hidde
 
 Start Vite in a separate terminal with `cd frontend && npm run dev -- --host 127.0.0.1 --strictPort`. In that terminal, use the same Playwright setup as the browser checks below and run `AI_QA_PROVIDER=live node --test scripts/verify-ai-https.cjs` from `frontend/`. The test creates a temporary account and one saved trip in the in-memory database. It makes up to three potentially billable requests (one itinerary and two chat turns), reports browser-observed durations, verifies the trip is unchanged, and writes screenshots under `frontend/artifacts/ai-phase2/live/`. Stop the backend after the test to end the credential-bearing process.
 
+A successful credential check and workspace inference grant are separate from account activation. If a direct provider check returns HTTP 403 `AccessDenied.Unpurchased`, have the Alibaba Cloud account holder sign in to Model Studio and complete any activation requirements indicated by the console before retrying. [Model Studio error reference](https://help.aliyun.com/zh/model-studio/error-code/#accessdenied-unpurchased)
+
 ## API contracts
 
 Both endpoints require an existing JWT in `Authorization: Bearer <token>`, consume `application/json`, and use the application's `ApiResponse<T>` envelope. The paths below are relative to `/api/v1`.

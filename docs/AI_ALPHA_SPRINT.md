@@ -137,13 +137,13 @@ For **Code Standards and Sprint Plan**, use the conventions in sections A and B 
 
 ## Phase 2 reverification
 
-The second phase ran on November 21, 2026 (Asia/Shanghai) from `789d101`. The unchanged checkout passed its 36 backend tests, frontend build and lint. The working-tree follow-up tightened JSON validation and provider handling, corrected frontend timeout feedback, and added a repeatable HTTPS fixture. The final scope passed 56 backend tests, eight AI browser scenarios, the user-module regression, both builds, and the three-call fixture workflow. The workflow used Fuzhou, three days and a CNY 1500 budget and verified that an existing saved trip remained identical. A no-key run and an invalid-timeout run each started the basic app and returned 503 on both AI routes. Live Model Studio verification remains pending workspace configuration.
+The second phase ran on November 21, 2026 (Asia/Shanghai) from `789d101`. The unchanged checkout passed its 36 backend tests, frontend build and lint. The working-tree follow-up tightened JSON validation and provider handling, corrected frontend timeout feedback, and added a repeatable HTTPS fixture. The final scope passed 56 backend tests, eight AI browser scenarios, the user-module regression, both builds, and the three-call fixture workflow. The workflow used Fuzhou, three days and a CNY 1500 budget and verified that an existing saved trip remained identical. A no-key run and an invalid-timeout run each started the basic app and returned 503 on both AI routes. The subsequent live run verified the Model Studio configuration up to workspace authorization. The verified account-level blocker is recorded below.
 
 The original three commits record the initial implementation. The Phase 2 code and tests were reverified and committed locally as `69428f3` on November 21, 2026 at 19:08:59 (Asia/Shanghai) using the signed-in GitHub account's `noreply` address. The GitHub API reports read access for that account on the team repository. The PR description is a draft, and each item below is proposed. [Second-phase review and testing summary](AI_PHASE2_REVIEW.md) · [PR draft](AI_ALPHA_PR.md)
 
 | Proposed Issue | Description and acceptance criteria | Story points | SRS | Actual status and related commits |
 | --- | --- | ---: | --- | --- |
-| Integrate Qwen in the backend | Configure an authorized workspace/model, use the server-side HTTPS client and pass schema, permission and deadline checks. | 3 | FR-AI-03, FR-AI-04 | Implemented and verified against local TLS. Live model access and actual latency pending. `3cfb570`, `789d101`. |
+| Integrate Qwen in the backend | Configure an authorized workspace/model, use the server-side HTTPS client and pass schema, permission and deadline checks. | 3 | FR-AI-03, FR-AI-04 | Implemented and verified against local TLS. Live credential and workspace permission confirmed. Account activation blocks inference and latency verification. `3cfb570`, `789d101`. |
 | Generate and display itinerary drafts | Validate input and day order. Render a three-day Fuzhou draft and compare an existing trip before and after. | 3 | FR-AI-01, FR-AI-04 | Implemented and verified with the fixture. `3cfb570`, `2434c48`. |
 | Validate multi-turn travel chat | Send bounded, ordered history with each follow-up, render replies and clear local state. | 3 | FR-AI-02, FR-AI-04 | Implemented and verified with mocks and TLS fixture. `3cfb570`, `2434c48`. |
 | Deliver the bilingual AI workspace | Verify protected navigation, both languages/themes, mobile layout, loading and retry behavior. | 3 | FR-AI-01, FR-AI-02, FR-AI-04 | Implemented and verified in Chrome. Includes the transport timeout fix. `2434c48`, `69428f3`. |
@@ -152,7 +152,7 @@ The original three commits record the initial implementation. The Phase 2 code a
 
 | Essay window | Evidence at the time of this report |
 | --- | --- |
-| November 21–22 | Work actually performed on November 21 includes the initial commits, baseline revalidation, observed parsing and timeout problems, local HTTPS fixture screenshots, and the verified Phase 2 commit `69428f3`. |
+| November 21–22 | Work actually performed on November 21 includes the initial commits, baseline revalidation, observed parsing and timeout problems, local HTTPS fixture screenshots, and the verified Phase 2 commit `69428f3`. A real Model Studio smoke test verified credential authentication and `qwen-plus` inference permission in the workspace. The provider rejected inference with HTTP 403 `AccessDenied.Unpurchased`. |
 | November 23–24 | No evidence recorded. Planned workspace configuration and live smoke test if credentials become available. |
 | November 25–26 | No evidence recorded. Planned review of teammate integration and an actual branch review if authorized. |
 | November 27–28 | No evidence recorded. Planned final regression and delivery evidence for the revision selected by the team. |
