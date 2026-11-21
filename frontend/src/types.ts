@@ -5,7 +5,7 @@ export interface User {
   nickname: string;
   avatarUrl: string | null;
   bio: string | null;
-  language: 'zh' | 'en';
+  language: "zh" | "en";
 }
 
 export interface UserSummary {
@@ -30,7 +30,7 @@ export interface ProfileUpdate {
   nickname: string;
   avatarUrl: string;
   bio: string;
-  language: 'zh' | 'en';
+  language: "zh" | "en";
 }
 
 export interface Trip {
@@ -50,7 +50,7 @@ export interface TripMember {
   username: string;
   nickname: string;
   avatarUrl: string | null;
-  role: 'owner' | 'member';
+  role: "owner" | "member";
   joinedAt: string | null;
 }
 

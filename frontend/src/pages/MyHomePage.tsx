@@ -11,7 +11,6 @@ import { ConfirmDialog } from "../components/ConfirmDialog";
 import {
   ArrowUpRight,
   BookmarkSimple,
-  Compass,
   MapTrifold,
   PencilSimple,
   Users,
@@ -20,6 +19,7 @@ import {
   PaperPlaneTilt,
   GlobeHemisphereWest,
 } from "@phosphor-icons/react";
+import { AtlasGlobe } from "../components/AtlasGlobe";
 
 type Tab = "trips" | "favorites" | "buddies" | "joined";
 
@@ -168,9 +168,7 @@ export function MyHomePage() {
           <h2>{t("coverTitle")}</h2>
           <p>{t("coverCaption")}</p>
         </div>
-        <span className="cover-coordinate">
-          <Compass size={19} /> A LITTLE FURTHER, A LITTLE FREER.
-        </span>
+        <AtlasGlobe />
       </div>
       <header className="my-home-heading">
         <div className="my-home-identity">

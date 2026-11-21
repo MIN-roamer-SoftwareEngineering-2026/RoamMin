@@ -93,13 +93,19 @@ export default function App() {
   }, []);
   const hasSidebar = !!user && !["/login", "/register"].includes(pathname);
   const title =
-    pathname === "/profile"
-      ? t("profile")
-      : pathname === "/people"
-        ? t("people")
-        : pathname.startsWith("/users/")
-          ? t("travelerProfile")
-          : t("overview");
+    pathname === "/"
+      ? t("atlasHome")
+      : pathname === "/login"
+        ? t("login")
+        : pathname === "/register"
+          ? t("register")
+          : pathname === "/profile"
+            ? t("profile")
+            : pathname === "/people"
+              ? t("people")
+              : pathname.startsWith("/users/")
+                ? t("travelerProfile")
+                : t("overview");
   async function switchLanguage(language: "zh" | "en") {
     localStorage.setItem("min-roamer.language", language);
     await i18n.changeLanguage(language);
@@ -122,12 +128,24 @@ export default function App() {
             <small>漫行札记</small>
           </span>
         </Link>
-        <div className="topbar-context">
-          <span>{t("workspace")}</span>
-          <CaretRight size={12} />
-          <strong>{title}</strong>
-        </div>
+        {hasSidebar && (
+          <div className="topbar-context">
+            <span>{t("workspace")}</span>
+            <CaretRight size={12} />
+            <strong>{title}</strong>
+          </div>
+        )}
         <nav aria-label={t("account")}>
+          {pathname === "/" && !user && (
+            <div className="guide-nav">
+              <a href="#field-notes">
+                {i18n.language === "en" ? "City field notes" : "城市手记"}
+              </a>
+              <a href="#travel-tools">
+                {i18n.language === "en" ? "Travel tools" : "旅行工具"}
+              </a>
+            </div>
+          )}
           <div className="theme-switch" role="group" aria-label={t("theme")}>
             <button
               title={t("lightTheme")}
