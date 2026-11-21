@@ -31,7 +31,8 @@ The API runs at http://localhost:8080/api/v1. H2 uses file mode and stores its d
 - User profile: edit nickname, avatar URL, bio, and language
 - User search endpoint for trip-member invitations
 - Frontend foundations: routing, API client, Zustand auth state, Chinese/English strings, Tailwind CSS
+- AI Travel Assistant: day-by-day drafts and multi-turn chat via server-side Qwen configuration. See the [AI setup and API guide](docs/AI_ASSISTANT.md).
 
 User pages now include a dark navy/orange traveler center, profile editing and avatar upload, personal content tabs, user search, and Chinese/English support. See [用户模块运行与说明](docs/USER_MODULE.md).
 
-Map, itinerary scheduling, destination, budget, community square, and AI modules are reserved for their owning teams. The personal homepage reuses the existing trip, favorite, buddy-post and member APIs.
+Map, saved itinerary scheduling, destination, budget, and community square modules are reserved for their owning teams. The personal homepage reuses the existing trip, favorite, buddy-post and member APIs.

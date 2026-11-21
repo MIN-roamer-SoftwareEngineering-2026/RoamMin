@@ -82,3 +82,9 @@ Manage the signed-in user's saved public trips.
 ### GET /buddy/mine, POST /buddy, DELETE /buddy/{id}
 
 Manage the signed-in user's buddy posts. Creating a post accepts `title`, `destination`, optional `travelDate`, and `description`.
+
+## AI travel assistant
+
+### POST /ai/generate-itinerary and POST /ai/chat
+
+Both endpoints require a bearer token. The [AI assistant API guide](AI_ASSISTANT.md#api-contracts) covers inputs, example responses, validation, and failure statuses.
