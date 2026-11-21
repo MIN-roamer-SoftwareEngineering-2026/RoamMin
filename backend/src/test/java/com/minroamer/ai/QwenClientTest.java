@@ -79,12 +79,15 @@ class QwenClientTest {
     @ValueSource(strings = {
         "not JSON",
         "{\"choices\":[]}",
+        "{\"choices\":[{\"finish_reason\":\"stop\",\"message\":{\"role\":\"assistant\",\"content\":\"partial output\",\"refusal\":\"provider-only details\"}}]}",
+        "{\"choices\":[{\"finish_reason\":\"content_filter\",\"message\":{\"role\":\"assistant\",\"content\":\"blocked\"}}]}",
         "{\"choices\":[{\"finish_reason\":\"length\",\"message\":{\"content\":\"truncated\"}}]}"
     })
     void rejectsMalformedOrTruncatedCompletions(String body) {
         respond(200, body);
         var error = assertThrows(ApiException.class, () -> client(ENDPOINT, "test-key").complete(MESSAGES, false, 100));
         assertThat(error.getStatus()).isEqualTo(HttpStatus.BAD_GATEWAY);
+        assertThat(error.getMessage()).doesNotContain("provider-only details");
     }
 
     @Test
@@ -94,6 +97,13 @@ class QwenClientTest {
             assertThat(error.getStatus()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE);
         }
         verifyNoInteractions(http);
+    }
+
+    @Test
+    void malformedTimeoutLeavesClientAvailableToReturnConfigurationError() {
+        var client = new QwenClient(new ObjectMapper(), ENDPOINT, "model", "test-key", "invalid-duration");
+        var error = assertThrows(ApiException.class, () -> client.complete(MESSAGES, false, 100));
+        assertThat(error.getStatus()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     private QwenClient client(String endpoint, String key) {

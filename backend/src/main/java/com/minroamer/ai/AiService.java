@@ -95,7 +95,7 @@ class AiService {
         } catch (JsonProcessingException exception) {
             throw QwenClient.invalidOutput();
         }
-        int dayCount = request.days().intValueExact();
+        int dayCount = request.days();
         JsonNode days = root.path("dailyItinerary");
         if (!days.isArray() || days.size() != dayCount) throw QwenClient.invalidOutput();
 

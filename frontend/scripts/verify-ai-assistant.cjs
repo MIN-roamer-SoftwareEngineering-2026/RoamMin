@@ -226,6 +226,37 @@ test("AI assistant browser regression", async (t) => {
   );
 
   await t.test(
+    "reports an Axios request deadline as a timeout",
+    async (caseTest) => {
+      const page = await open(caseTest);
+      await page.evaluate(() => {
+        const open = XMLHttpRequest.prototype.open;
+        const send = XMLHttpRequest.prototype.send;
+        const aiRequests = new WeakSet();
+        XMLHttpRequest.prototype.open = function (method, url, ...args) {
+          if (String(url).endsWith("/ai/chat")) aiRequests.add(this);
+          return open.call(this, method, url, ...args);
+        };
+        XMLHttpRequest.prototype.send = function (...args) {
+          if (aiRequests.has(this)) {
+            this.dispatchEvent(new ProgressEvent("timeout"));
+          } else {
+            return send.apply(this, args);
+          }
+        };
+      });
+      await page.getByRole("button", { name: "Travel chat" }).click();
+      await page.getByLabel("Travel question").fill("Where should I go?");
+      await page.getByRole("button", { name: "Send question" }).click();
+      await page
+        .getByRole("alert")
+        .filter({ hasText: "took too long" })
+        .waitFor();
+      await page.getByRole("button", { name: "Try again" }).waitFor();
+    },
+  );
+
+  await t.test(
     "keeps recent chat context in order and clears it on restart",
     async (caseTest) => {
       const page = await open(caseTest);

@@ -57,10 +57,14 @@ export const aiApi = {
 };
 
 export function aiErrorKey(reason: unknown) {
-  const status = (reason as { status?: number } | null)?.status;
-  switch (status) {
+  const error = reason as { status?: number; code?: string } | null;
+  if (error?.code === "ECONNABORTED" || error?.code === "ETIMEDOUT") {
+    return "aiErrorTimeout";
+  }
+  switch (error?.status) {
     case 400:
     case 413:
+    case 415:
       return "aiErrorInput";
     case 429:
       return "aiErrorQuota";
