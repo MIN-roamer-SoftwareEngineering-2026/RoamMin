@@ -22,7 +22,11 @@ export function HomePage() {
           <Link className="button button-primary" to="/register">
             {t("register")}
           </Link>
-          <Link className="button button-secondary" to="/login">
+          <Link
+  className="button button-secondary"
+  to="/login"
+  style={{ color: "#ffffff", textShadow: "0 1px 3px rgba(0, 0, 0, 0.65)" }}
+>
             {t("login")}
           </Link>
         </div>
