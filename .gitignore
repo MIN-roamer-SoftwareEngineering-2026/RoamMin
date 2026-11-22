@@ -5,6 +5,12 @@ frontend/.vite/
 frontend/artifacts/
 frontend/*.tsbuildinfo
 
+# Playwright
+frontend/e2e/.auth/
+frontend/test-results/
+frontend/playwright-report/
+frontend/blob-report/
+
 # Java
 backend/target/
 backend/data/
@@ -14,6 +20,7 @@ backend/data/
 .env
 .env.*
 !.env.example
+!frontend/.env.e2e.example
 backend/src/main/resources/application-local.yml
 
 # IDE and OS
