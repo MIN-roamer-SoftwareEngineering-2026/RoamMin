@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 团队协作规范
+    url: https://github.com/MIN-roamer-SoftwareEngineering-2026/RoamMin/blob/main/CONTRIBUTING.md
+    about: 分支、提交、PR、评审和 Issue 的规则先看这里。
+  - name: Git 操作手册
+    url: https://github.com/MIN-roamer-SoftwareEngineering-2026/RoamMin/blob/main/docs/collaboration/git-workflow.md
+    about: 从建分支到合并的完整命令示例。
