@@ -49,7 +49,7 @@ $env:PLAYWRIGHT_MODULE = 'path to an installed playwright-core'
 node scripts/verify-destination.cjs
 ```
 
-The script checks, in order: 8 samples rendered, search for "鼓山" narrowing to 1 result, heritage category holding 4 entries, the empty state, 6 facts plus 3 highlights on the detail page, dark theme, the English UI, and a 390px mobile viewport with no horizontal overflow, then asserts there are no uncaught errors. Screenshots are written to `artifacts/destination/` (already git-ignored).
+The script checks, in order: 8 samples rendered, search for "Gushan" narrowing to 1 result, heritage category holding 4 entries, the empty state, 6 facts plus 3 highlights on the detail page, dark theme, the English UI, and a 390px mobile viewport with no horizontal overflow, then asserts there are no uncaught errors. Screenshots are written to `artifacts/destination/` (already git-ignored).
 
 Result on 2026-11-22: every assertion passed, 6 screenshots in `artifacts/destination/`. With the backend down, `/api/v1/destinations` returns 500 and the page falls back to the samples with the expected notice, which is the designed degradation path.
 
