@@ -49,6 +49,15 @@ export function MyHomePage() {
   const [search, setSearch] = useState("");
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
+  function fillFuzhouExample() {
+    setTripForm({
+      title: "福州三日漫行",
+      destination: "福州",
+      startDate: "2026-12-12",
+      endDate: "2026-12-14",
+    });
+  }
+
   const load = useCallback(async () => {
     setLoading(true);
     setError("");
@@ -349,6 +358,13 @@ export function MyHomePage() {
                           onSubmit={createTrip}
                         >
                           <h2>{t("createTrip")}</h2>
+                          <button
+                            type="button"
+                            className="button button-secondary"
+                            onClick={fillFuzhouExample}
+                          >
+                            {t("fillFuzhouExample")}
+                          </button>
                           <div className="form-row">
                             <input
                               required
