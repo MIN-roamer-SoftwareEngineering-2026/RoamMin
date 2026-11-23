@@ -85,6 +85,7 @@ test(
     await page
       .getByRole("heading", { name: "AI Assistant", exact: true })
       .waitFor();
+    await page.getByRole("button", { name: "Light", exact: true }).click();
 
     let browserRequests = 0;
     page.on("request", (sent) => {
