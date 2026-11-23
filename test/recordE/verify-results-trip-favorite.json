@@ -1,0 +1,76 @@
+{
+  "at": "2026-11-23T11:31:27.681Z",
+  "target": "a7d70ff",
+  "results": [
+    {
+      "name": "register owner/guest",
+      "pass": true,
+      "detail": "owner=5 guest=6"
+    },
+    {
+      "name": "UI 创建行程（默认私有）",
+      "pass": true,
+      "detail": "visibility=\"仅自己和成员可见\""
+    },
+    {
+      "name": "私有行程不在公开列表",
+      "pass": true,
+      "detail": "publicCount=0 tripId=1"
+    },
+    {
+      "name": "UI 发布行程",
+      "pass": true,
+      "detail": "visibility → 公开"
+    },
+    {
+      "name": "他人主页出现收藏入口",
+      "pass": true,
+      "detail": "hasFavoriteButton=true"
+    },
+    {
+      "name": "UI 收藏行程",
+      "pass": true,
+      "detail": "按钮变为取消收藏"
+    },
+    {
+      "name": "UI 我的收藏可见",
+      "pass": true,
+      "detail": "收藏列表含该行程"
+    },
+    {
+      "name": "UI 收藏刷新后仍在",
+      "pass": true,
+      "detail": "刷新后收藏列表仍含该行程"
+    },
+    {
+      "name": "重复收藏不产生重复记录",
+      "pass": true,
+      "detail": "count=1"
+    },
+    {
+      "name": "UI 取消收藏",
+      "pass": true,
+      "detail": "收藏列表恢复空状态"
+    },
+    {
+      "name": "未登录访问 /trips/public -> 401（已知偏差）",
+      "pass": true,
+      "detail": "status=401"
+    },
+    {
+      "name": "收藏未公开行程 -> 404",
+      "pass": true,
+      "detail": "status=404"
+    },
+    {
+      "name": "日期倒置 -> 400",
+      "pass": true,
+      "detail": "status=400 msg=End date cannot be before start date"
+    },
+    {
+      "name": "页面无 JS 报错",
+      "pass": true,
+      "detail": "none"
+    }
+  ]
+}
