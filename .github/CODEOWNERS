@@ -1,0 +1,12 @@
+# 所有改动默认由仓库管理员评审
+* @Nomkr
+
+# 公共文件必须由集成人确认后再合并
+/frontend/src/App.tsx @Nomkr
+/frontend/src/i18n.ts @Nomkr
+/frontend/src/index.css @Nomkr
+/frontend/src/main.tsx @Nomkr
+/frontend/package.json @Nomkr
+/docs/API.md @Nomkr
+/.github/ @Nomkr
+/CONTRIBUTING.md @Nomkr

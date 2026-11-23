@@ -24,3 +24,9 @@ app:
   jwt:
     secret: ${JWT_SECRET}
     expiration-ms: 86400000
+  ai:
+    qwen:
+      endpoint: ${QWEN_ENDPOINT:}
+      model: ${QWEN_MODEL:}
+      api-key: ${DASHSCOPE_API_KEY:}
+      timeout: ${QWEN_TIMEOUT:45s}

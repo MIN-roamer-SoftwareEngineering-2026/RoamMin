@@ -1,0 +1,56 @@
+{
+  "at": "2026-11-23T11:30:24.596Z",
+  "target": "a7d70ff",
+  "results": [
+    {
+      "name": "register owner/viewer",
+      "pass": true,
+      "detail": "owner=201 id=3, viewer=201 id=4"
+    },
+    {
+      "name": "POST /buddy 空标题 -> 400",
+      "pass": true,
+      "detail": "status=400 body={\"code\":400,\"message\":\"description is invalid\",\"data\":null}"
+    },
+    {
+      "name": "POST /buddy 未登录 -> 401",
+      "pass": true,
+      "detail": "status=401"
+    },
+    {
+      "name": "DELETE 他人搭子帖 -> 403",
+      "pass": true,
+      "detail": "status=403 body={\"code\":403,\"message\":\"Cannot delete another user's post\",\"data\":null}"
+    },
+    {
+      "name": "清理种子帖 -> 2xx",
+      "pass": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "UI 发布搭子帖",
+      "pass": true,
+      "detail": "列表出现新帖"
+    },
+    {
+      "name": "UI 刷新后数据仍在",
+      "pass": true,
+      "detail": "刷新后列表仍含该帖"
+    },
+    {
+      "name": "UI 删除搭子帖",
+      "pass": true,
+      "detail": "删除确认后列表回到空状态"
+    },
+    {
+      "name": "UI 失败路径有提示、不白屏",
+      "pass": true,
+      "detail": "alert=true text=\"simulated failure\" rootChildren=1"
+    },
+    {
+      "name": "页面无 JS 报错 / 无 5xx",
+      "pass": true,
+      "detail": "none"
+    }
+  ]
+}

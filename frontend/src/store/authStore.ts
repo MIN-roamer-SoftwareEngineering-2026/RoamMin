@@ -1,7 +1,7 @@
-import { create } from 'zustand';
-import type { User } from '../types';
+import { create } from "zustand";
+import type { User } from "../types";
 
-type AuthStatus = 'anonymous' | 'loading' | 'authenticated';
+type AuthStatus = "anonymous" | "loading" | "authenticated";
 
 interface AuthState {
   token: string | null;
@@ -12,19 +12,19 @@ interface AuthState {
   clearSession: () => void;
 }
 
-const savedToken = sessionStorage.getItem('min-roamer.token');
+const savedToken = sessionStorage.getItem("min-roamer.token");
 
 export const useAuthStore = create<AuthState>((set) => ({
   token: savedToken,
   user: null,
-  status: savedToken ? 'loading' : 'anonymous',
+  status: savedToken ? "loading" : "anonymous",
   setSession: (token, user) => {
-    sessionStorage.setItem('min-roamer.token', token);
-    set({ token, user, status: 'authenticated' });
+    sessionStorage.setItem("min-roamer.token", token);
+    set({ token, user, status: "authenticated" });
   },
-  setUser: (user) => set({ user, status: 'authenticated' }),
+  setUser: (user) => set({ user, status: "authenticated" }),
   clearSession: () => {
-    sessionStorage.removeItem('min-roamer.token');
-    set({ token: null, user: null, status: 'anonymous' });
+    sessionStorage.removeItem("min-roamer.token");
+    set({ token: null, user: null, status: "anonymous" });
   },
 }));

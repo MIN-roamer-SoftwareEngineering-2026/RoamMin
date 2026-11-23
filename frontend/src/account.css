@@ -1421,7 +1421,7 @@ textarea::placeholder {
   }
   .app-sidebar nav {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
   }
   .app-sidebar nav a {
@@ -1432,6 +1432,7 @@ textarea::placeholder {
   }
   .app-sidebar nav a svg {
     width: 18px;
+    flex-shrink: 0;
   }
   .with-sidebar .app-content {
     margin-left: 0;
@@ -1564,6 +1565,16 @@ textarea::placeholder {
   }
   .public-profile-section .social-list {
     grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 480px) {
+  .app-sidebar nav a {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 3px;
+    padding: 7px 2px;
+    font-size: 11px;
+    text-align: center;
   }
 }
 @media (prefers-reduced-motion: reduce) {

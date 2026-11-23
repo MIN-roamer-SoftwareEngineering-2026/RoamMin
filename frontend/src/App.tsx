@@ -17,6 +17,8 @@ import {
   CaretRight,
   Sun,
   Moon,
+  Sparkle,
+  MapTrifold,
 } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { authApi } from "./api/auth";
@@ -28,6 +30,11 @@ import { MyHomePage } from "./pages/MyHomePage";
 import { PublicUserPage } from "./pages/PublicUserPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { PeoplePage } from "./pages/PeoplePage";
+import { AiAssistantPage } from "./pages/AiAssistantPage";
+import { DestinationsPage } from "./pages/DestinationsPage";
+import { DestinationDetailPage } from "./pages/DestinationDetailPage";
+import { CreateTripPage } from "./pages/CreateTripPage";
+import { MyTripsPage } from "./pages/MyTripsPage";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { useAuthStore } from "./store/authStore";
 import { UserAvatar } from "./components/UserAvatar";
@@ -93,13 +100,25 @@ export default function App() {
   }, []);
   const hasSidebar = !!user && !["/login", "/register"].includes(pathname);
   const title =
-    pathname === "/profile"
-      ? t("profile")
-      : pathname === "/people"
-        ? t("people")
-        : pathname.startsWith("/users/")
-          ? t("travelerProfile")
-          : t("overview");
+    pathname === "/"
+      ? t("atlasHome")
+      : pathname === "/login"
+        ? t("login")
+        : pathname === "/register"
+          ? t("register")
+          : pathname === "/profile"
+            ? t("profile")
+            : pathname === "/people"
+              ? t("people")
+              : pathname === "/ai"
+                ? t("aiAssistant")
+                : pathname.startsWith("/trips")
+                  ? t("myTrips")
+                  : pathname.startsWith("/destinations")
+                    ? t("dest.nav")
+                    : pathname.startsWith("/users/")
+                      ? t("travelerProfile")
+                      : t("overview");
   async function switchLanguage(language: "zh" | "en") {
     localStorage.setItem("min-roamer.language", language);
     await i18n.changeLanguage(language);
@@ -122,12 +141,27 @@ export default function App() {
             <small>漫行札记</small>
           </span>
         </Link>
-        <div className="topbar-context">
-          <span>{t("workspace")}</span>
-          <CaretRight size={12} />
-          <strong>{title}</strong>
-        </div>
+        {hasSidebar && (
+          <div className="topbar-context">
+            <span>{t("workspace")}</span>
+            <CaretRight size={12} />
+            <strong>{title}</strong>
+          </div>
+        )}
         <nav aria-label={t("account")}>
+          {pathname === "/" && !user && (
+            <div className="guide-nav">
+              <a href="#field-notes">
+                {i18n.language === "en" ? "City field notes" : "城市手记"}
+              </a>
+              <a href="#travel-tools">
+                {i18n.language === "en" ? "Travel tools" : "旅行工具"}
+              </a>
+            </div>
+          )}
+          <Link className="topbar-explore" to="/destinations">
+            {t("dest.nav")}
+          </Link>
           <div className="theme-switch" role="group" aria-label={t("theme")}>
             <button
               title={t("lightTheme")}
@@ -188,15 +222,30 @@ export default function App() {
       </header>
       {hasSidebar && (
         <aside className="app-sidebar">
+          <div className="sidebar-section-label">{t("dest.explore")}</div>
+          <nav aria-label={t("dest.explore")}>
+            <NavLink to="/destinations">
+              <Compass size={21} />
+              {t("dest.nav")}
+            </NavLink>
+          </nav>
           <div className="sidebar-section-label">{t("personalNav")}</div>
           <nav aria-label={t("workspace")}>
             <NavLink to="/my">
               <SquaresFour size={21} />
               {t("overview")}
             </NavLink>
+            <NavLink to="/trips">
+              <MapTrifold size={21} />
+              {t("myTrips")}
+            </NavLink>
             <NavLink to="/people">
               <Users size={21} />
               {t("people")}
+            </NavLink>
+            <NavLink to="/ai">
+              <Sparkle size={21} aria-hidden="true" />
+              {t("aiAssistant")}
             </NavLink>
             <div className="sidebar-section-label">{t("account")}</div>
             <NavLink to="/profile">
@@ -223,9 +272,14 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/destinations" element={<DestinationsPage />} />
+          <Route path="/destinations/:id" element={<DestinationDetailPage />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/my" element={<MyHomePage />} />
+            <Route path="/trips" element={<MyTripsPage />} />
+            <Route path="/trips/new" element={<CreateTripPage />} />
             <Route path="/people" element={<PeoplePage />} />
+            <Route path="/ai" element={<AiAssistantPage key={user?.id} />} />
             <Route path="/users/:id" element={<PublicUserPage />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Route>

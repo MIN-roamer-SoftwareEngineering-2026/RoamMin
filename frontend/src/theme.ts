@@ -2,11 +2,11 @@ export type Theme = "light" | "dark";
 
 export function readTheme(): Theme {
   try {
-    return localStorage.getItem("min-roamer.theme") === "dark"
-      ? "dark"
-      : "light";
+    return localStorage.getItem("min-roamer.theme") === "light"
+      ? "light"
+      : "dark";
   } catch {
-    return "light";
+    return "dark";
   }
 }
 
@@ -14,7 +14,7 @@ export function applyTheme(theme: Theme) {
   document.documentElement.dataset.theme = theme;
   document
     .querySelector('meta[name="theme-color"]')
-    ?.setAttribute("content", theme === "dark" ? "#252c2b" : "#f6f7f3");
+    ?.setAttribute("content", theme === "dark" ? "#1c212a" : "#f8fafc");
   try {
     localStorage.setItem("min-roamer.theme", theme);
   } catch {

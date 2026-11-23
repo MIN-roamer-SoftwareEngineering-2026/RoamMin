@@ -11,7 +11,6 @@ import { ConfirmDialog } from "../components/ConfirmDialog";
 import {
   ArrowUpRight,
   BookmarkSimple,
-  Compass,
   MapTrifold,
   PencilSimple,
   Users,
@@ -20,6 +19,7 @@ import {
   PaperPlaneTilt,
   GlobeHemisphereWest,
 } from "@phosphor-icons/react";
+import { AtlasGlobe } from "../components/AtlasGlobe";
 
 type Tab = "trips" | "favorites" | "buddies" | "joined";
 
@@ -48,15 +48,6 @@ export function MyHomePage() {
   const [inviteTrip, setInviteTrip] = useState<number | null>(null);
   const [search, setSearch] = useState("");
   const [deleteId, setDeleteId] = useState<number | null>(null);
-
-  function fillFuzhouExample() {
-    setTripForm({
-      title: "福州三日漫行",
-      destination: "福州",
-      startDate: "2026-12-12",
-      endDate: "2026-12-14",
-    });
-  }
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -177,9 +168,7 @@ export function MyHomePage() {
           <h2>{t("coverTitle")}</h2>
           <p>{t("coverCaption")}</p>
         </div>
-        <span className="cover-coordinate">
-          <Compass size={19} /> A LITTLE FURTHER, A LITTLE FREER.
-        </span>
+        <AtlasGlobe />
       </div>
       <header className="my-home-heading">
         <div className="my-home-identity">
@@ -358,13 +347,6 @@ export function MyHomePage() {
                           onSubmit={createTrip}
                         >
                           <h2>{t("createTrip")}</h2>
-                          <button
-                            type="button"
-                            className="button button-secondary"
-                            onClick={fillFuzhouExample}
-                          >
-                            {t("fillFuzhouExample")}
-                          </button>
                           <div className="form-row">
                             <input
                               required

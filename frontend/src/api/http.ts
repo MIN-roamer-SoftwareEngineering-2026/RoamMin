@@ -47,7 +47,10 @@ http.interceptors.response.use(
             error.message ||
             "Request failed";
     return Promise.reject(
-      Object.assign(new Error(message), { status: error.response?.status }),
+      Object.assign(new Error(message), {
+        status: error.response?.status,
+        code: error.code,
+      }),
     );
   },
 );

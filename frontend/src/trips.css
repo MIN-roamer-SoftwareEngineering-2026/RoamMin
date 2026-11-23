@@ -1,0 +1,117 @@
+.trip-page {
+  padding-block: 36px 64px;
+}
+.trip-page-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+.trip-page-heading h1 {
+  margin: 0 0 8px;
+}
+.trip-eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.trip-form-panel,
+.trip-list-item,
+.trip-empty-state {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.trip-form-panel {
+  display: grid;
+  max-width: 720px;
+  gap: 16px;
+  padding: 28px;
+}
+.trip-form-panel label {
+  display: grid;
+  gap: 7px;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+.trip-form-panel input {
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--field-bg);
+  color: var(--text);
+  font: inherit;
+}
+.trip-date-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.trip-form-actions,
+.trip-list-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.trip-form-actions > span,
+.trip-list-item p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+.trip-form-error,
+.trip-success {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+.trip-form-error {
+  border: 1px solid var(--error-border);
+  background: var(--error-bg);
+  color: var(--error-ink);
+}
+.trip-success {
+  border: 1px solid var(--active-border);
+  background: var(--active-bg);
+}
+.trip-list {
+  display: grid;
+  gap: 12px;
+}
+.trip-list-item {
+  align-items: start;
+  padding: 20px;
+}
+.trip-list-item h2 {
+  margin: 6px 0 10px;
+}
+.trip-list-item p {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 7px;
+}
+.trip-id,
+.trip-visibility {
+  padding: 5px 8px;
+  border-radius: 4px;
+  background: var(--soft-surface);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+.trip-empty-state,
+.trip-state {
+  padding: 30px;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .trip-date-fields {
+    grid-template-columns: 1fr;
+  }
+}

@@ -59,6 +59,10 @@ Requires a bearer token.
 
 Requires a bearer token. Search starts at two characters, excludes the current user, and returns up to ten summaries. Search results do not expose email addresses.
 
+### POST /users/me/avatar
+
+Requires a bearer token and a multipart form with a `file` field. Accepts PNG and JPEG up to 5 MB and returns the updated user profile in the standard response envelope.
+
 ### GET /users/{id}
 
 Requires a bearer token. Returns the user's public profile, published trips, and buddy posts. Email and account settings are not exposed.
@@ -82,3 +86,9 @@ Manage the signed-in user's saved public trips.
 ### GET /buddy/mine, POST /buddy, DELETE /buddy/{id}
 
 Manage the signed-in user's buddy posts. Creating a post accepts `title`, `destination`, optional `travelDate`, and `description`.
+
+## AI travel assistant
+
+### POST /ai/generate-itinerary and POST /ai/chat
+
+Both endpoints require a bearer token. The [AI assistant API guide](AI_ASSISTANT.md#api-contracts) covers inputs, example responses, validation, and failure statuses.
