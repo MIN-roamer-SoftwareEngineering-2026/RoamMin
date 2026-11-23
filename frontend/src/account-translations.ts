@@ -1,6 +1,7 @@
 // User-module copy lives together so the owning team can maintain both languages.
 export const accountTranslations = {
   zh: {
+    atlasHome: "漫游福州",
     theme: "外观主题",
     lightTheme: "浅色",
     darkTheme: "深色",
@@ -15,9 +16,10 @@ export const accountTranslations = {
     account: "账户管理",
     personalNav: "我的旅行",
     brandTagline: "让每一次出发，都有期待",
-    coverKicker: "YOUR NEXT CHAPTER",
-    coverTitle: "收藏沿途风景，也记录自己的故事。",
-    coverCaption: "你的行程、灵感和同行伙伴，都从这里开始。",
+    coverKicker: "FUZHOU ATLAS / 榕城旅行档案",
+    coverTitle: "下一站福州，慢慢走，细细逛。",
+    coverCaption:
+      "从三坊七巷到烟台山，把福州的街巷、美食与同行的故事收进旅行档案。",
     backHome: "返回我的空间",
     allTrips: "全部行程",
     joinedTrips: "参与的行程",
@@ -63,8 +65,8 @@ export const accountTranslations = {
     enterPassword: "请输入密码",
     enterUsername: "给自己取一个用户名",
     enterBio: "你喜欢什么样的旅行？向同行者介绍一下自己。",
-    loginTitle: "好久不见，旅行者。",
-    registerTitle: "开启你的漫游故事。",
+    loginTitle: "登录你的旅行空间",
+    registerTitle: "创建旅行账号",
     authEyebrow: "遇见山海，也遇见同行的人",
     authFootnote: "从一份计划开始，让旅行成为生活的一部分。",
     passwordsHint: "8–72 个字符；中文等字符同时受 72 字节限制",
@@ -83,6 +85,7 @@ export const accountTranslations = {
     searchIdleHint: "从一个用户名开始，看看彼此的旅行故事。",
   },
   en: {
+    atlasHome: "Explore Fuzhou",
     theme: "Appearance",
     lightTheme: "Light",
     darkTheme: "Dark",
@@ -97,10 +100,10 @@ export const accountTranslations = {
     account: "ACCOUNT",
     personalNav: "MY JOURNEYS",
     brandTagline: "Something to look forward to",
-    coverKicker: "YOUR NEXT CHAPTER",
-    coverTitle: "Collect the views. Keep your stories.",
+    coverKicker: "FUZHOU / YOUR TRAVEL ATLAS",
+    coverTitle: "Next stop, Fuzhou. Take your time.",
     coverCaption:
-      "Your journeys, inspiration, and travel companions start here.",
+      "From Sanfang Qixiang to Yantai Hill, keep Fuzhou's lanes, local food and shared stories in your travel atlas.",
     backHome: "Back to my space",
     allTrips: "All trips",
     joinedTrips: "Joined trips",
@@ -150,8 +153,8 @@ export const accountTranslations = {
     enterUsername: "Choose a username",
     enterBio:
       "What kind of traveler are you? Tell future companions a little about yourself.",
-    loginTitle: "Welcome back, traveler.",
-    registerTitle: "Your next chapter awaits.",
+    loginTitle: "Welcome back",
+    registerTitle: "Create your travel account",
     authEyebrow: "Find your way. Find your people.",
     authFootnote: "A journey worth taking starts with a little planning.",
     passwordsHint: "8–72 characters; also limited to 72 UTF-8 bytes",

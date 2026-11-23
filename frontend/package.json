@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "format:check": "prettier --end-of-line auto --check \"src/**/*.{ts,tsx,css}\" index.html",
     "preview": "vite preview"
   },
   "dependencies": {

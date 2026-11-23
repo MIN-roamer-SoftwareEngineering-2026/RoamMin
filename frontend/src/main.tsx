@@ -6,6 +6,7 @@ import "./i18n";
 import "./index.css";
 import "./account.css";
 import "./themes.css";
+import "./atlas.css";
 import { applyTheme, readTheme } from "./theme";
 
 applyTheme(readTheme());
