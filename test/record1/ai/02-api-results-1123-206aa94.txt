@@ -1,0 +1,27 @@
+RoamMin Alpha · Issue #20 · 2026-11-23 (Asia/Shanghai)
+Tested: feature/ai-assistant @ 206aa9401a944200afa12d7dba11ef91f627d5d8
+Main integrated: a9f2be8fc61026c159a0fbf362f89268f5acaa92
+Environment: local Vite production preview, Spring Boot packaged JAR and disposable H2.
+Source: HTTP assertions from Playwright and the local missing-configuration check.
+Authentication headers, credentials, and provider response bodies are omitted.
+
+Live provider (Beijing Model Studio, qwen-plus)
+POST /api/v1/ai/generate-itinerary → HTTP 200, code 0, 16019 ms
+  Fuzhou, 3 days, CNY 1500. Days 1–3 rendered.
+POST /api/v1/ai/chat → HTTP 200, code 0, 7189 ms
+  Initial question supplied Fuzhou Railway Station.
+POST /api/v1/ai/chat → HTTP 200, code 0, 766 ms
+  The follow-up used the previous exchange and identified Fuzhou Railway Station.
+Browser assertions verified login redirect, both themes, the 320px layout and an unchanged saved trip.
+Live inference requests: 3. Test result: 1 passed, 0 failed.
+
+Local HTTPS model fixture
+Fixture quota → 429
+Fixture upstream failure → 502
+Fixture oversized body → 502
+Fixture slow body → 504
+
+Missing model configuration
+POST /api/v1/ai/generate-itinerary → HTTP 503 (missing model configuration)
+POST /api/v1/ai/chat → HTTP 503 (missing model configuration)
+GET /api/v1/trips/mine → HTTP 200 (core trip API remained available)

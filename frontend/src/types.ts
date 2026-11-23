@@ -73,3 +73,45 @@ export interface PublicProfile {
   publishedTrips: Trip[];
   buddyPosts: BuddyPost[];
 }
+
+type AiLanguage = "en" | "zh";
+
+export interface ItineraryRequest {
+  destination: string;
+  days: number;
+  budget?: number;
+  preferences?: string[];
+  requirements?: string;
+  language: AiLanguage;
+}
+
+export interface ItineraryDraft {
+  destination: string;
+  days: number;
+  dailyItinerary: {
+    day: number;
+    title: string;
+    activities: {
+      name: string;
+      description: string;
+      estimatedCost: number | null;
+    }[];
+  }[];
+  suggestions: string[];
+}
+
+export interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
+export interface ChatRequest {
+  message: string;
+  history: ChatMessage[];
+  language: AiLanguage;
+  travelContext?: string;
+}
+
+export interface ChatReply {
+  reply: string;
+}

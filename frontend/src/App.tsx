@@ -17,6 +17,7 @@ import {
   CaretRight,
   Sun,
   Moon,
+  Sparkle,
 } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { authApi } from "./api/auth";
@@ -28,6 +29,7 @@ import { MyHomePage } from "./pages/MyHomePage";
 import { PublicUserPage } from "./pages/PublicUserPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { PeoplePage } from "./pages/PeoplePage";
+import { AiAssistantPage } from "./pages/AiAssistantPage";
 import { DestinationsPage } from "./pages/DestinationsPage";
 import { DestinationDetailPage } from "./pages/DestinationDetailPage";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
@@ -105,11 +107,13 @@ export default function App() {
             ? t("profile")
             : pathname === "/people"
               ? t("people")
-              : pathname.startsWith("/destinations")
-                ? t("dest.nav")
-                : pathname.startsWith("/users/")
-                  ? t("travelerProfile")
-                  : t("overview");
+              : pathname === "/ai"
+                ? t("aiAssistant")
+                : pathname.startsWith("/destinations")
+                  ? t("dest.nav")
+                  : pathname.startsWith("/users/")
+                    ? t("travelerProfile")
+                    : t("overview");
   async function switchLanguage(language: "zh" | "en") {
     localStorage.setItem("min-roamer.language", language);
     await i18n.changeLanguage(language);
@@ -230,6 +234,10 @@ export default function App() {
               <Users size={21} />
               {t("people")}
             </NavLink>
+            <NavLink to="/ai">
+              <Sparkle size={21} aria-hidden="true" />
+              {t("aiAssistant")}
+            </NavLink>
             <div className="sidebar-section-label">{t("account")}</div>
             <NavLink to="/profile">
               <UserCircle size={21} />
@@ -260,6 +268,7 @@ export default function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/my" element={<MyHomePage />} />
             <Route path="/people" element={<PeoplePage />} />
+            <Route path="/ai" element={<AiAssistantPage key={user?.id} />} />
             <Route path="/users/:id" element={<PublicUserPage />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Route>
