@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from "react";
 import { MapTrifold, Path, Sparkle } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
-import { aiApi, aiErrorKey, type ItineraryDraft } from "../../api/ai";
+import { aiApi, aiErrorKey } from "../../api/ai";
+import type { ItineraryDraft } from "../../types";
 
 export function ItineraryGenerator() {
   const { t, i18n } = useTranslation();

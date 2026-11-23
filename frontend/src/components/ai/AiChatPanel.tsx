@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ChatCircleDots, PaperPlaneTilt } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
-import { aiApi, aiErrorKey, type ChatMessage } from "../../api/ai";
+import { aiApi, aiErrorKey } from "../../api/ai";
+import type { ChatMessage } from "../../types";
 
 export function AiChatPanel() {
   const { t, i18n } = useTranslation();

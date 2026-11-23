@@ -5,7 +5,7 @@ export interface User {
   nickname: string;
   avatarUrl: string | null;
   bio: string | null;
-  language: 'zh' | 'en';
+  language: "zh" | "en";
 }
 
 export interface UserSummary {
@@ -30,7 +30,7 @@ export interface ProfileUpdate {
   nickname: string;
   avatarUrl: string;
   bio: string;
-  language: 'zh' | 'en';
+  language: "zh" | "en";
 }
 
 export interface Trip {
@@ -50,7 +50,7 @@ export interface TripMember {
   username: string;
   nickname: string;
   avatarUrl: string | null;
-  role: 'owner' | 'member';
+  role: "owner" | "member";
   joinedAt: string | null;
 }
 
@@ -72,4 +72,46 @@ export interface PublicProfile {
   bio: string | null;
   publishedTrips: Trip[];
   buddyPosts: BuddyPost[];
+}
+
+type AiLanguage = "en" | "zh";
+
+export interface ItineraryRequest {
+  destination: string;
+  days: number;
+  budget?: number;
+  preferences?: string[];
+  requirements?: string;
+  language: AiLanguage;
+}
+
+export interface ItineraryDraft {
+  destination: string;
+  days: number;
+  dailyItinerary: {
+    day: number;
+    title: string;
+    activities: {
+      name: string;
+      description: string;
+      estimatedCost: number | null;
+    }[];
+  }[];
+  suggestions: string[];
+}
+
+export interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
+export interface ChatRequest {
+  message: string;
+  history: ChatMessage[];
+  language: AiLanguage;
+  travelContext?: string;
+}
+
+export interface ChatReply {
+  reply: string;
 }

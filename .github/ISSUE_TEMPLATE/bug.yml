@@ -1,0 +1,69 @@
+name: Bug
+description: 记录一个可复现的缺陷，附版本与环境
+title: '[Bug] '
+labels: ['bug', '待复核']
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: 现象
+      description: 一句话说清哪里不对
+      placeholder: 邀请已存在的成员时页面报 500，成员列表不刷新
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      value: |
+        1. 用账号 A 登录
+        2. 创建行程，邀请账号 B
+        3. 再次邀请 B
+        4. 观察页面与后端返回
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望结果 / 实际结果
+      value: |
+        期望：提示「该用户已是成员」，成员列表仍只有一条
+        实际：页面 500，列表为空
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: 被测版本（分支 + 7 位 SHA）
+      placeholder: main @ cddb26f
+    validations:
+      required: true
+
+  - type: input
+    id: env
+    attributes:
+      label: 环境
+      placeholder: Windows 11 / Chrome 131 / 本地 H2 / 后端 8080
+
+  - type: textarea
+    id: shots
+    attributes:
+      label: 截图、录屏或控制台日志
+      description: 直接拖进来，或贴仓库路径
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 严重程度
+      options:
+        - 阻断（主流程走不通，影响演示）
+        - 严重（功能错误但有绕过方式）
+        - 一般（体验、文案、样式）
+        - 轻微（不影响使用）
+    validations:
+      required: true

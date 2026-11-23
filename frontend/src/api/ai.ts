@@ -1,43 +1,11 @@
-import type { ApiResponse } from "../types";
+import type {
+  ApiResponse,
+  ChatReply,
+  ChatRequest,
+  ItineraryDraft,
+  ItineraryRequest,
+} from "../types";
 import { http, unwrap } from "./http";
-
-type Language = "en" | "zh";
-
-export interface ItineraryRequest {
-  destination: string;
-  days: number;
-  budget?: number;
-  preferences?: string[];
-  requirements?: string;
-  language: Language;
-}
-
-export interface ItineraryDraft {
-  destination: string;
-  days: number;
-  dailyItinerary: {
-    day: number;
-    title: string;
-    activities: {
-      name: string;
-      description: string;
-      estimatedCost: number | null;
-    }[];
-  }[];
-  suggestions: string[];
-}
-
-export interface ChatMessage {
-  role: "user" | "assistant";
-  content: string;
-}
-
-interface ChatRequest {
-  message: string;
-  history: ChatMessage[];
-  language: Language;
-  travelContext?: string;
-}
 
 const config = { timeout: 65_000 };
 
@@ -51,9 +19,7 @@ export const aiApi = {
       ),
     ),
   chat: (input: ChatRequest) =>
-    unwrap(
-      http.post<ApiResponse<{ reply: string }>>("/ai/chat", input, config),
-    ),
+    unwrap(http.post<ApiResponse<ChatReply>>("/ai/chat", input, config)),
 };
 
 export function aiErrorKey(reason: unknown) {

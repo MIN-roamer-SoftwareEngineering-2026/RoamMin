@@ -35,4 +35,6 @@ The API runs at http://localhost:8080/api/v1. H2 uses file mode and stores its d
 
 User pages now include a dark navy/orange traveler center, profile editing and avatar upload, personal content tabs, user search, and Chinese/English support. See [用户模块运行与说明](docs/USER_MODULE.md).
 
-Map, saved itinerary scheduling, destination, budget, and community square modules are reserved for their owning teams. The personal homepage reuses the existing trip, favorite, buddy-post and member APIs.
+The destination module (C team) adds a public Fuzhou places list with keyword and category filtering plus a detail page; it falls back to a local sample until the places API is available. See [Destination module](docs/DESTINATION_MODULE.md).
+
+Map, saved itinerary scheduling, budget, and community square modules are reserved for their owning teams. The personal homepage reuses the existing trip, favorite, buddy-post and member APIs.

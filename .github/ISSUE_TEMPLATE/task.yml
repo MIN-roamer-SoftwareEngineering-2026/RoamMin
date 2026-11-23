@@ -1,0 +1,55 @@
+name: 任务 / 交付
+description: 一项可验收的交付：功能、文档、联调或测试
+title: '[模块] '
+labels: ['待开始']
+body:
+  - type: input
+    id: owner
+    attributes:
+      label: 负责人与实际 GitHub 账号
+      placeholder: 王婧菱 @AtoposPioneer
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 验收标准
+      description: 写成可勾选、可复现的条目，不要写“完成页面”这种空话
+      value: |
+        - [ ] 登录后可以创建私有行程
+        - [ ] 刷新后仍能在「我创建的」看到
+        - [ ] 重复邀请返回明确提示，不出现 500
+    validations:
+      required: true
+
+  - type: input
+    id: scope
+    attributes:
+      label: 涉及目录 / 文件
+      placeholder: frontend/src/pages、backend/src/main/java/com/minroamer/trip
+    validations:
+      required: true
+
+  - type: input
+    id: depends
+    attributes:
+      label: 依赖与协作人
+      description: 需要谁提供接口、样例数据或测试账号
+      placeholder: 需要陈启扬提供行程接口；需要陈杭提供两个测试账号
+
+  - type: checkboxes
+    id: evidence
+    attributes:
+      label: 需要提交的证据
+      options:
+        - label: 运行截图或录屏
+        - label: 命令输出（lint / build / test）
+        - label: 测试报告或用例表
+        - label: 接口/文档同步更新
+
+  - type: input
+    id: due
+    attributes:
+      label: 计划完成时间
+      placeholder: 11/24 晚
