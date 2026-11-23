@@ -95,8 +95,21 @@ const { date, time } = stamp();
 const tripTitle = `福州周末游-${date}-${sha}`;
 const files = [];
 
-fs.rmSync(outDir, { recursive: true, force: true });
 fs.mkdirSync(outDir, { recursive: true });
+// Only clean this team's own top-level evidence. Other teams keep their
+// subfolders in test/record1 (e.g. ai/, destination/).
+for (const entry of fs.readdirSync(outDir, { withFileTypes: true })) {
+  if (!entry.isFile()) continue;
+  const ownedByThisTeam =
+    /^TC-\d+.*\.(png|json)$/i.test(entry.name) ||
+    /^\d{2}-.*\.(png|txt)$/.test(entry.name) ||
+    entry.name === "manifest.md" ||
+    entry.name === "capture-log.txt" ||
+    entry.name === "测试记录.md";
+  if (ownedByThisTeam) {
+    fs.rmSync(path.join(outDir, entry.name), { force: true });
+  }
+}
 
 const browser = await chromium.launch();
 const ownerContext = await browser.newContext({ viewport: { width: 1440, height: 900 } });
