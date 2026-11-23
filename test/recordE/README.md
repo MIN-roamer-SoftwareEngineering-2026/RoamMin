@@ -97,7 +97,27 @@ $env:JAVA_HOME='<repo>\\.tools\\jdk-17.0.2'
 cd RoamMin\frontend
 node node_modules\\vite\\bin\\vite.js --config vite.local.config.ts
 
-# 3. 跑验证脚本
-cd .tools\\pptr
-node e-verify-1123.mjs
+# 3. 跑验证脚本（仓库内，见第七节）
+cd RoamMin\frontend
+node scripts\verify-community.cjs
 ```
+
+## 七、可复现脚本（仓库内）
+
+`frontend/scripts/verify-community.cjs`（与 C 组 `verify-destination.cjs` 同一套约定：Playwright Core + Edge，全部参数可用环境变量覆盖）。
+
+```powershell
+# 前置：后端 18080 + 前端 5173 已启动（见第六节）；本机需有 Playwright Core
+#   pnpm add playwright-core        （或 npm i playwright-core）
+$env:PLAYWRIGHT_MODULE = '<path-to>/node_modules/playwright-core'   # 可选，默认按包名 require("playwright")
+$env:QA_BASE_URL = 'http://localhost:5173'
+$env:QA_API_URL  = 'http://127.0.0.1:18080/api/v1'
+$env:QA_OUTPUT   = 'artifacts/community'                            # 截图输出目录
+$env:QA_VERSION  = 'a7d70ff'                                        # 截图文件名里的版本号
+
+node frontend/scripts/verify-community.cjs
+```
+
+脚本断言：发布搭子帖 → 刷新仍在 → 删除确认回到空状态；创建行程默认私有 → 发布变公开 → 他人主页收藏 → 我的收藏 → 刷新仍在；失败路径 400/401/403，以及接口 500 时页面出现 `role=alert` 且不白屏。任一断言失败脚本以非 0 退出。
+
+> 本目录 15 张截图是用 `.tools/pptr/` 下的等价脚本（puppeteer-core）生成的；入库的这份用 Playwright Core 重写了同样步骤，2026-11-23 21:03 在 `main@85155aa` 上跑通（13 张截图 + 全部断言通过，退出码 0）。
