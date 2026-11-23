@@ -1,11 +1,11 @@
 {
-  "at": "2026-11-23T11:31:27.681Z",
+  "at": "2026-11-23T11:32:46.399Z",
   "target": "a7d70ff",
   "results": [
     {
       "name": "register owner/guest",
       "pass": true,
-      "detail": "owner=5 guest=6"
+      "detail": "owner=7 guest=8"
     },
     {
       "name": "UI 创建行程（默认私有）",
@@ -15,7 +15,7 @@
     {
       "name": "私有行程不在公开列表",
       "pass": true,
-      "detail": "publicCount=0 tripId=1"
+      "detail": "publicCount=1 tripId=3"
     },
     {
       "name": "UI 发布行程",
