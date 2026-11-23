@@ -38,7 +38,7 @@ npm install
 npm run dev
 ```
 
-Open http://127.0.0.1:5173/destinations in a browser.
+Open http://localhost:5173/destinations in a browser. Vite binds `::1` on this machine, so `127.0.0.1` may refuse the connection; the regression script defaults to `localhost` for the same reason.
 
 Production build: `npm run build` (passed this round, 430 kB JS / 54 kB CSS).
 
@@ -51,7 +51,7 @@ node scripts/verify-destination.cjs
 
 The script checks, in order: 8 samples rendered, search for "Gushan" narrowing to 1 result, heritage category holding 4 entries, the empty state, 6 facts plus 3 highlights on the detail page, dark theme, the English UI, and a 390px mobile viewport with no horizontal overflow, then asserts there are no uncaught errors. Screenshots are written to `artifacts/destination/` (already git-ignored).
 
-Result on 2026-11-22: every assertion passed, 6 screenshots in `artifacts/destination/`. With the backend down, `/api/v1/destinations` returns 500 and the page falls back to the samples with the expected notice, which is the designed degradation path.
+Result on 2026-11-23 (baseline `main` @ `a7d70ff`): every assertion passed, 6 screenshots in `artifacts/destination/`. Three of them are committed as evidence under `test/record1/destination/`, following the `序号-页面-日期-版本` naming convention. With the backend down or the endpoint missing, `/api/v1/destinations` returns 404/500 and the page falls back to the samples with the expected notice, which is the designed degradation path.
 
 ## Not wired yet
 
