@@ -31,6 +31,9 @@ PASS | UI 失败路径有提示、不白屏        alert=true text="simulated fa
 PASS | 页面无 JS 报错 / 无 5xx
 ```
 
+> 口径说明：本次后端用 **H2 内存库**（本机默认文件库报 `SQL Error 90097 database is read only`，见 11/22 记录）。
+> 因此本轮证明的是「**刷新后数据仍在**」，不等于「**重启后仍在**」；若要证明跨重启持久化，需用仓库默认 `jdbc:h2:file:./data/minroamer` 再跑一遍（先解决只读问题）。
+
 ## 二、搭子帖主链路（截图顺序）
 
 | 图 | 操作 | 实际结果 |
