@@ -61,7 +61,7 @@ export default defineConfig({
     // The Alpha main flow: create -> invite -> member sees joined trip.
     {
       name: "main",
-      testMatch: /main-flow\.spec\.ts/,
+      testMatch: /(main-flow|secondary)\.spec\.ts/,
       dependencies: ["setup"],
     },
   ],

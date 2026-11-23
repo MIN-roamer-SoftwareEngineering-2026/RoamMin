@@ -19,19 +19,20 @@
 | 自动化用例 | 覆盖条目 | 文件 |
 | --- | --- | --- |
 | smoke: login page renders | 环境可用性 | `frontend/e2e/smoke.spec.ts` |
-| main-flow: create → invite → joined | TC-01 ~ TC-07 | `frontend/e2e/main-flow.spec.ts` |
-| （手工）权限检查 | TC-08 | 待 E 组确认后补 |
+| main-flow: create → invite → joined | TC-01 ~ TC-08（含重复邀请、越权 403） | `frontend/e2e/main-flow.spec.ts` |
+| secondary: 边界与兼容 | P1 未登录/空表单/401、P2 深浅色/中英文/375px | `frontend/e2e/secondary.spec.ts` |
 
-## 本地预演（11/22）
+## 本地预演（11/22–23）
 
 在本机 H2 后端 + 两个本地测试账号上跑过一轮，用于提前排除选择器/流程问题：
 
 | 场景 | 结果 | 说明 |
 | --- | --- | --- |
-| TC-01 ~ TC-07 | 通过 | `npm run e2e` → 4 passed（smoke + 2 个 setup + 主流程） |
-| TC-08 权限 | 未覆盖 | 等 E 组给出非成员的预期状态后补 |
+| TC-01 ~ TC-08 | 通过 | `npm run e2e` → 10 passed（smoke + 2 个 setup + 主流程 + 6 个边界/兼容用例） |
+| P1 / P2 | 通过 | 未登录跳转、空表单校验、401、深色主题、英文切换、375px 无横向溢出 |
 
 11/23 换用陈杭提供的正式账号后，需要重跑并以此为准填写「实际结果 / 结论 / 证据」。
+正式测试还需记录被测版本 SHA（`main @ <SHA>`）。
 
 ## 结论栏写法建议
 

@@ -13,7 +13,7 @@ export type RoleSession = {
   page: Page;
 };
 
-function readSession(role: Role): StoredSession {
+export function readSession(role: Role): StoredSession {
   const file = sessionPath(role);
   if (!fs.existsSync(file)) {
     throw new Error(
@@ -33,6 +33,7 @@ function readSession(role: Role): StoredSession {
 export async function openRole(
   browser: Browser,
   role: Role,
+  options: { viewport?: { width: number; height: number } } = {},
 ): Promise<RoleSession> {
   const stored = readSession(role);
   const storageState = storageStatePath(role);
@@ -40,6 +41,7 @@ export async function openRole(
   const context = await browser.newContext({
     ...(fs.existsSync(storageState) ? { storageState } : {}),
     locale: "en-US",
+    ...(options.viewport ? { viewport: options.viewport } : {}),
   });
 
   // The JWT lives in sessionStorage (see src/store/authStore.ts), which

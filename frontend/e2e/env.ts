@@ -1,5 +1,6 @@
 export const env = {
   baseURL: process.env.E2E_BASE_URL ?? "http://127.0.0.1:5173",
+  apiBase: process.env.E2E_API_URL ?? "http://localhost:8080/api/v1",
   owner: {
     email: process.env.E2E_OWNER_EMAIL ?? "",
     password: process.env.E2E_OWNER_PASSWORD ?? "",
