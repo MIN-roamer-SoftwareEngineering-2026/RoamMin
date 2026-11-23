@@ -24,8 +24,10 @@ const { chromium } = require("playwright");
 
 function parseArgs(argv) {
   const outIndex = argv.indexOf("--out");
+  const shaIndex = argv.indexOf("--sha");
   return {
     out: outIndex >= 0 ? argv[outIndex + 1] : "test/record1",
+    sha: shaIndex >= 0 ? argv[shaIndex + 1] : undefined,
   };
 }
 
@@ -67,7 +69,7 @@ function stamp() {
 
 loadEnv();
 
-const { out } = parseArgs(process.argv.slice(2));
+const { out, sha: shaOverride } = parseArgs(process.argv.slice(2));
 const outDir = path.resolve(repoRoot, out);
 const relativeOut = path.relative(repoRoot, outDir).split(path.sep).join("/");
 if (!relativeOut.startsWith("test/record")) {
@@ -89,7 +91,8 @@ if (!OWNER.email || !OWNER.password || !MEMBER.email || !MEMBER.password) {
   throw new Error("Missing E2E accounts. Fill frontend/.env.e2e first.");
 }
 
-const sha = gitSha();
+const headSha = gitSha();
+const sha = shaOverride || headSha;
 const branch = gitBranch();
 const { date, time } = stamp();
 const tripTitle = `福州周末游-${date}-${sha}`;
@@ -243,7 +246,8 @@ try {
   const manifest = [
     "# Alpha 主流程截图清单",
     "",
-    `- 被测版本：${branch} @ ${sha}`,
+    `- 被测版本：main @ ${sha}`,
+    `- 测试分支：${branch} @ ${headSha}`,
     `- 日期：${date}（${time}）`,
     `- 前端：${BASE}`,
     `- 后端：${API}`,
