@@ -8,6 +8,7 @@ import type { BuddyPost, Trip, TripMember, UserSummary } from "../types";
 import { useAuthStore } from "../store/authStore";
 import { UserSearch as SharedUserSearch } from "../components/UserSearch";
 import { ConfirmDialog } from "../components/ConfirmDialog";
+import TripExpensePanel from "./TripExpensePanel";
 import {
   ArrowUpRight,
   BookmarkSimple,
@@ -437,6 +438,7 @@ export function MyHomePage() {
                               </span>
                             </div>
                             <div className="social-item-actions">
+                  
                               {trip.ownerId === user.id && (
                                 <button
                                   className="button button-secondary"
@@ -460,6 +462,7 @@ export function MyHomePage() {
                                 </button>
                               )}
                             </div>
+                            <TripExpensePanel title={trip.title} />
                             {inviteTrip === trip.id && (
                               <InvitePanel
                                 trip={trip}
