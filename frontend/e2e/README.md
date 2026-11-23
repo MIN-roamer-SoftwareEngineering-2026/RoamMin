@@ -43,6 +43,22 @@ npm run e2e:main
 
 # 3) 看 HTML 报告
 npm run e2e:report
+
+# 4) 一键重拍 8 步截图（前端 + 后端都在跑）
+npm run e2e:record
+```
+
+`npm run e2e:record` 会自动：
+
+- 从当前 `HEAD` 取 7 位 SHA，从系统时间取 `MMDD`；
+- 按 `TC-序号-页面-日期-SHA.png` 命名（例：`TC-04-邀请成功-1123-07de29d.png`）；
+- 覆盖写入 `test/record1/`，并生成 `manifest.md` 与 `capture-log.txt`；
+- 同时输出 `TC-08-越权拒绝-<日期>-<SHA>.json`（接口状态码证据）。
+
+想先试跑、不覆盖正式证据：
+
+```powershell
+npm run e2e:record -- --out test/record-preview
 ```
 
 三个命令对应 Playwright 的三个 project：
