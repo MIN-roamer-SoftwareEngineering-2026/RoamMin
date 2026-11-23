@@ -7,6 +7,7 @@ import "./index.css";
 import "./account.css";
 import "./destination.css";
 import "./themes.css";
+import "./atlas.css";
 import { applyTheme, readTheme } from "./theme";
 
 applyTheme(readTheme());

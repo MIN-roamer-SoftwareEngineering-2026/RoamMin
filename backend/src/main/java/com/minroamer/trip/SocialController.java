@@ -1,12 +1,10 @@
 package com.minroamer.trip;
 
 import com.minroamer.api.ApiResponse;
-import com.minroamer.common.ApiException;
 import com.minroamer.user.User;
-import com.minroamer.user.UserRepository;
+import com.minroamer.user.UserService;
 import jakarta.validation.Valid;
 import java.util.List;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class SocialController {
     private final TripService trips;
     private final BuddyService buddies;
-    private final UserRepository users;
+    private final UserService users;
 
-    public SocialController(TripService trips, BuddyService buddies, UserRepository users) {
+    public SocialController(TripService trips, BuddyService buddies, UserService users) {
         this.trips = trips;
         this.buddies = buddies;
         this.users = users;
@@ -32,7 +30,7 @@ public class SocialController {
 
     @GetMapping("/users/{id}")
     public ApiResponse<PublicProfileResponse> profile(@PathVariable Long id) {
-        User user = users.findById(id).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found"));
+        User user = users.getEntity(id);
         return ApiResponse.success(new PublicProfileResponse(id, user.getUsername(), user.getNickname(),
             user.getAvatarUrl(), user.getBio(), trips.publicTrips(id), buddies.byUser(id)));
     }

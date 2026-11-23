@@ -53,6 +53,6 @@ if (5173 -notin $taskListeners.Port) {
     Write-Host "Frontend starting (process $($taskFrontend.Id))."
 } else { Write-Host 'Port 5173 is already listening; keeping the existing service.' }
 Write-Host ''
-Write-Host 'Open: http://127.0.0.1:5173/login'
+Write-Host 'Open: http://127.0.0.1:5173/  (home page; sign in or register from there)'
 Write-Host 'Services keep running after this window closes. Allow the backend a few seconds to start.'
 Write-Host "Logs: $taskRuntime"

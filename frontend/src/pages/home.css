@@ -1,0 +1,347 @@
+/* City guide cover and the photographic field notes below it. */
+.atlas-home {
+  width: min(1120px, calc(100% - 72px));
+  margin: 0 auto 80px;
+}
+.atlas-hero-copy {
+  text-align: center;
+  padding: clamp(58px, 8vw, 118px) 12px clamp(48px, 6vw, 90px);
+}
+.atlas-hero-copy h1 {
+  margin: 0;
+  font-size: clamp(26px, 2.6vw, 40px);
+  font-weight: 620;
+  line-height: 1.4;
+  letter-spacing: 0.03em;
+}
+.city-signature {
+  display: block;
+  width: fit-content;
+  margin: 0 auto 16px;
+  font:
+    italic 500 clamp(76px, 9.3vw, 140px)/1.16 "Segoe Script",
+    "Snell Roundhand",
+    "Palatino Linotype",
+    Georgia,
+    serif;
+  color: var(--accent);
+  letter-spacing: -0.085em;
+  transform: rotate(-4deg);
+}
+.atlas-home-lead {
+  margin: 12px auto 26px;
+  max-width: 54ch;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.8;
+  text-wrap: balance;
+}
+.atlas-home-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+}
+.atlas-home-actions .button {
+  min-height: 44px;
+  padding-inline: 22px;
+}
+.atlas-login {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+.atlas-login:hover {
+  color: var(--accent);
+}
+.fuzhou-places,
+.atlas-home-features {
+  scroll-margin-top: 96px;
+}
+.atlas-home-features {
+  margin-top: clamp(48px, 6vw, 84px);
+}
+.atlas-section-heading {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  margin-bottom: 22px;
+}
+.atlas-section-heading h2 {
+  font-size: clamp(24px, 2.6vw, 34px);
+  line-height: 1.3;
+  font-weight: 620;
+  margin: 0;
+}
+.city-guide-layout {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: clamp(22px, 4vw, 56px);
+  align-items: stretch;
+}
+.atlas-hero-art {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  min-height: 380px;
+}
+.atlas-art-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+.fuzhou-place-list {
+  display: grid;
+  align-content: center;
+}
+.fuzhou-place-list article {
+  padding: 20px 0;
+}
+.fuzhou-place-list article + article {
+  border-top: 1px solid var(--border);
+}
+.atlas-label {
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 0.09em;
+}
+.fuzhou-place-list h3,
+.atlas-feature-list h3 {
+  margin: 6px 0;
+  font-size: 20px;
+  font-weight: 620;
+}
+.fuzhou-place-list p,
+.atlas-feature-list p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+.atlas-feature-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px;
+}
+.atlas-feature-list article {
+  border-left: 2px solid var(--active-border);
+  padding-left: 18px;
+}
+.atlas-feature-list svg {
+  color: var(--accent);
+}
+@media (max-width: 720px) {
+  .atlas-home {
+    width: calc(100% - 32px);
+    margin-bottom: 48px;
+  }
+  .atlas-hero-copy {
+    padding-inline: 0;
+  }
+  .atlas-home-lead {
+    font-size: 14px;
+  }
+  .city-guide-layout,
+  .atlas-feature-list {
+    grid-template-columns: 1fr;
+  }
+  .city-guide-layout {
+    gap: 5px;
+  }
+  .atlas-feature-list {
+    gap: 22px;
+  }
+}
+.fuzhou-hero-photo {
+  margin: 0;
+  isolation: isolate;
+  background: #384748;
+}
+.fuzhou-hero-photo > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: -2;
+}
+.fuzhou-hero-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #0c1c2f88, transparent 35%, #0c1c2fee);
+  z-index: -1;
+}
+.fuzhou-hero-photo .atlas-art-label {
+  color: #fff;
+  text-shadow: 0 1px 5px #0008;
+}
+.fuzhou-photo-caption {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.fuzhou-photo-caption p {
+  margin: 0;
+  font-size: 32px;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+}
+.fuzhou-photo-caption > span {
+  font-size: 12px;
+  color: #eef1f7;
+}
+.fuzhou-photo-caption small {
+  font-size: 9px;
+  line-height: 1.8;
+  color: #e3e8f0;
+}
+.fuzhou-photo-caption a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.fuzhou-carousel {
+  padding: 25px;
+  touch-action: pan-y;
+}
+.fuzhou-slide-window {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+}
+.fuzhou-slide-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 650ms cubic-bezier(0.22, 0.68, 0.2, 1);
+}
+.fuzhou-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  height: 100%;
+}
+.fuzhou-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.fuzhou-image-fallback {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  background: #384748;
+  color: #fff;
+  font-size: 13px;
+}
+.fuzhou-carousel .fuzhou-photo-caption h2 {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.3;
+  font-weight: 550;
+  letter-spacing: 0.02em;
+  color: #fff;
+}
+.fuzhou-carousel-bottom {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding-top: 35px;
+}
+.fuzhou-carousel-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 19px;
+  border-top: 1px solid #ffffff45;
+  padding-top: 13px;
+}
+.fuzhou-carousel-controls button {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid #ffffff66;
+  border-radius: 50%;
+  background: #0c1c2f70;
+  color: #fff;
+}
+.fuzhou-carousel-controls button:hover {
+  background: #ffffff35;
+}
+.fuzhou-carousel-controls button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 3px;
+}
+.fuzhou-carousel-dots {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  gap: 2px;
+}
+.fuzhou-carousel-dots button {
+  width: 24px;
+  height: 32px;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+}
+.fuzhou-carousel-dots button span {
+  width: 6px;
+  height: 6px;
+  border-radius: 20px;
+  background: #ffffff70;
+  transition: width 0.2s;
+}
+.fuzhou-carousel-dots button[aria-pressed="true"] span {
+  width: 18px;
+  background: #fff;
+}
+@media (max-width: 900px) {
+  .fuzhou-carousel {
+    padding: 20px;
+  }
+  .fuzhou-carousel-controls {
+    gap: 4px;
+  }
+  .fuzhou-carousel-controls button {
+    width: 28px;
+    height: 32px;
+  }
+  .fuzhou-carousel-dots {
+    gap: 0;
+  }
+  .fuzhou-carousel-dots button {
+    width: 19px;
+  }
+  .fuzhou-carousel-dots button[aria-pressed="true"] span {
+    width: 14px;
+  }
+}
+@media (max-width: 650px) {
+  .fuzhou-carousel {
+    min-height: 390px;
+  }
+  .fuzhou-carousel .fuzhou-photo-caption h2 {
+    font-size: 27px;
+  }
+  .fuzhou-carousel-dots button {
+    width: 27px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fuzhou-slide-track,
+  .fuzhou-carousel-dots button span {
+    transition: none;
+  }
+}

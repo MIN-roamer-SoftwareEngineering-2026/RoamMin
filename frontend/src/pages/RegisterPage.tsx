@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { ArrowLeft, ArrowRight } from "@phosphor-icons/react";
 import { AuthScenery } from "../components/AuthScenery";
 import { useTranslation } from "react-i18next";
 import { authApi } from "../api/auth";
@@ -50,13 +51,12 @@ export function RegisterPage() {
 
   if (user) return <Navigate to="/profile" replace />;
   return (
-    <main className="auth-page">
+    <main className="auth-page journey-entry">
       <section className="auth-panel" aria-labelledby="auth-title">
-        <Link className="auth-brand" to="/">
-          MIN-roamer <span>/ JOURNEY WITH PURPOSE</span>
+        <Link className="journey-back" to="/">
+          <ArrowLeft size={16} aria-hidden="true" /> {t("home")}
         </Link>
         <div className="auth-heading">
-          <p className="eyebrow">{t("startHere")}</p>
           <h1 id="auth-title">{t("registerTitle")}</h1>
           <p className="muted">{t("registerPrompt")}</p>
         </div>
@@ -87,6 +87,7 @@ export function RegisterPage() {
             {t("password")}
             <input
               type={showPassword ? "text" : "password"}
+              aria-describedby="password-length-hint"
               autoComplete="new-password"
               minLength={8}
               maxLength={72}
@@ -95,7 +96,9 @@ export function RegisterPage() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
-          <p className="field-hint">{t("passwordsHint")}</p>
+          <p id="password-length-hint" className="field-hint">
+            {t("passwordsHint")}
+          </p>
           <label>
             {t("passwordConfirm")}
             <input
@@ -127,6 +130,7 @@ export function RegisterPage() {
             aria-busy={busy}
           >
             {busy ? t("registering") : t("register")}
+            <ArrowRight size={18} aria-hidden="true" />
           </button>
         </form>
         <p className="auth-switch">
