@@ -1,6 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { accountTranslations } from "./account-translations";
+import { destinationTranslations } from "./destination-translations";
 
 const savedLanguage = localStorage.getItem("min-roamer.language");
 
@@ -116,6 +117,7 @@ void i18n.use(initReactI18next).init({
         bioHint: "简单介绍一下自己",
         profilePrivate: "邮箱仅自己可见；昵称、头像和简介会展示在旅行者主页。",
         ...accountTranslations.zh,
+        ...destinationTranslations.zh,
       },
     },
     en: {
@@ -232,6 +234,7 @@ void i18n.use(initReactI18next).init({
         profilePrivate:
           "Your email is private. Your name, avatar and bio appear on your traveler profile.",
         ...accountTranslations.en,
+        ...destinationTranslations.en,
       },
     },
   },
