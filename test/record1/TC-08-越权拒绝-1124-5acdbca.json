@@ -1,0 +1,11 @@
+{
+  "case": "TC-08",
+  "step": "成员尝试邀请他人",
+  "expectedStatus": 403,
+  "actualStatus": 403,
+  "passed": true,
+  "response": "{\"code\":403,\"message\":\"Only the trip owner can do this\",\"data\":null}",
+  "tripId": 109,
+  "sha": "5acdbca",
+  "date": "1124"
+}
