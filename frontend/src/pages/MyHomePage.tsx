@@ -462,7 +462,11 @@ export function MyHomePage() {
                                 </button>
                               )}
                             </div>
-                            <TripExpensePanel title={trip.title} />
+                            <TripExpensePanel
+  key={`${user.id}-${trip.id}`}
+  title={trip.title}
+  storageKey={`roammin:expenses:v1:${user.id}:${trip.id}`}
+/>
                             {inviteTrip === trip.id && (
                               <InvitePanel
                                 trip={trip}
