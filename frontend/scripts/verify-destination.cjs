@@ -18,7 +18,7 @@ const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
     executablePath: process.env.QA_BROWSER || (fs.existsSync(EDGE) ? EDGE : undefined),
     headless: true,
   });
-  const base = process.env.QA_BASE_URL || "http://127.0.0.1:5173";
+  const base = process.env.QA_BASE_URL || "http://localhost:5173";
   const output = path.resolve(process.env.QA_OUTPUT || "artifacts/destination");
   fs.mkdirSync(output, { recursive: true });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
@@ -42,6 +42,8 @@ const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
       "本地样例数据",
       "sample badge should show while the places API is unavailable",
     );
+    await page.getByRole("button", { name: "浅色", exact: true }).click();
+    await page.waitForTimeout(160);
     await page.screenshot({ path: path.join(output, "destinations-light.png"), fullPage: true });
 
     // 2. Keyword search

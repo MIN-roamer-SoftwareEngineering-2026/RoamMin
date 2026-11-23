@@ -35,7 +35,7 @@ export function DestinationsPage() {
     void load();
   }, [load]);
 
-  const items = data?.items ?? [];
+  const items = useMemo(() => data?.items ?? [], [data]);
 
   const filtered = useMemo(() => {
     const needle = keyword.trim().toLowerCase();
