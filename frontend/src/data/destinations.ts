@@ -29,36 +29,64 @@ export interface Destination {
 }
 
 export const DESTINATION_SAMPLES: Destination[] = [
-  {
-    id: "sanfang-qixiang",
-    name: { zh: "三坊七巷", en: "Sanfang Qixiang" },
-    category: "heritage",
-    district: { zh: "鼓楼区", en: "Gulou" },
-    address: {
-      zh: "福州市鼓楼区南后街",
-      en: "Nanhou Street, Gulou District, Fuzhou",
-    },
-    summary: {
-      zh: "福州老城的坊巷格局保留完整，白墙黛瓦间分布着大量民居与名人故居，适合半天步行慢慢看。",
-      en: "The best-preserved lane-and-alley grid of old Fuzhou, with white walls, dark tiles and former residences of notable figures.",
-    },
-    highlights: [
-      { zh: "南后街上两侧的坊巷可横向穿行，巷内比主街安静", en: "Cross into the side lanes for a quieter walk than the main street" },
-      { zh: "多处民居改成展馆或书店，适合避雨、歇脚", en: "Several houses are now small museums or bookshops, good for a break" },
-      { zh: "傍晚灯笼点亮后适合拍照，人流也相对分散", en: "Lanterns come on at dusk, when the crowds thin out" },
-    ],
-    tags: [
-      { zh: "古厝", en: "Heritage" },
-      { zh: "步行", en: "On foot" },
-      { zh: "夜景", en: "Night view" },
-    ],
-    ticket: { zh: "街区免费，部分展馆另收费", en: "Free street, some museums charge" },
-    duration: { zh: "2–3 小时", en: "2–3 hours" },
-    hours: { zh: "街区全天开放", en: "Street open all day" },
-    bestSeason: { zh: "秋、冬", en: "Autumn, winter" },
-    coords: { lat: 26.0806, lng: 119.2978 },
-    heat: 96,
+
+{
+  id: "sanfang-qixiang",
+  name: { zh: "三坊七巷", en: "Sanfang Qixiang" },
+  category: "heritage",
+  district: { zh: "鼓楼区", en: "Gulou" },
+
+  address: {
+    zh: "福州市鼓楼区南后街",
+    en: "Nanhou Street, Gulou District, Fuzhou",
   },
+
+  summary: {
+    zh: "三坊七巷是福州历史文化名城的重要地标，保留了以南后街为中轴的传统坊巷格局。白墙黛瓦的明清古厝、名人故居与传统街巷相互交织，是了解福州建筑文化、历史人物和老城生活的代表性街区。",
+    en: "Sanfang Qixiang is a landmark historic district in Fuzhou, preserving a traditional network of lanes centered on Nanhou Street. Its Ming- and Qing-era residences, whitewashed walls, dark-tiled roofs and former homes of notable figures offer a vivid introduction to the city's architectural and cultural heritage.",
+  },
+
+  highlights: [
+    {
+      zh: "三坊七巷保留了传统里坊格局，狭长街巷与明清古厝相互交织，展现福州老城独特的建筑风貌",
+      en: "Its preserved network of traditional lanes and Ming- and Qing-era residences showcases the distinctive architecture of old Fuzhou",
+    },
+    {
+      zh: "街区内分布着林则徐、严复等历史人物的相关故居与纪念场所，可以深入了解福州的人文历史",
+      en: "Historic residences and memorial sites associated with figures such as Lin Zexu and Yan Fu offer insights into Fuzhou's cultural history",
+    },
+    {
+      zh: "南后街与周边坊巷融合传统手工艺、福州特色小吃和文化展馆，适合在漫步中体验当地生活",
+      en: "Nanhou Street and its surrounding lanes bring together traditional crafts, local snacks and cultural exhibitions for an immersive walking experience",
+    },
+  ],
+
+  tags: [
+    { zh: "明清古厝", en: "Historic residences" },
+    { zh: "名人故居", en: "Historic figures" },
+    { zh: "历史街区", en: "Historic district" },
+  ],
+
+  ticket: {
+    zh: "街区免费，部分展馆另收费",
+    en: "Free entry to the district; some museums charge admission",
+  },
+
+  duration: { zh: "2–3 小时", en: "2–3 hours" },
+
+  hours: {
+    zh: "街区全天开放",
+    en: "The public streets are open all day",
+  },
+
+  bestSeason: {
+    zh: "秋、冬",
+    en: "Autumn and winter",
+  },
+
+  coords: { lat: 26.0806, lng: 119.2978 },
+  heat: 96,
+},
   {
     id: "yantaishan",
     name: { zh: "烟台山历史风貌区", en: "Yantai Hill" },
@@ -103,36 +131,67 @@ export const DESTINATION_SAMPLES: Destination[] = [
     coords: { lat: 26.0479, lng: 119.3119 },
     heat: 88,
   },
-  {
-    id: "gushan",
-    name: { zh: "鼓山", en: "Gushan" },
-    category: "nature",
-    district: { zh: "晋安区", en: "Jin'an" },
-    address: {
-      zh: "福州市晋安区鼓山镇",
-      en: "Gushan Town, Jin'an District, Fuzhou",
-    },
-    summary: {
-      zh: "城东的山地公园，古道石阶一路向上，山顶可俯瞰城区，半山有涌泉寺，体力一般也能走到合适的观景点。",
-      en: "A mountain park east of the city: stone-step trails climb to ridge views, with Yongquan Temple halfway up.",
-    },
-    highlights: [
-      { zh: "登山道与缆车可自由搭配，下山注意膝盖", en: "Mix the trail with the cable car, and take descents slowly" },
-      { zh: "清晨与傍晚光线好，正午山路暴晒", en: "Best light at dawn and dusk; the trail is exposed at noon" },
-      { zh: "半山有补给点，山上水价偏高，出发前备好", en: "Refill points are sparse; bring water before the climb" },
-    ],
-    tags: [
-      { zh: "登山", en: "Hiking" },
-      { zh: "寺庙", en: "Temple" },
-      { zh: "俯瞰", en: "City view" },
-    ],
-    ticket: { zh: "登山免费，寺院与缆车另收费", en: "Trail free, temple and cable car charge" },
-    duration: { zh: "3–4 小时", en: "3–4 hours" },
-    hours: { zh: "白天开放，夜间不建议登山", en: "Daytime only; avoid night hiking" },
-    bestSeason: { zh: "秋、冬", en: "Autumn, winter" },
-    coords: { lat: 26.0553, lng: 119.3812 },
-    heat: 84,
+
+{
+  id: "gushan",
+  name: { zh: "鼓山", en: "Gushan" },
+  category: "nature",
+  district: { zh: "晋安区", en: "Jin'an" },
+
+  address: {
+    zh: "福州市晋安区鼓山镇",
+    en: "Gushan Town, Jin'an District, Fuzhou",
   },
+
+  summary: {
+    zh: "鼓山位于福州城区东部，是融合自然山林、佛教文化与摩崖石刻的代表性风景名胜区。山间古道蜿蜒，沿途分布着历史石刻与观景点，著名的涌泉寺坐落于山中，适合登山健行、欣赏山景和探访历史文化遗迹。",
+    en: "Located east of central Fuzhou, Gushan is a scenic mountain known for its forested trails, Buddhist heritage and historic cliff inscriptions. Stone paths wind through the hills toward viewpoints and cultural landmarks, including the renowned Yongquan Temple, making it a rewarding destination for hiking and heritage exploration.",
+  },
+
+  highlights: [
+    {
+      zh: "鼓山登山古道沿山势蜿蜒而上，石阶、林木与山间景观相互交织，适合体验自然徒步的乐趣",
+      en: "Gushan's historic stone-step trails wind through wooded slopes, offering a scenic hiking experience amid the mountain landscape",
+    },
+    {
+      zh: "涌泉寺是鼓山重要的佛教文化古迹，寺院建筑与周围山林相映成趣，展现深厚的宗教与历史文化底蕴",
+      en: "Yongquan Temple is a major Buddhist heritage site, where traditional temple architecture blends with the surrounding forested hills",
+    },
+    {
+      zh: "鼓山保存着丰富的摩崖石刻，其中鼓山十八景一带兼具历史题刻与自然景观，适合欣赏石刻艺术和山林风光",
+      en: "The mountain is known for its historic cliff inscriptions, especially around the Eighteen Scenic Spots area, where carved calligraphy and natural scenery come together",
+    },
+  ],
+
+  tags: [
+    { zh: "登山古道", en: "Historic trails" },
+    { zh: "涌泉寺", en: "Yongquan Temple" },
+    { zh: "摩崖石刻", en: "Cliff inscriptions" },
+  ],
+
+  ticket: {
+    zh: "部分公共登山路线免费，寺院、部分景点及缆车可能另行收费",
+    en: "Some public hiking routes are free; the temple, certain attractions and cable car services may charge admission",
+  },
+
+  duration: {
+    zh: "3–4 小时",
+    en: "3–4 hours",
+  },
+
+  hours: {
+    zh: "登山路线及各景点开放安排不同，建议白天游览并提前确认",
+    en: "Access hours vary by trail and attraction; daytime visits are recommended, with current schedules checked in advance",
+  },
+
+  bestSeason: {
+    zh: "秋、冬",
+    en: "Autumn and winter",
+  },
+
+  coords: { lat: 26.0553, lng: 119.3812 },
+  heat: 84,
+},
   {
     id: "pingtan-island",
     name: { zh: "平潭岛", en: "Pingtan Island" },
@@ -191,126 +250,259 @@ export const DESTINATION_SAMPLES: Destination[] = [
 
     heat: 90,
   },
-  {
-    id: "shangxiahang",
-    name: { zh: "上下杭历史文化街区", en: "Shangxiahang" },
-    category: "heritage",
-    district: { zh: "台江区", en: "Taijiang" },
-    address: {
-      zh: "福州市台江区上杭路、下杭路",
-      en: "Shanghang and Xiaohang roads, Taijiang District, Fuzhou",
-    },
-    summary: {
-      zh: "旧时商埠码头所在，河巷与骑楼并行，规模比三坊七巷小，适合傍晚串一条两小时的散步路线。",
-      en: "The old merchant wharves: canal lanes and arcaded shopfronts, smaller than Sanfang Qixiang and good for an evening walk.",
-    },
-    highlights: [
-      { zh: "沿河一段适合慢走，夜里灯光柔和", en: "The canal stretch is calm and softly lit at night" },
-      { zh: "街区偏商业，避开集中用餐时段更从容", en: "It is commercial; avoid peak dining hours" },
-      { zh: "离烟台山、闽江边都不远，可拼成半日线", en: "Close to Yantai Hill and the river, easy to combine" },
-    ],
-    tags: [
-      { zh: "商埠", en: "Wharves" },
-      { zh: "夜景", en: "Night view" },
-      { zh: "小吃", en: "Snacks" },
-    ],
-    ticket: { zh: "免费", en: "Free" },
-    duration: { zh: "1.5–2 小时", en: "1.5–2 hours" },
-    hours: { zh: "街区全天开放", en: "Open all day" },
-    bestSeason: { zh: "四季", en: "All year" },
-    coords: { lat: 26.054, lng: 119.304 },
-    heat: 80,
+
+{
+  id: "shangxiahang",
+  name: {
+    zh: "上下杭历史文化街区",
+    en: "Shangxiahang Historic District",
   },
-  {
-    id: "west-lake-park",
-    name: { zh: "福州西湖公园", en: "West Lake Park" },
-    category: "urban",
-    district: { zh: "鼓楼区", en: "Gulou" },
-    address: {
-      zh: "福州市鼓楼区湖滨路 70 号",
-      en: "70 Hubin Road, Gulou District, Fuzhou",
-    },
-    summary: {
-      zh: "市中心的园林湖面，环湖一圈路径平整，适合清晨或傍晚的轻量散步，也方便和周边博物馆一起安排。",
-      en: "A landscaped lake in the city centre with a flat loop path, good for a light morning or evening walk.",
-    },
-    highlights: [
-      { zh: "环湖步道平整，适合带长辈或推车", en: "Flat loop, easy with elders or a stroller" },
-      { zh: "园内多树荫，夏天比街区凉快", en: "Plenty of shade, cooler than the streets in summer" },
-      { zh: "出入口多，走累了可以就近离开", en: "Several entrances, so you can exit anywhere" },
-    ],
-    tags: [
-      { zh: "园林", en: "Garden" },
-      { zh: "散步", en: "Stroll" },
-      { zh: "亲子", en: "Family" },
-    ],
-    ticket: { zh: "免费", en: "Free" },
-    duration: { zh: "1–1.5 小时", en: "1–1.5 hours" },
-    hours: { zh: "白天开放，夜间照明有限", en: "Daytime; limited lighting at night" },
-    bestSeason: { zh: "四季", en: "All year" },
-    coords: { lat: 26.0895, lng: 119.2836 },
-    heat: 78,
+  category: "heritage",
+  district: { zh: "台江区", en: "Taijiang" },
+
+  address: {
+    zh: "福州市台江区上杭路、下杭路一带",
+    en: "Shanghang and Xiahang roads, Taijiang District, Fuzhou",
   },
-  {
-    id: "fudao",
-    name: { zh: "福州福道", en: "Fudao Trail" },
-    category: "urban",
-    district: { zh: "鼓楼区", en: "Gulou" },
-    address: {
-      zh: "福州市鼓楼区金牛山一带，多个入口",
-      en: "Jinniushan area, Gulou District; several entrances",
-    },
-    summary: {
-      zh: "架在山林上的城市步道，钢架走廊悬空穿行，视野开阔且遮阴良好，走一段就能回到城区。",
-      en: "An elevated steel walkway through urban forest, with open views, good shade and quick access back to the city.",
-    },
-    highlights: [
-      { zh: "入口分散，按体力选一段即可，不必全程走完", en: "Choose a section by fitness level; the full run is long" },
-      { zh: "高处风大，秋冬注意保暖", en: "Windy on the high sections, dress warm in cooler months" },
-      { zh: "傍晚灯光与城市天际线结合，适合拍照", en: "Evening light plus the skyline makes a good photo stop" },
-    ],
-    tags: [
-      { zh: "步道", en: "Walkway" },
-      { zh: "城市森林", en: "Urban forest" },
-      { zh: "观景", en: "Viewpoint" },
-    ],
-    ticket: { zh: "免费", en: "Free" },
-    duration: { zh: "1.5–2 小时", en: "1.5–2 hours" },
-    hours: { zh: "全天开放", en: "Open all day" },
-    bestSeason: { zh: "秋、冬", en: "Autumn, winter" },
-    coords: { lat: 26.0733, lng: 119.2627 },
-    heat: 74,
+
+  summary: {
+    zh: "上下杭曾是福州重要的商贸集散区域，保留了传统商业街巷、商帮会馆和富有地方特色的历史建筑。沿着上杭路、下杭路及周边街巷漫步，可以感受福州昔日的商业繁华，以及传统街区与现代休闲生活交融的独特氛围。",
+    en: "Shangxiahang was once an important commercial hub in Fuzhou. Its historic streets preserve traditional shopfronts, merchant guild halls and distinctive local architecture. Walking along Shanghang and Xiahang roads reveals the city's trading heritage alongside its lively contemporary street culture.",
   },
-  {
-    id: "mawei-shipyard",
-    name: { zh: "中国船政文化城", en: "Mawei Shipyard Heritage" },
-    category: "heritage",
-    district: { zh: "马尾区", en: "Mawei" },
-    address: {
-      zh: "福州市马尾区船政文化景区一带",
-      en: "Shipyard heritage area, Mawei District, Fuzhou",
+
+  highlights: [
+    {
+      zh: "传统商铺、商帮会馆和历史建筑集中分布，展现福州昔日商贸活动与城市发展的历史",
+      en: "Traditional shopfronts, merchant guild halls and historic buildings reflect Fuzhou's commercial past and urban development",
     },
-    summary: {
-      zh: "以近代船政工业与海军教育为主题的片区，展馆与旧厂区并存，离市区略远，适合对近代史感兴趣的半日行程。",
-      en: "A district built around modern shipbuilding and naval education, with museums and old workshops; a half-day trip for history fans.",
+    {
+      zh: "上杭路、下杭路及周边街巷保留了传统街区格局，适合漫步欣赏闽都建筑与老城风貌",
+      en: "The historic lanes around Shanghang and Xiahang roads offer a rewarding walk through traditional Fuzhou architecture and old-town scenery",
     },
-    highlights: [
-      { zh: "展馆之间有一定步行距离，先看导览图", en: "Museums are a walk apart; start at the map board" },
-      { zh: "从市区出发需留出往返车程", en: "Allow travel time from downtown Fuzhou" },
-      { zh: "部分场馆需预约或周一闭馆，出发前确认", en: "Some halls need booking or close Mondays; check first" },
-    ],
-    tags: [
-      { zh: "近代史", en: "Modern history" },
-      { zh: "博物馆", en: "Museum" },
-      { zh: "半日", en: "Half day" },
-    ],
-    ticket: { zh: "园区免费，部分展馆另收费", en: "Grounds free, some halls charge" },
-    duration: { zh: "2–3 小时", en: "2–3 hours" },
-    hours: { zh: "白天开放，按展馆公告", en: "Daytime, per museum notices" },
-    bestSeason: { zh: "四季", en: "All year" },
-    coords: { lat: 25.99, lng: 119.4567 },
-    heat: 66,
+    {
+      zh: "历史街巷与地方小吃、文化空间和夜间灯光相结合，可以体验传统商埠在现代城市中的新活力",
+      en: "Local snacks, cultural spaces and evening lights bring new energy to the district's historic commercial streets",
+    },
+  ],
+
+  tags: [
+    { zh: "商贸历史", en: "Trading heritage" },
+    { zh: "历史街区", en: "Historic district" },
+    { zh: "城市漫步", en: "City walk" },
+  ],
+
+  ticket: {
+    zh: "公共街区免费，部分展馆及体验项目另行收费",
+    en: "Free access to public streets; some exhibitions and activities charge separately",
   },
+
+  duration: {
+    zh: "1.5–2 小时",
+    en: "1.5–2 hours",
+  },
+
+  hours: {
+    zh: "公共街区全天开放，商铺及展馆营业时间各异",
+    en: "Public streets are open all day; shops and exhibition venues have individual opening hours",
+  },
+
+  bestSeason: {
+    zh: "四季",
+    en: "All year",
+  },
+
+  coords: { lat: 26.054, lng: 119.304 },
+  heat: 80,
+},
+
+{
+  id: "west-lake-park",
+  name: {
+    zh: "福州西湖公园",
+    en: "Fuzhou West Lake Park",
+  },
+  category: "urban",
+  district: { zh: "鼓楼区", en: "Gulou" },
+
+  address: {
+    zh: "福州市鼓楼区湖滨路 70 号",
+    en: "70 Hubin Road, Gulou District, Fuzhou",
+  },
+
+  summary: {
+    zh: "福州西湖公园是福州历史悠久的城市园林，以湖光水色、亭台桥榭和绿树环绕的湖岛景观闻名。园内湖面开阔，曲桥连接不同景区，传统园林建筑与自然景色相互映衬，是感受福州古典园林文化和城市休闲氛围的代表性去处。",
+    en: "Fuzhou West Lake Park is a historic urban garden known for its tranquil lake scenery, traditional pavilions, bridges and tree-lined islands. Its winding paths and waterside architecture blend classical Chinese garden design with natural beauty, making it a popular place to experience Fuzhou's garden heritage and relaxed city life.",
+  },
+
+  highlights: [
+    {
+      zh: "西湖公园拥有悠久的园林历史，湖泊、亭台与传统建筑共同构成富有福州地方特色的古典园林景观",
+      en: "The park's long garden history is reflected in its lakes, traditional pavilions and architecture, creating a distinctive classical landscape",
+    },
+    {
+      zh: "园内湖岛相连，曲桥、湖岸与水面相互映衬，适合欣赏湖景、拍摄园林风光和体验宁静的城市绿地",
+      en: "Connected islands, winding bridges and scenic waterfront paths offer picturesque lake views and peaceful green spaces within the city",
+    },
+    {
+      zh: "西湖公园与周边文化场馆及城市公共空间相邻，可以将园林游览与福州历史文化体验结合起来",
+      en: "The park's proximity to cultural venues and public spaces makes it easy to combine a garden visit with an exploration of Fuzhou's local history",
+    },
+  ],
+
+  tags: [
+    { zh: "古典园林", en: "Classical garden" },
+    { zh: "湖岛风光", en: "Lake scenery" },
+    { zh: "城市休闲", en: "Urban leisure" },
+  ],
+
+  ticket: {
+    zh: "公园免费开放，部分独立项目可能收费",
+    en: "Free park admission; some separate activities may charge fees",
+  },
+
+  duration: {
+    zh: "1–1.5 小时",
+    en: "1–1.5 hours",
+  },
+
+  hours: {
+    zh: "具体开放时间及园内设施安排以公园现场公告为准",
+    en: "Opening hours and facility schedules are subject to official park notices",
+  },
+
+  bestSeason: {
+    zh: "四季",
+    en: "All year",
+  },
+
+  coords: { lat: 26.0895, lng: 119.2836 },
+  heat: 78,
+},
+
+{
+  id: "fudao",
+  name: { zh: "福州福道", en: "Fudao Trail" },
+  category: "urban",
+  district: { zh: "鼓楼区", en: "Gulou" },
+
+  address: {
+    zh: "福州市鼓楼区金牛山一带，设有多个出入口",
+    en: "Jinniushan area, Gulou District, Fuzhou, with multiple access points",
+  },
+
+  summary: {
+    zh: "福州福道是一条穿行于城市山林之间的特色空中步道，以蜿蜒延伸的钢结构栈道和独特的悬空设计闻名。步道依山势起伏，将森林景观、山地绿地与城市视野连接起来，让游客在林间漫步的同时，从不同高度欣赏福州的自然风光与城市景色。",
+    en: "Fudao Trail is a distinctive elevated walkway winding through the forested hills of Fuzhou. Known for its curving steel structure and suspended design, the trail connects woodland scenery, hillside green spaces and urban viewpoints, allowing visitors to experience the city's natural landscape from different elevations.",
+  },
+
+  highlights: [
+    {
+      zh: "福道采用蜿蜒延伸的钢结构空中栈道设计，步道顺应山势穿行于林间，形成具有现代建筑特色的城市景观",
+      en: "Its winding elevated steel walkway follows the contours of the hills, creating a distinctive modern architectural landmark within the urban forest",
+    },
+    {
+      zh: "步道连接金牛山周边的山林与绿地，游客可以在树冠附近穿行，从不同角度欣赏森林景观与山地自然风光",
+      en: "The trail links wooded hillsides and green spaces around Jinniushan, offering varied perspectives of the forest canopy and surrounding landscape",
+    },
+    {
+      zh: "部分高处路段拥有开阔的城市视野，能够欣赏福州城区与山林交织的景观，适合观景摄影和休闲漫步",
+      en: "Elevated sections offer sweeping views of Fuzhou's urban skyline framed by green hills, making the trail ideal for photography and leisurely walks",
+    },
+  ],
+
+  tags: [
+    { zh: "空中栈道", en: "Elevated walkway" },
+    { zh: "城市森林", en: "Urban forest" },
+    { zh: "建筑景观", en: "Architecture" },
+  ],
+
+  ticket: {
+    zh: "公共步道免费开放",
+    en: "Free access to the public walkway",
+  },
+
+  duration: {
+    zh: "1.5–2 小时（分段游览）",
+    en: "1.5–2 hours (selected sections)",
+  },
+
+  hours: {
+    zh: "开放时间以景区公告为准，建议白天游览",
+    en: "Opening hours are subject to official notices; daytime visits are recommended",
+  },
+
+  bestSeason: {
+    zh: "秋、冬",
+    en: "Autumn and winter",
+  },
+
+  coords: { lat: 26.0733, lng: 119.2627 },
+  heat: 74,
+},
+
+{
+  id: "mawei-shipyard",
+  name: {
+    zh: "中国船政文化城",
+    en: "China Shipbuilding Culture City",
+  },
+  category: "heritage",
+  district: { zh: "马尾区", en: "Mawei" },
+
+  address: {
+    zh: "福州市马尾区船政文化景区一带",
+    en: "Shipbuilding heritage area, Mawei District, Fuzhou",
+  },
+
+  summary: {
+    zh: "中国船政文化城位于福州马尾，是展示中国近代船政工业、海军教育与海防建设历史的重要文化区域。这里依托福建船政的历史遗存，通过船政主题展馆、近代工业遗迹和文化展示空间，呈现中国近代造船技术发展与海军人才培养的历史进程，是了解中国近代工业文明与海洋文化的重要窗口。",
+    en: "Located in Mawei, Fuzhou, China Shipbuilding Culture City explores the history of modern Chinese shipbuilding, naval education and coastal defense. Through shipbuilding heritage sites, themed museums and industrial relics, the district illustrates the development of modern shipbuilding technology and naval training, offering insight into China's early industrial and maritime history.",
+  },
+
+  highlights: [
+    {
+      zh: "福建船政创办于1866年，是中国近代造船工业与海军教育发展的重要起点，相关历史展览展现了早期工业技术与海防建设的发展历程",
+      en: "Founded in 1866, the Fujian Shipbuilding Administration played a pioneering role in modern Chinese shipbuilding and naval education, with exhibitions tracing early industrial and coastal defense developments",
+    },
+    {
+      zh: "船政文化相关展馆通过历史文献、船舶模型和主题展陈，介绍近代造船技术、船政学堂及海军人才培养的历史",
+      en: "Shipbuilding heritage museums use historical documents, ship models and themed displays to explore naval technology, shipbuilding schools and the training of maritime professionals",
+    },
+    {
+      zh: "马尾船政历史遗存与近代工业建筑共同构成独特的工业文化景观，让游客能够从建筑与展览中感受中国近代工业发展的历程",
+      en: "Historic shipbuilding sites and industrial architecture in Mawei create a distinctive heritage landscape that reflects the development of China's modern industry",
+    },
+  ],
+
+  tags: [
+    { zh: "船政文化", en: "Shipbuilding heritage" },
+    { zh: "近代工业", en: "Modern industry" },
+    { zh: "海军教育", en: "Naval education" },
+  ],
+
+  ticket: {
+    zh: "公共区域可免费游览，部分展馆及体验项目可能收费",
+    en: "Public areas may be visited free of charge; some museums and activities may charge admission",
+  },
+
+  duration: {
+    zh: "2–3 小时",
+    en: "2–3 hours",
+  },
+
+  hours: {
+    zh: "各展馆开放时间及预约要求不同，建议提前查询官方公告",
+    en: "Opening hours and reservation requirements vary by museum; check official notices before visiting",
+  },
+
+  bestSeason: {
+    zh: "四季",
+    en: "All year",
+  },
+
+  coords: { lat: 25.99, lng: 119.4567 },
+  heat: 66,
+},
   {
     id: "min-river-waterfront",
     name: { zh: "闽江滨江", en: "Min River Waterfront" },
