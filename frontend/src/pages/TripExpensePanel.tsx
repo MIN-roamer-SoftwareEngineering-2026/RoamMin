@@ -1,25 +1,24 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { useTranslation } from "react-i18next";
+import {
+  createExpense,
+  listExpenses,
+  yuanToCents,
+  type Expense,
+  type ExpenseCategory,
+} from "../api/expenses";
 import "./TripExpensePanel.css";
 
-const categoryNames = {
-  餐饮: "Food",
-  交通: "Transport",
-  住宿: "Accommodation",
-  门票: "Tickets",
-  购物: "Shopping",
-  其他: "Other",
+const categoryNames: Record<ExpenseCategory, [string, string]> = {
+  food: ["餐饮", "Food"],
+  transport: ["交通", "Transport"],
+  lodging: ["住宿", "Accommodation"],
+  ticket: ["门票", "Tickets"],
+  shopping: ["购物", "Shopping"],
+  other: ["其他", "Other"],
 };
 
-type Category = keyof typeof categoryNames;
-
-type Expense = {
-  category: Category;
-  cents: number;
-  date: string;
-};
-
-const categories = Object.keys(categoryNames) as Category[];
+const categories = Object.keys(categoryNames) as ExpenseCategory[];
 
 function yuan(cents: number) {
   return (cents / 100).toFixed(2);
@@ -30,39 +29,18 @@ function localToday() {
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, "0");
   const day = String(today.getDate()).padStart(2, "0");
-
   return `${year}-${month}-${day}`;
 }
 
-function readSavedExpenses(storageKey: string): Expense[] {
-  try {
-    const saved = sessionStorage.getItem(storageKey);
-    if (!saved) return [];
-
-    const data: unknown = JSON.parse(saved);
-    if (!Array.isArray(data)) return [];
-
-    return data.filter((item): item is Expense =>
-      item !== null &&
-      typeof item === "object" &&
-      typeof item.category === "string" &&
-      Object.prototype.hasOwnProperty.call(categoryNames, item.category) &&
-      Number.isSafeInteger(item.cents) &&
-      item.cents > 0 &&
-      typeof item.date === "string"
-    );
-  } catch {
-    return [];
-  }
-}
+type TripExpensePanelProps = {
+  title: string;
+  tripId: number;
+};
 
 export default function TripExpensePanel({
   title,
-  storageKey,
-}: {
-  title: string;
-  storageKey: string;
-}) {
+  tripId,
+}: TripExpensePanelProps) {
   const { i18n } = useTranslation();
   const isEnglish = (i18n.resolvedLanguage ?? i18n.language)
     .toLowerCase()
@@ -73,18 +51,46 @@ export default function TripExpensePanel({
   const amountInput = useRef<HTMLInputElement>(null);
   const headingId = useId();
 
-  const [expenses, setExpenses] = useState<Expense[]>(() =>
-  readSavedExpenses(storageKey)
-);
-  const [category, setCategory] = useState<Category>("餐饮");
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [loadState, setLoadState] = useState<"loading" | "ready" | "error">(
+    "loading",
+  );
+  const [loadAttempt, setLoadAttempt] = useState(0);
+
+  const [category, setCategory] = useState<ExpenseCategory>("food");
   const [amount, setAmount] = useState("");
   const [expenseDate, setExpenseDate] = useState(localToday);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<"amount" | "request" | null>(null);
   const [lastAdded, setLastAdded] = useState<Expense | null>(null);
   const [showAllExpenses, setShowAllExpenses] = useState(false);
 
+  // 页面打开、刷新或点击重试时，从后端读取当前行程的记录。
+  useEffect(() => {
+    let active = true;
+    setLoadState("loading");
+
+    async function load() {
+      try {
+        const rows = await listExpenses(tripId);
+        if (active) {
+          setExpenses(rows);
+          setLoadState("ready");
+        }
+      } catch {
+        if (active) setLoadState("error");
+      }
+    }
+
+    void load();
+
+    return () => {
+      active = false;
+    };
+  }, [tripId, loadAttempt]);
+
   useEffect(() => {
     if (!lastAdded) return;
-
     const timer = window.setTimeout(() => setLastAdded(null), 3000);
     return () => window.clearTimeout(timer);
   }, [lastAdded]);
@@ -93,8 +99,9 @@ export default function TripExpensePanel({
     return isEnglish ? english : chinese;
   }
 
-  function categoryLabel(value: Category) {
-    return isEnglish ? categoryNames[value] : value;
+  function categoryLabel(value: ExpenseCategory) {
+    const [chinese, english] = categoryNames[value];
+    return text(chinese, english);
   }
 
   function money(cents: number) {
@@ -103,15 +110,16 @@ export default function TripExpensePanel({
 
   const panelTitle = text("行程费用", "Trip expenses");
   const emptyText = text("暂无费用记录。", "No expenses yet.");
-  const total = expenses.reduce((sum, item) => sum + item.cents, 0);
+  const total = expenses.reduce((sum, item) => sum + item.amount_cents, 0);
 
-  const sortedExpenses = [...expenses].sort((a, b) => b.cents - a.cents);
+  const sortedExpenses = [...expenses].sort(
+    (a, b) => b.amount_cents - a.amount_cents,
+  );
   const visibleExpenses = showAllExpenses
     ? sortedExpenses
     : sortedExpenses.slice(0, 3);
 
   let listTitle = text("支出明细", "Expense details");
-
   if (expenses.length > 3 && !showAllExpenses) {
     listTitle = text("最高 3 笔支出", "Top 3 expenses");
   } else if (expenses.length > 0) {
@@ -126,13 +134,35 @@ export default function TripExpensePanel({
     ? `${expenses.length} ${expenses.length === 1 ? "entry" : "entries"}`
     : `${expenses.length} 笔`;
 
+  const loadMessage =
+    loadState === "error"
+      ? text("费用加载失败。", "Could not load expenses.")
+      : text("正在加载费用…", "Loading expenses…");
+
+  const loadNotice = (
+    <p className="expense-empty" role="status">
+      {loadMessage}{" "}
+      {loadState === "error" && (
+        <button
+          type="button"
+          onClick={() => setLoadAttempt((previous) => previous + 1)}
+        >
+          {text("重试", "Retry")}
+        </button>
+      )}
+    </p>
+  );
+
   function openDialog() {
     const popup = dialog.current;
     const button = trigger.current;
     if (!popup || !button) return;
 
-    setAmount("");
-    setExpenseDate(localToday());
+    if (!saving && !saveError) {
+      setAmount("");
+      setExpenseDate(localToday());
+    }
+
     setShowAllExpenses(false);
     popup.showModal();
 
@@ -156,26 +186,40 @@ export default function TripExpensePanel({
     popup.style.top = `${top}px`;
   }
 
-  function addExpense(event: FormEvent<HTMLFormElement>) {
+  async function addExpense(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (saving || loadState !== "ready") return;
 
-    const cents = Math.round(Number(amount) * 100);
-    if (!expenseDate || !Number.isSafeInteger(cents) || cents <= 0) return;
+    setSaveError(null);
+    setLastAdded(null);
 
-    const entry: Expense = { category, cents, date: expenseDate };
+    let cents: number;
+    try {
+      cents = yuanToCents(amount);
+    } catch {
+      setSaveError("amount");
+      return;
+    }
 
-    const nextExpenses = [...expenses, entry];
+    setSaving(true);
+    try {
+      const entry = await createExpense(tripId, {
+        title: categoryNames[category][0],
+        category,
+        date: expenseDate,
+        amount_cents: cents,
+      });
 
-try {
-  sessionStorage.setItem(storageKey, JSON.stringify(nextExpenses));
-} catch {
-  // 浏览器禁用存储时，本次打开的弹窗仍可继续记账。
-}
-
-setExpenses(nextExpenses);
-    setLastAdded(entry);
-    setAmount("");
-    amountInput.current?.focus();
+      // 使用后端返回的记录和 ID，保存成功后可以继续录入下一笔。
+      setExpenses((previous) => [...previous, entry]);
+      setLastAdded(entry);
+      setAmount("");
+      amountInput.current?.focus();
+    } catch {
+      setSaveError("request");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -206,7 +250,8 @@ setExpenses(nextExpenses);
           <h3 id={headingId} style={{ margin: 0 }}>
             {panelTitle}
             <span className="sr-only">
-              {text("：", ": ")}{title}
+              {text("：", ": ")}
+              {title}
             </span>
           </h3>
 
@@ -221,7 +266,9 @@ setExpenses(nextExpenses);
         <section className="expense-tag expense-tag-summary">
           <h4 className="expense-tag-title">{listTitle}</h4>
 
-          {expenses.length === 0 ? (
+          {loadState !== "ready" ? (
+            loadNotice
+          ) : expenses.length === 0 ? (
             <p className="expense-empty">{emptyText}</p>
           ) : (
             <>
@@ -247,15 +294,17 @@ setExpenses(nextExpenses);
                   </thead>
 
                   <tbody>
-                    {visibleExpenses.map((item, index) => (
-                      <tr key={index}>
+                    {visibleExpenses.map((item) => (
+                      <tr key={item.id}>
                         <td>{categoryLabel(item.category)}</td>
                         <td>
                           <time dateTime={item.date} title={item.date}>
                             {showAllExpenses ? item.date : item.date.slice(5)}
                           </time>
                         </td>
-                        <td className="expense-money">{yuan(item.cents)}</td>
+                        <td className="expense-money">
+                          {yuan(item.amount_cents)}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -292,11 +341,14 @@ setExpenses(nextExpenses);
             {text("费用类别", "Category")}
             <select
               value={category}
-              onChange={(event) => setCategory(event.target.value as Category)}
+              disabled={saving}
+              onChange={(event) =>
+                setCategory(event.target.value as ExpenseCategory)
+              }
             >
-              {categories.map((name) => (
-                <option key={name} value={name}>
-                  {categoryLabel(name)}
+              {categories.map((value) => (
+                <option key={value} value={value}>
+                  {categoryLabel(value)}
                 </option>
               ))}
             </select>
@@ -309,9 +361,10 @@ setExpenses(nextExpenses);
               type="number"
               inputMode="decimal"
               min="0.01"
-              max="99999999.99"
+              max="21474836.47"
               step="0.01"
               required
+              readOnly={saving}
               placeholder={text("例如 28.50", "e.g. 28.50")}
               value={amount}
               onChange={(event) => setAmount(event.target.value)}
@@ -323,20 +376,37 @@ setExpenses(nextExpenses);
             <input
               type="date"
               required
+              readOnly={saving}
               value={expenseDate}
               onChange={(event) => setExpenseDate(event.target.value)}
             />
           </label>
 
-          <button type="submit" className="expense-submit">
-            {text("记一笔", "Add expense")}
+          <button
+            type="submit"
+            className="expense-submit"
+            disabled={saving || loadState !== "ready"}
+          >
+            {saving
+              ? text("正在保存…", "Saving…")
+              : text("记一笔", "Add expense")}
           </button>
 
           <p className="expense-feedback" role="status" aria-atomic="true">
+            {saveError === "amount" &&
+              text(
+                "请输入 0.01 至 21,474,836.47 元的金额，最多两位小数。",
+                "Enter an amount from 0.01 to 21,474,836.47 with up to two decimal places.",
+              )}
+            {saveError === "request" &&
+              text(
+                "未能确认保存，请刷新核对后再试。",
+                "Could not confirm the save. Refresh and check before retrying.",
+              )}
             {lastAdded && (
               <>
                 {text("已添加：", "Added: ")}
-                {categoryLabel(lastAdded.category)} · {money(lastAdded.cents)}
+                {categoryLabel(lastAdded.category)} · {money(lastAdded.amount_cents)}
               </>
             )}
           </p>
@@ -345,18 +415,22 @@ setExpenses(nextExpenses);
 
       <details style={{ marginTop: 10 }}>
         <summary style={{ cursor: "pointer" }}>
-          {text("费用明细", "Expense details")} · {countLabel} ·{" "}
-          {text("共 ", "")}{money(total)}
+          {text("费用明细", "Expense details")} ·{" "}
+          {loadState === "ready"
+            ? `${countLabel} · ${text("共 ", "")}${money(total)}`
+            : loadMessage}
         </summary>
 
-        {expenses.length === 0 ? (
+        {loadState !== "ready" ? (
+          loadNotice
+        ) : expenses.length === 0 ? (
           <p>{emptyText}</p>
         ) : (
           <ol style={{ margin: "8px 0", paddingInlineStart: 24 }}>
-            {expenses.map((item, index) => (
-              <li key={index}>
+            {expenses.map((item) => (
+              <li key={item.id}>
                 <time dateTime={item.date}>{item.date}</time>
-                {" · "}{categoryLabel(item.category)}{" · "}{money(item.cents)}
+                {" · "}{categoryLabel(item.category)}{" · "}{money(item.amount_cents)}
               </li>
             ))}
           </ol>
