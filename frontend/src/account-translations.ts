@@ -83,6 +83,14 @@ export const accountTranslations = {
     searchPeopleHint: "输入至少 2 个字符，按用户名查找。",
     searchIdle: "找到下一位同行者",
     searchIdleHint: "从一个用户名开始，看看彼此的旅行故事。",
+    alreadyMemberLabel: "已是成员",
+    alreadyMemberHint: "该用户已经是行程成员，无需重复邀请。",
+    inviteBlockedTitle: "无法邀请",
+    inviteFailedTitle: "邀请失败",
+    notTripOwner: "只有行程创建者可以管理成员。",
+    onlyOwnerCanInviteHint:
+      "只有行程创建者可以邀请成员，其他人尝试邀请会被拒绝。",
+    gotIt: "知道了",
   },
   en: {
     atlasHome: "Explore Fuzhou",
@@ -172,5 +180,13 @@ export const accountTranslations = {
     searchPeopleHint: "Search by username with at least 2 characters.",
     searchIdle: "Find your next travel companion",
     searchIdleHint: "Start with a username and discover their travel stories.",
+    alreadyMemberLabel: "Already a member",
+    alreadyMemberHint: "This traveler is already a member of this trip.",
+    inviteBlockedTitle: "Cannot invite",
+    inviteFailedTitle: "Invite failed",
+    notTripOwner: "Only the trip creator can manage members.",
+    onlyOwnerCanInviteHint:
+      "Only the trip creator can invite members. Other members are rejected.",
+    gotIt: "Got it",
   },
 };

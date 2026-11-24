@@ -8,6 +8,7 @@ import type { BuddyPost, Trip, TripMember, UserSummary } from "../types";
 import { useAuthStore } from "../store/authStore";
 import { UserSearch as SharedUserSearch } from "../components/UserSearch";
 import { ConfirmDialog } from "../components/ConfirmDialog";
+import { NoticeDialog } from "../components/NoticeDialog";
 import {
   ArrowUpRight,
   BookmarkSimple,
@@ -463,22 +464,21 @@ export function MyHomePage() {
                                     : t("publish")}
                                 </button>
                               )}
-                              {trip.ownerId === user.id && (
-                                <button
-                                  className="button button-secondary"
-                                  onClick={() =>
-                                    setInviteTrip(
-                                      inviteTrip === trip.id ? null : trip.id,
-                                    )
-                                  }
-                                >
-                                  {t("manageMembers")}
-                                </button>
-                              )}
+                              <button
+                                className="button button-secondary"
+                                onClick={() =>
+                                  setInviteTrip(
+                                    inviteTrip === trip.id ? null : trip.id,
+                                  )
+                                }
+                              >
+                                {t("manageMembers")}
+                              </button>
                             </div>
                             {inviteTrip === trip.id && (
                               <InvitePanel
                                 trip={trip}
+                                isOwner={trip.ownerId === user.id}
                                 onChange={load}
                                 onError={setError}
                               />
@@ -704,10 +704,12 @@ export function MyHomePage() {
 
 function InvitePanel({
   trip,
+  isOwner,
   onChange,
   onError,
 }: {
   trip: Trip;
+  isOwner: boolean;
   onChange: () => Promise<void>;
   onError: (message: string) => void;
 }) {
@@ -716,6 +718,7 @@ function InvitePanel({
   const [users, setUsers] = useState<UserSummary[]>([]);
   const [members, setMembers] = useState<TripMember[]>([]);
   const [busy, setBusy] = useState(false);
+  const [notice, setNotice] = useState<{ title: string; message: string } | null>(null);
   const refreshMembers = useCallback(async () => {
     try {
       setMembers(await socialApi.tripMembers(trip.id));
@@ -750,9 +753,22 @@ function InvitePanel({
       await refreshMembers();
       await onChange();
     } catch (reason) {
-      onError(reason instanceof Error ? reason.message : t("inviteFailed"));
+      showInviteFailure(reason);
     } finally {
       setBusy(false);
+    }
+  }
+  function showInviteFailure(reason: unknown) {
+    const status = (reason as { status?: number } | null)?.status;
+    if (status === 409) {
+      setNotice({ title: t("alreadyMemberLabel"), message: t("alreadyMemberHint") });
+    } else if (status === 403) {
+      setNotice({ title: t("inviteBlockedTitle"), message: t("notTripOwner") });
+    } else {
+      setNotice({
+        title: t("inviteFailedTitle"),
+        message: reason instanceof Error ? reason.message : t("inviteFailed"),
+      });
     }
   }
   async function remove(id: number) {
@@ -791,17 +807,28 @@ function InvitePanel({
                 <strong>{person.nickname || person.username}</strong>
                 <small>@{person.username}</small>
               </div>
-              <button
-                className="button button-primary"
-                disabled={
-                  busy || members.some((member) => member.userId === person.id)
-                }
-                onClick={() => void invite(person)}
-              >
-                {members.some((member) => member.userId === person.id)
-                  ? t("alreadyMember")
-                  : t("invite")}
-              </button>
+              {members.some((member) => member.userId === person.id) ? (
+                <button
+                  className="button button-primary"
+                  disabled={busy}
+                  onClick={() =>
+                    setNotice({
+                      title: t("alreadyMemberLabel"),
+                      message: t("alreadyMemberHint"),
+                    })
+                  }
+                >
+                  {t("alreadyMemberLabel")}
+                </button>
+              ) : (
+                <button
+                  className="button button-primary"
+                  disabled={busy}
+                  onClick={() => void invite(person)}
+                >
+                  {t("invite")}
+                </button>
+              )}
             </li>
           ))}
         </ul>
@@ -809,6 +836,9 @@ function InvitePanel({
       <h4>
         {t("tripMembers")} · {members.length}
       </h4>
+      {!isOwner && (
+        <p className="muted invite-owner-hint">{t("onlyOwnerCanInviteHint")}</p>
+      )}
       <ul className="member-list">
         {members.map((member) => (
           <li key={member.userId}>
@@ -823,7 +853,7 @@ function InvitePanel({
                 @{member.username} · {t(member.role)}
               </small>
             </div>
-            {member.role === "member" && member.id !== null && (
+            {isOwner && member.role === "member" && member.id !== null && (
               <button
                 className="link-button"
                 disabled={busy}
@@ -835,6 +865,13 @@ function InvitePanel({
           </li>
         ))}
       </ul>
+      {notice && (
+        <NoticeDialog
+          title={notice.title}
+          message={notice.message}
+          onClose={() => setNotice(null)}
+        />
+      )}
     </div>
   );
 }
