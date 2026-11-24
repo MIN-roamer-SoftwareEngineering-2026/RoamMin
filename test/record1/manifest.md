@@ -1,12 +1,12 @@
 # Alpha 主流程截图清单
 
 - 被测版本：main @ 3f20d1c
-- 测试分支：test/record1-clean @ 3f20d1c
-- 日期：1124（0037）
+- 测试分支：test/record1-clean @ 92a8f7f
+- 日期：1124（1717）
 - 前端：http://127.0.0.1:5173
 - 后端：http://localhost:8080/api/v1
-- 账号 A：alpha.final.owner@example.com
-- 账号 B：alpha.final.member@example.com / @alpha_final_member
+- 账号 A：tripA_e@example.com
+- 账号 B：tripB_e@example.com / @tripB_e
 - 行程：福州周末游-1124-3f20d1c
 - 截图目录：test/record1
 
