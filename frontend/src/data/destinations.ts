@@ -64,24 +64,38 @@ export const DESTINATION_SAMPLES: Destination[] = [
     name: { zh: "烟台山历史风貌区", en: "Yantai Hill" },
     category: "heritage",
     district: { zh: "仓山区", en: "Cangshan" },
+
     address: {
       zh: "福州市仓山区梅坞路、乐群路一带",
       en: "Meiwu and Lequn roads, Cangshan District, Fuzhou",
     },
+
     summary: {
-      zh: "近代洋楼、教堂与老校舍沿坡而建，街道起伏有层次，适合一下午的city walk，顺路可以走到江边。",
-      en: "Colonial-era villas, churches and old school buildings climb the slope, an easy afternoon walk that ends near the river.",
+      zh: "烟台山保留了大量领事馆、教堂、洋行和近代洋楼，山地街巷随地势起伏展开，是感受福州开埠历史和中西交融城市风貌的重要街区。如今老建筑中也融入书店、咖啡馆和艺术空间，适合慢慢步行探索。",
+      en: "Yantai Hill preserves consulates, churches, trading houses and historic villas along winding hillside streets. It offers a distinctive view of Fuzhou's treaty-port history and blend of Chinese and Western architecture, now mixed with bookstores, cafés and art spaces.",
     },
+
     highlights: [
-      { zh: "坡道和石阶多，建议穿软底鞋", en: "Slopes and steps throughout, wear comfortable shoes" },
-      { zh: "老建筑多为外观参观，注意是否对外开放", en: "Most buildings are viewed from outside; check opening signs" },
-      { zh: "从街区往下走可到闽江边，接上下杭", en: "Walk downhill to the Min River and on to Shangxiahang" },
+      {
+        zh: "石厝教堂、领事馆旧址和近代洋楼集中分布，适合边走边看建筑细节",
+        en: "Historic churches, former consulates and period villas make the district especially rewarding for architecture walks",
+      },
+      {
+        zh: "街区见证了福州开埠后的对外交流，是了解近代福州城市发展与中西文化交融的重要地点",
+        en: "The district reflects Fuzhou's treaty-port era and the city's modern history of international exchange",
+      },
+      {
+        zh: "历史建筑与书店、咖啡馆、展览和艺术空间结合，适合安排半天的城市漫步",
+        en: "Historic buildings now mix with bookstores, cafés, exhibitions and art spaces, making the area ideal for a half-day city walk",
+      },
     ],
+
     tags: [
-      { zh: "洋楼", en: "Colonial" },
-      { zh: "街拍", en: "Street photo" },
-      { zh: "咖啡", en: "Coffee" },
+      { zh: "近代建筑", en: "Historic architecture" },
+      { zh: "城市漫步", en: "City walk" },
+      { zh: "中西交融", en: "East-West heritage" },
     ],
+
     ticket: { zh: "免费", en: "Free" },
     duration: { zh: "2 小时", en: "2 hours" },
     hours: { zh: "街区全天开放", en: "Open all day" },
@@ -124,29 +138,57 @@ export const DESTINATION_SAMPLES: Destination[] = [
     name: { zh: "平潭岛", en: "Pingtan Island" },
     category: "island",
     district: { zh: "平潭综合实验区", en: "Pingtan" },
+
     address: {
-      zh: "福州市平潭综合实验区，市区驾车约 2 小时",
+      zh: "平潭综合实验区，距福州市区约 2 小时车程",
       en: "Pingtan, about a two-hour drive from downtown Fuzhou",
     },
+
     summary: {
-      zh: "海岛线路以海岸公路、沙滩和石头厝为主，风景开阔但风大，适合安排一整天或住一晚，不适合当日往返赶景点。",
-      en: "Coastal roads, beaches and stone houses. Open scenery and strong wind; give it a full day or an overnight stay.",
+      zh: "平潭以开阔海岸、沙滩、环岛公路和传统石头厝闻名，既适合沿海自驾与骑行，也可以在北港村、北部生态廊道等地感受独特的海岛聚落和山海景观。",
+      en: "Pingtan is known for its open coastline, beaches, scenic coastal roads and traditional stone houses. It is well suited to road trips, cycling and exploring distinctive island villages and mountain-sea scenery.",
     },
+
     highlights: [
-      { zh: "环岛公路景点分散，建议先定两三个点再出发", en: "Sights are spread out; pick two or three stops ahead of time" },
-      { zh: "海风大、日晒强，带外套和防晒", en: "Windy and exposed, bring a jacket and sun protection" },
-      { zh: "节假日返程车流集中，留意渡口与车次时间", en: "Expect heavy return traffic on holidays" },
+      {
+        zh: "海岸线、沙滩和滨海公路景观丰富，适合自驾、骑行和看海",
+        en: "A varied coastline of beaches and scenic coastal roads makes it ideal for driving, cycling and seaside views",
+      },
+      {
+        zh: "北港村等传统聚落保留了具有平潭特色的花岗岩石头厝",
+        en: "Traditional villages such as Beigang preserve Pingtan's distinctive granite stone houses",
+      },
+      {
+        zh: "北部生态廊道将山海、风车、村落和观景台串联起来，适合安排半天以上的滨海游览",
+        en: "The northern ecological corridor links mountains, sea views, wind turbines, villages and viewing platforms into a memorable coastal route",
+      },
     ],
+
     tags: [
       { zh: "海岛", en: "Island" },
-      { zh: "自驾", en: "Road trip" },
-      { zh: "住一晚", en: "Overnight" },
+      { zh: "滨海自驾", en: "Coastal road trip" },
+      { zh: "石头厝", en: "Stone houses" },
     ],
-    ticket: { zh: "多数海滩免费，个别景区另收费", en: "Most beaches free, some sites charge" },
+
+    ticket: {
+      zh: "多数公共海滩和滨海区域免费，部分景点或体验项目另行收费",
+      en: "Most public beaches and coastal areas are free; some attractions and activities charge separately",
+    },
+
     duration: { zh: "1–2 天", en: "1–2 days" },
-    hours: { zh: "全天，景区按各自公告", en: "All day; sites post their own hours" },
-    bestSeason: { zh: "春末至秋初", en: "Late spring to early autumn" },
+
+    hours: {
+      zh: "公共滨海区域全天开放，具体景点以现场公告为准",
+      en: "Public coastal areas are generally open all day; individual attractions set their own hours",
+    },
+
+    bestSeason: {
+      zh: "春末至秋初",
+      en: "Late spring to early autumn",
+    },
+
     coords: { lat: 25.5034, lng: 119.7912 },
+
     heat: 90,
   },
   {
@@ -268,6 +310,64 @@ export const DESTINATION_SAMPLES: Destination[] = [
     bestSeason: { zh: "四季", en: "All year" },
     coords: { lat: 25.99, lng: 119.4567 },
     heat: 66,
+  },
+  {
+    id: "min-river-waterfront",
+    name: { zh: "闽江滨江", en: "Min River Waterfront" },
+    category: "urban",
+    district: { zh: "台江区 / 仓山区", en: "Taijiang / Cangshan" },
+
+    address: {
+      zh: "福州市闽江两岸，建议从闽江之心、江滨步道等区域开始游览",
+      en: "Along both banks of the Min River in central Fuzhou, with convenient access from the Heart of Min River and riverside promenades",
+    },
+
+    summary: {
+      zh: "闽江穿城而过，两岸串联城市夜景、滨江步道、历史街区和现代城市空间。白天适合沿江散步与骑行，入夜后灯光映照江面，是感受福州山水城市风貌和夜生活氛围的代表性路线。",
+      en: "The Min River runs through central Fuzhou, linking riverside promenades, historic districts and modern cityscapes. It is ideal for walking and cycling by day, while illuminated bridges and waterfront buildings create one of the city's signature night views.",
+    },
+
+    highlights: [
+      {
+        zh: "闽江两岸夜景是福州城市夜游的重要组成部分，灯光、桥梁和沿江建筑共同构成开阔的滨水景观",
+        en: "Illuminated bridges, riverside buildings and reflections on the river create one of Fuzhou's defining nightscapes",
+      },
+      {
+        zh: "可以从闽江之心沿滨江空间慢慢步行，感受江风、城市天际线和公共休闲空间",
+        en: "Riverside promenades around the Heart of Min River offer relaxed walks with river breezes and broad city views",
+      },
+      {
+        zh: "可与烟台山、上下杭等地点串联，适合组合成半天至晚间的城市漫步路线",
+        en: "The waterfront connects naturally with Yantai Hill and Shangxiahang, making it easy to build a half-day or evening city walk",
+      },
+    ],
+
+    tags: [
+      { zh: "滨江", en: "Waterfront" },
+      { zh: "夜景", en: "Night view" },
+      { zh: "城市漫步", en: "City walk" },
+    ],
+
+    ticket: {
+      zh: "公共滨江区域免费，游船等体验项目另行收费",
+      en: "Public riverside areas are free; cruises and other activities charge separately",
+    },
+
+    duration: { zh: "1.5–3 小时", en: "1.5–3 hours" },
+
+    hours: {
+      zh: "公共滨江区域全天开放，夜景灯光及游船时间以当日公告为准",
+      en: "Public riverside areas are open all day; lighting displays and cruises follow their own schedules",
+    },
+
+    bestSeason: {
+      zh: "四季，傍晚至夜间体验更佳",
+      en: "All year, especially from sunset into the evening",
+    },
+
+    coords: { lat: 26.0530, lng: 119.3060 },
+
+    heat: 86,
   },
 ];
 
