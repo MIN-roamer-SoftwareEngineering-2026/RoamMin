@@ -92,3 +92,47 @@ Manage the signed-in user's buddy posts. Creating a post accepts `title`, `desti
 ### POST /ai/generate-itinerary and POST /ai/chat
 
 Both endpoints require a bearer token. The [AI assistant API guide](AI_ASSISTANT.md#api-contracts) covers inputs, example responses, validation, and failure statuses.
+
+## Trip Expenses
+
+Base path: `/api/v1`. Both endpoints require `Authorization: Bearer <token>`.
+Only the trip owner and trip members can access its expenses.
+`tripId` is the ID of the trip.
+
+### POST /trips/{tripId}/expenses
+
+Creates an expense. Example request body:
+
+```json
+{"title":"Test lunch","amount_cents":2850,"category":"food","date":"2026-11-23"}
+```
+
+`amount_cents` is an integer from `1` to `2147483647`, in cents. For example,
+CNY 28.50 is sent as `2850`. Use `YYYY-MM-DD` for `date`. `note` is optional.
+Allowed categories are `transport`, `lodging`, `food`, `ticket`, `shopping`,
+and `other`.
+
+Example response (HTTP 200):
+
+```json
+{"code":0,"message":"success","data":{"id":1,"title":"Test lunch","category":"food","date":"2026-11-23","amount_cents":2850}}
+```
+
+### GET /trips/{tripId}/expenses
+
+Returns the trip's expenses. Example request: `GET /api/v1/trips/1/expenses`.
+No request body is required. An empty list is returned as `data: []`.
+
+Example response (HTTP 200):
+
+```json
+{"code":0,"message":"success","data":[{"id":1,"title":"Test lunch","category":"food","date":"2026-11-23","amount_cents":2850}]}
+```
+
+### Error responses
+
+| HTTP status | Scenario |
+| --- | --- |
+| 400 | `amount_cents` is missing, is not an integer, is zero or negative, or exceeds `2147483647`. |
+| 401 | The request does not include a valid login token. |
+| 404 | The trip does not exist or the signed-in user is neither its owner nor a member. |
