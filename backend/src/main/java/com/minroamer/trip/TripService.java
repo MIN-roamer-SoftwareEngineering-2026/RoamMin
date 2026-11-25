@@ -48,6 +48,11 @@ public class TripService {
     }
 
     @Transactional(readOnly = true)
+    public TripResponse detail(Long userId, Long tripId) {
+        return TripResponse.from(requireAccessibleTrip(userId, tripId));
+    }
+
+    @Transactional(readOnly = true)
     public List<TripResponse> publicTrips(Long ownerId) {
         return trips.findPublicByOwner(ownerId)
             .stream().map(TripResponse::from).toList();
@@ -80,10 +85,7 @@ public class TripService {
 
     @Transactional(readOnly = true)
     public List<TripMemberResponse> listMembers(Long userId, Long tripId) {
-        Trip trip = requireTrip(tripId);
-        if (!trip.getOwnerId().equals(userId) && !members.existsByTripIdAndUserId(tripId, userId)) {
-            throw new ApiException(HttpStatus.NOT_FOUND, "Trip not found");
-        }
+        Trip trip = requireAccessibleTrip(userId, tripId);
         List<TripMemberResponse> result = new ArrayList<>();
         result.add(TripMemberResponse.owner(users.findById(trip.getOwnerId()).orElseThrow()));
         members.findAllByTripIdOrderByJoinedAtAsc(tripId).forEach(member ->
@@ -129,6 +131,14 @@ public class TripService {
 
     private Trip requireTrip(Long tripId) {
         return trips.findById(tripId).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Trip not found"));
+    }
+    private Trip requireAccessibleTrip(Long userId, Long tripId) {
+        Trip trip = requireTrip(tripId);
+        // The workspace is visible to owners and invited members only, even for published trips.
+        if (!trip.getOwnerId().equals(userId) && !members.existsByTripIdAndUserId(tripId, userId)) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "Trip not found");
+        }
+        return trip;
     }
     private void requireOwner(Trip trip, Long userId) {
         if (!trip.getOwnerId().equals(userId)) throw new ApiException(HttpStatus.FORBIDDEN, "Only the trip owner can do this");

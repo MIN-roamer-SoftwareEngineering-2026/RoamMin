@@ -9,6 +9,8 @@ import type {
 
 export const socialApi = {
   myTrips: () => unwrap<Trip[]>(http.get<ApiResponse<Trip[]>>("/trips/mine")),
+  tripDetail: (id: number) =>
+    unwrap<Trip>(http.get<ApiResponse<Trip>>(`/trips/${id}`)),
   createTrip: (
     input: Pick<Trip, "title" | "destination" | "startDate" | "endDate">,
   ) => unwrap<Trip>(http.post<ApiResponse<Trip>>("/trips", input)),

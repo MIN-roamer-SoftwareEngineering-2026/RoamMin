@@ -3,6 +3,7 @@ import { initReactI18next } from "react-i18next";
 import { accountTranslations } from "./account-translations";
 import { aiTranslations } from "./ai-translations";
 import { destinationTranslations } from "./destination-translations";
+import { tripTranslations } from "./trip-translations";
 
 const savedLanguage = localStorage.getItem("min-roamer.language");
 
@@ -121,6 +122,7 @@ void i18n.use(initReactI18next).init({
         ...accountTranslations.zh,
         ...aiTranslations.zh,
         ...destinationTranslations.zh,
+        ...tripTranslations.zh,
       },
     },
     en: {
@@ -240,6 +242,7 @@ void i18n.use(initReactI18next).init({
         ...accountTranslations.en,
         ...aiTranslations.en,
         ...destinationTranslations.en,
+        ...tripTranslations.en,
       },
     },
   },

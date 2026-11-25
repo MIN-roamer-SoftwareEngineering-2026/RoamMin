@@ -34,6 +34,7 @@ import { DestinationsPage } from "./pages/DestinationsPage";
 import { DestinationDetailPage } from "./pages/DestinationDetailPage";
 import { CreateTripPage } from "./pages/CreateTripPage";
 import { MyTripsPage } from "./pages/MyTripsPage";
+import { TripDetailPage } from "./pages/TripDetailPage";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { useAuthStore } from "./store/authStore";
 import { UserAvatar } from "./components/UserAvatar";
@@ -109,13 +110,15 @@ export default function App() {
               ? t("people")
               : pathname === "/ai"
                 ? t("aiAssistant")
-                : pathname.startsWith("/trips")
-                  ? t("myTrips")
-                  : pathname.startsWith("/destinations")
-                    ? t("dest.nav")
-                    : pathname.startsWith("/users/")
-                      ? t("travelerProfile")
-                      : t("overview");
+                : pathname.startsWith("/trips/") && pathname !== "/trips/new"
+                  ? t("tripDetail")
+                  : pathname.startsWith("/trips")
+                    ? t("myTrips")
+                    : pathname.startsWith("/destinations")
+                      ? t("dest.nav")
+                      : pathname.startsWith("/users/")
+                        ? t("travelerProfile")
+                        : t("overview");
   async function switchLanguage(language: "zh" | "en") {
     localStorage.setItem("min-roamer.language", language);
     await i18n.changeLanguage(language);
@@ -269,6 +272,7 @@ export default function App() {
             <Route path="/my" element={<MyHomePage />} />
             <Route path="/trips" element={<MyTripsPage />} />
             <Route path="/trips/new" element={<CreateTripPage />} />
+            <Route path="/trips/:id" element={<TripDetailPage />} />
             <Route path="/people" element={<PeoplePage />} />
             <Route path="/ai" element={<AiAssistantPage key={user?.id} />} />
             <Route path="/users/:id" element={<PublicUserPage />} />

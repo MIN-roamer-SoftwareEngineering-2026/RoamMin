@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { CalendarBlank, MapPin, Plus } from "@phosphor-icons/react";
+import { CalendarBlank, CaretRight, MapPin, Plus } from "@phosphor-icons/react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { socialApi } from "../api/social";
@@ -66,7 +66,11 @@ export function MyTripsPage() {
       ) : (
         <section className="trip-list" aria-label={t("myTrips")}>
           {trips.map((trip) => (
-            <article className="trip-list-item" key={trip.id}>
+            <Link
+              className="trip-list-item trip-list-link"
+              key={trip.id}
+              to={`/trips/${trip.id}`}
+            >
               <div>
                 <span className="trip-id">ID {trip.id}</span>
                 <h2>{trip.title}</h2>
@@ -79,8 +83,16 @@ export function MyTripsPage() {
                   {formatDates(trip, t("dateNotSet"))}
                 </p>
               </div>
-              <span className="trip-visibility">{t("privateTrip")}</span>
-            </article>
+              <div className="trip-list-actions">
+                <span className="trip-visibility">
+                  {t(trip.isPublic ? "publicTrip" : "privateTrip")}
+                </span>
+                <span className="trip-detail-link-label">
+                  {t("viewTripDetail")}{" "}
+                  <CaretRight size={16} aria-hidden="true" />
+                </span>
+              </div>
+            </Link>
           ))}
         </section>
       )}
