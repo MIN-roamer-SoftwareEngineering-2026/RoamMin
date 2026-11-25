@@ -47,6 +47,17 @@
   color: var(--text);
   font: inherit;
 }
+.destination-picker { position: relative; }
+.destination-picker input { width: 100%; padding-right: 42px; }
+.destination-picker-toggle { position: absolute; top: 1px; right: 1px; display: grid; width: 40px; height: calc(100% - 2px); place-items: center; border: 0; border-left: 1px solid var(--line-strong); border-radius: 0 5px 5px 0; background: transparent; color: var(--text-secondary); cursor: pointer; }
+.destination-picker-toggle:hover { background: var(--field-bg); color: var(--text); }
+.destination-picker-options { position: absolute; z-index: 5; top: calc(100% + 6px); right: 0; left: 0; max-height: 264px; overflow-y: auto; border: 1px solid var(--line-strong); border-radius: 6px; background: var(--surface); box-shadow: 0 10px 22px rgb(20 31 49 / 14%); }
+.destination-picker-options button { display: flex; width: 100%; align-items: center; gap: 10px; padding: 10px 12px; border: 0; border-bottom: 1px solid var(--border); background: transparent; color: var(--text); cursor: pointer; font: inherit; text-align: left; }
+.destination-picker-options button:last-child { border-bottom: 0; }
+.destination-picker-options button:hover, .destination-picker-options button.is-active { background: var(--field-bg); }
+.destination-picker-options strong, .destination-picker-options small { display: block; }
+.destination-picker-options small { margin-top: 2px; color: var(--text-secondary); font-size: 0.75rem; font-weight: 500; }
+.destination-picker-empty { margin: 0; padding: 12px; color: var(--text-secondary); font-size: 0.875rem; }
 .trip-date-fields {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

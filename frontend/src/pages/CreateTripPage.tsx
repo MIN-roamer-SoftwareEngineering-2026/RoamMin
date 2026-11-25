@@ -1,12 +1,18 @@
-import { useState, type FormEvent } from "react";
-import { ArrowLeft, PaperPlaneTilt } from "@phosphor-icons/react";
+import { useMemo, useState, type FormEvent, type KeyboardEvent } from "react";
+import {
+  ArrowLeft,
+  CaretDown,
+  MapPin,
+  PaperPlaneTilt,
+} from "@phosphor-icons/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { socialApi } from "../api/social";
+import { DESTINATION_SAMPLES } from "../data/destinations";
 import "../trips.css";
 
 export function CreateTripPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     title: "",
@@ -14,8 +20,61 @@ export function CreateTripPage() {
     startDate: "",
     endDate: "",
   });
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const language = i18n.language.startsWith("en") ? "en" : "zh";
+
+  const matchingDestinations = useMemo(() => {
+    const keyword = form.destination.trim().toLocaleLowerCase();
+    if (!keyword) return DESTINATION_SAMPLES;
+    return DESTINATION_SAMPLES.filter((destination) =>
+      [
+        destination.name.zh,
+        destination.name.en,
+        destination.district.zh,
+        destination.district.en,
+        destination.address.zh,
+        destination.address.en,
+      ].some((value) => value.toLocaleLowerCase().includes(keyword)),
+    );
+  }, [form.destination]);
+
+  function chooseDestination(index: number) {
+    const destination = matchingDestinations[index];
+    if (!destination) return;
+    setForm({ ...form, destination: destination.name[language] });
+    setPickerOpen(false);
+    setActiveIndex(-1);
+  }
+
+  function handleDestinationKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Escape") {
+      setPickerOpen(false);
+      setActiveIndex(-1);
+      return;
+    }
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      if (matchingDestinations.length === 0) return;
+      setPickerOpen(true);
+      setActiveIndex((current) =>
+        event.key === "ArrowDown"
+          ? current < matchingDestinations.length - 1
+            ? current + 1
+            : 0
+          : current > 0
+            ? current - 1
+            : matchingDestinations.length - 1,
+      );
+      return;
+    }
+    if (event.key === "Enter" && pickerOpen && activeIndex >= 0) {
+      event.preventDefault();
+      chooseDestination(activeIndex);
+    }
+  }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -45,6 +104,7 @@ export function CreateTripPage() {
       setSubmitting(false);
     }
   }
+
   return (
     <main className="page-shell trip-page">
       <header className="trip-page-heading">
@@ -77,14 +137,75 @@ export function CreateTripPage() {
         </label>
         <label>
           {t("destination")}
-          <input
-            required
-            maxLength={80}
-            value={form.destination}
-            onChange={(event) =>
-              setForm({ ...form, destination: event.target.value })
-            }
-          />
+          <div className="destination-picker">
+            <input
+              required
+              maxLength={80}
+              role="combobox"
+              aria-autocomplete="list"
+              aria-expanded={pickerOpen}
+              aria-controls="trip-destination-options"
+              aria-activedescendant={
+                activeIndex >= 0
+                  ? `trip-destination-option-${activeIndex}`
+                  : undefined
+              }
+              placeholder={t("destinationSearchPlaceholder")}
+              value={form.destination}
+              onFocus={() => setPickerOpen(true)}
+              onKeyDown={handleDestinationKeyDown}
+              onChange={(event) => {
+                setForm({ ...form, destination: event.target.value });
+                setPickerOpen(true);
+                setActiveIndex(-1);
+              }}
+            />
+            <button
+              className="destination-picker-toggle"
+              type="button"
+              aria-label={t("destinationPickerToggle")}
+              aria-expanded={pickerOpen}
+              onMouseDown={(event) => event.preventDefault()}
+              onClick={() => setPickerOpen((open) => !open)}
+            >
+              <CaretDown size={16} weight="bold" />
+            </button>
+            {pickerOpen && (
+              <div
+                id="trip-destination-options"
+                className="destination-picker-options"
+                role="listbox"
+              >
+                {matchingDestinations.length > 0 ? (
+                  matchingDestinations.map((destination, index) => (
+                    <button
+                      id={`trip-destination-option-${index}`}
+                      className={
+                        index === activeIndex ? "is-active" : undefined
+                      }
+                      type="button"
+                      role="option"
+                      aria-selected={index === activeIndex}
+                      key={destination.id}
+                      onMouseDown={(event) => event.preventDefault()}
+                      onMouseEnter={() => setActiveIndex(index)}
+                      onClick={() => chooseDestination(index)}
+                    >
+                      <MapPin size={16} aria-hidden="true" />
+                      <span>
+                        <strong>{destination.name[language]}</strong>
+                        <small>{destination.district[language]}</small>
+                      </span>
+                    </button>
+                  ))
+                ) : (
+                  <p className="destination-picker-empty" role="status">
+                    {t("destinationNoMatches")}
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
         </label>
         <div className="trip-date-fields">
           <label>
