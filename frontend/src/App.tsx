@@ -12,7 +12,6 @@ import {
   SquaresFour,
   UserCircle,
   Users,
-  SignOut,
   ArrowUpRight,
   CaretRight,
   Sun,
@@ -38,7 +37,7 @@ import { MyTripsPage } from "./pages/MyTripsPage";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { useAuthStore } from "./store/authStore";
 import { UserAvatar } from "./components/UserAvatar";
-import { ConfirmDialog } from "./components/ConfirmDialog";
+import { LogoutAction } from "./components/LogoutAction";
 import { applyTheme, readTheme, type Theme } from "./theme";
 
 function SessionHydrator() {
@@ -84,9 +83,7 @@ function SessionHydrator() {
 export default function App() {
   const { t } = useTranslation();
   const user = useAuthStore((state) => state.user);
-  const clearSession = useAuthStore((state) => state.clearSession);
   const { pathname } = useLocation();
-  const [logoutOpen, setLogoutOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>(readTheme);
   useEffect(() => {
     applyTheme(theme);
@@ -257,13 +254,7 @@ export default function App() {
             <Compass size={30} weight="thin" />
             <p>{t("brandTagline")}</p>
             <small>MIN-ROAMER / EST. 2026</small>
-            <button
-              className="sidebar-logout"
-              onClick={() => setLogoutOpen(true)}
-            >
-              <SignOut size={19} />
-              {t("logout")}
-            </button>
+            <LogoutAction />
           </div>
         </aside>
       )}
@@ -290,17 +281,6 @@ export default function App() {
           <span>{t("brandTagline")}</span>
         </footer>
       </div>
-      {logoutOpen && (
-        <ConfirmDialog
-          title={t("logoutTitle")}
-          hint={t("logoutHint")}
-          onClose={() => setLogoutOpen(false)}
-          onConfirm={() => {
-            clearSession();
-            setLogoutOpen(false);
-          }}
-        />
-      )}
     </div>
   );
 }
