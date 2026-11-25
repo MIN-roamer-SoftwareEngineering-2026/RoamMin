@@ -79,6 +79,31 @@ const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
     assert.equal(await page.locator(".destination-highlights li").count(), 3);
     await page.screenshot({ path: path.join(output, "destination-detail.png"), fullPage: true });
 
+    // 5b. Nearby recommendations: 3 cards, each carrying a straight-line distance
+    const nearbyCards = page.locator(".destination-nearby .destination-card");
+    assert.equal(await nearbyCards.count(), 3, "nearby section should suggest 3 destinations");
+    assert.match(
+      await nearbyCards.first().locator(".destination-cover-distance").innerText(),
+      /公里/,
+      "nearby cards should show their straight-line distance",
+    );
+    const distances = await nearbyCards
+      .locator(".destination-cover-distance")
+      .allInnerTexts();
+    const parsed = distances.map((text) => Number(text.replace(/[^\d.]/g, "")));
+    assert.ok(
+      parsed.every((value, index) => index === 0 || value >= parsed[index - 1]),
+      `nearby list should be sorted from close to far, got ${distances.join(" / ")}`,
+    );
+    await page.screenshot({ path: path.join(output, "destination-nearby.png"), fullPage: true });
+
+    // 5c. Signed-out visitors are sent to the login page instead of the create-trip form
+    assert.equal(
+      await page.locator(".destination-detail-actions a.button-primary").getAttribute("href"),
+      "/login",
+      "the plan-a-trip button should point at /login while signed out",
+    );
+
     // 6. Dark theme
     await page.getByRole("button", { name: "深色", exact: true }).click();
     await page.waitForTimeout(160);

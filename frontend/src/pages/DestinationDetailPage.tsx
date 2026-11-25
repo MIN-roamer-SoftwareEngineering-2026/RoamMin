@@ -9,11 +9,13 @@ import {
   Hourglass,
   Leaf,
   MapPin,
+  NavigationArrow,
   Sparkle,
   Ticket,
 } from "@phosphor-icons/react";
 import { getDestination } from "../api/destinations";
 import { DESTINATION_SAMPLES, type Destination } from "../data/destinations";
+import { findNearby, formatDistance } from "../data/distance";
 import { CATEGORY_GLYPH, DestinationCard, currentLanguage, pickText } from "../components/DestinationCard";
 import { useAuthStore } from "../store/authStore";
 
@@ -65,6 +67,10 @@ export function DestinationDetailPage() {
   const related = DESTINATION_SAMPLES.filter(
     (item) => item.category === destination.category && item.id !== destination.id,
   ).slice(0, 3);
+
+  const nearby = findNearby(destination, DESTINATION_SAMPLES, 3);
+  const nearbyDistance = (km: number) =>
+    t("dest.distanceKm", { value: formatDistance(km) });
 
   const facts = [
     {
@@ -166,12 +172,34 @@ export function DestinationDetailPage() {
       </section>
 
       <div className="destination-detail-actions">
-        <Link className="button button-primary" to={user ? "/my" : "/login"}>
+        <Link
+          className="button button-primary"
+          to={user ? `/trips/new?from=${destination.id}` : "/login"}
+        >
           {user ? t("dest.planTrip") : t("dest.loginToPlan")}
           <ArrowUpRight size={16} />
         </Link>
-        <p className="field-hint">{t("dest.sourceNote")}</p>
+        <p className="field-hint">{t("dest.planHint")}</p>
       </div>
+
+      {nearby.length > 0 && (
+        <section className="destination-nearby">
+          <h2>
+            <NavigationArrow size={18} weight="duotone" />
+            {t("dest.nearby")}
+          </h2>
+          <p className="field-hint">{t("dest.nearbyNote")}</p>
+          <div className="destination-grid">
+            {nearby.map((entry) => (
+              <DestinationCard
+                key={entry.item.id}
+                item={entry.item}
+                distanceLabel={nearbyDistance(entry.km)}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       {related.length > 0 && (
         <section className="destination-related">
@@ -183,6 +211,8 @@ export function DestinationDetailPage() {
           </div>
         </section>
       )}
+
+      <p className="field-hint destination-source-note">{t("dest.sourceNote")}</p>
     </main>
   );
 }
