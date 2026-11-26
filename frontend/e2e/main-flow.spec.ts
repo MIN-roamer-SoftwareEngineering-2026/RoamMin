@@ -37,6 +37,16 @@ test("owner creates a Fuzhou trip, invites B, B sees the joined trip", async (
 
     await owner.page.locator(sel.myHome.tripName).fill(title);
     await owner.page.locator(sel.myHome.destination).fill(env.trip.destination);
+    // The destination picker opens on focus/typing and its option list can
+    // intercept the Create click, so pick the first suggestion (or close it).
+    const destinationOption = owner.page
+      .locator(sel.myHome.destinationOption)
+      .first();
+    if ((await destinationOption.count()) > 0) {
+      await destinationOption.click();
+    } else {
+      await owner.page.locator(sel.myHome.destination).press("Escape");
+    }
     const dates = owner.page.locator(sel.myHome.dateInputs);
     await dates.nth(0).fill(env.trip.start);
     await dates.nth(1).fill(env.trip.end);
@@ -118,6 +128,22 @@ test("owner creates a Fuzhou trip, invites B, B sees the joined trip", async (
       forbidden.status(),
       "a member inviting another user must be rejected",
     ).toBe(403);
+
+    // TC-09: the owner removes the member, and B loses access to the trip.
+    const memberRow = owner.page
+      .locator(`${sel.invite.memberList} li`, {
+        hasText: `@${env.member.username}`,
+      })
+      .first();
+    await memberRow.getByRole("button").click();
+    await expect(
+      owner.page.locator(`${sel.invite.memberList} li`, {
+        hasText: `@${env.member.username}`,
+      }),
+    ).toHaveCount(0);
+    await member.page.reload({ waitUntil: "domcontentloaded" });
+    await member.page.locator("#tab-joined").click();
+    await expect(member.page.getByText(title)).toHaveCount(0);
 
     // Deliverable evidence for the Issue / test report.
     await owner.page.screenshot({
