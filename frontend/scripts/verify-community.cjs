@@ -123,6 +123,15 @@ async function login(page, person) {
     const tripTitle = `福州周末游-${VERSION}`;
     await tripForm.locator("input").nth(0).fill(tripTitle);
     await tripForm.locator("input").nth(1).fill("福州");
+    // The destination field is a combobox: after typing, its listbox overlays the form and
+    // would swallow later clicks, so pick the first option (or close it) like a real user.
+    await page.waitForTimeout(300);
+    const destinationOption = page.locator("#home-destination-options [role=option]").first();
+    if (await destinationOption.count()) {
+      await destinationOption.click();
+    } else {
+      await page.keyboard.press("Escape");
+    }
     await tripForm.locator("input").nth(2).fill("2026-12-12");
     await tripForm.locator("input").nth(3).fill("2026-12-13");
     await tripForm.locator("button.button-primary").click();
