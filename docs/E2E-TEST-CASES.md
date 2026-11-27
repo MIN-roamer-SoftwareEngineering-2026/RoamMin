@@ -13,13 +13,14 @@
 | TC-06 | 账号 B 登录 | B 账号可用 | 新上下文登录 B | 登录成功，可访问 `/my` | 待填 | 待填 | setup 运行记录 |
 | TC-07 | B 看到参与行程 | TC-05 完成 | `/my` → 切到「Joined trips」 | 列表中出现账号 A 创建的那条福州行程 | 待填 | 待填 | `02-member-joined-trip.png` |
 | TC-08 | 权限：非成员不可见 | 第三个账号或未登录上下文 | 直接访问该行程详情/接口 | 无权限或不可见（预期由 E 组确认具体状态码） | 待填 | 待填 | 接口结果 |
+| TC-09 | 移除成员 | 账号 B 已被邀请 | Owner 在成员列表点「移除」；B 刷新后看「我参与的」 | 成员列表移除 B；B 的参与列表不再出现该行程 | 待填 | 待填 | 截图 / trace |
 
 ## 自动化覆盖对照
 
 | 自动化用例 | 覆盖条目 | 文件 |
 | --- | --- | --- |
 | smoke: login page renders | 环境可用性 | `frontend/e2e/smoke.spec.ts` |
-| main-flow: create → invite → joined | TC-01 ~ TC-08（含重复邀请、越权 403） | `frontend/e2e/main-flow.spec.ts` |
+| main-flow: create → invite → joined | TC-01 ~ TC-09（含重复邀请、越权 403、移除成员） | `frontend/e2e/main-flow.spec.ts` |
 | secondary: 边界与兼容 | P1 未登录/空表单/401、P2 深浅色/中英文/375px | `frontend/e2e/secondary.spec.ts` |
 
 ## 本地预演（11/22–23）
@@ -28,7 +29,7 @@
 
 | 场景 | 结果 | 说明 |
 | --- | --- | --- |
-| TC-01 ~ TC-08 | 通过 | `npm run e2e` → 10 passed（smoke + 2 个 setup + 主流程 + 6 个边界/兼容用例） |
+| TC-01 ~ TC-09 | 通过 | `npm run e2e` → 10 passed（smoke + 2 个 setup + 主流程 + 6 个边界/兼容用例） |
 | P1 / P2 | 通过 | 未登录跳转、空表单校验、401、深色主题、英文切换、375px 无横向溢出 |
 
 11/23 换用陈杭提供的正式账号后，需要重跑并以此为准填写「实际结果 / 结论 / 证据」。

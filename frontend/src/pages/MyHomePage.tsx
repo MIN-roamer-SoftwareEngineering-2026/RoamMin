@@ -1,8 +1,16 @@
-import { useCallback, useEffect, useState, type FormEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type FormEvent,
+  type KeyboardEvent,
+} from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { authApi } from "../api/auth";
 import { socialApi } from "../api/social";
+import { DESTINATION_SAMPLES } from "../data/destinations";
 import { UserAvatar } from "../components/UserAvatar";
 import type { BuddyPost, Trip, TripMember, UserSummary } from "../types";
 import { useAuthStore } from "../store/authStore";
@@ -12,7 +20,9 @@ import TripExpensePanel from "./TripExpensePanel";
 import {
   ArrowUpRight,
   BookmarkSimple,
+  CaretDown,
   MapTrifold,
+  MapPin,
   PencilSimple,
   Users,
   MagnifyingGlass,
@@ -25,7 +35,7 @@ import { AtlasGlobe } from "../components/AtlasGlobe";
 type Tab = "trips" | "favorites" | "buddies" | "joined";
 
 export function MyHomePage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const user = useAuthStore((state) => state.user);
   const [tab, setTab] = useState<Tab>("trips");
   const [trips, setTrips] = useState<Trip[]>([]);
@@ -40,6 +50,8 @@ export function MyHomePage() {
     startDate: "",
     endDate: "",
   });
+  const [destinationPickerOpen, setDestinationPickerOpen] = useState(false);
+  const [destinationActiveIndex, setDestinationActiveIndex] = useState(-1);
   const [buddyForm, setBuddyForm] = useState({
     title: "",
     destination: "",
@@ -49,6 +61,64 @@ export function MyHomePage() {
   const [inviteTrip, setInviteTrip] = useState<number | null>(null);
   const [search, setSearch] = useState("");
   const [deleteId, setDeleteId] = useState<number | null>(null);
+  const language = i18n.language.startsWith("en") ? "en" : "zh";
+
+  const matchingDestinations = useMemo(() => {
+    const keyword = tripForm.destination.trim().toLocaleLowerCase();
+    if (!keyword) return DESTINATION_SAMPLES;
+    return DESTINATION_SAMPLES.filter((destination) =>
+      [
+        destination.name.zh,
+        destination.name.en,
+        destination.district.zh,
+        destination.district.en,
+        destination.address.zh,
+        destination.address.en,
+      ].some((value) => value.toLocaleLowerCase().includes(keyword)),
+    );
+  }, [tripForm.destination]);
+
+  function chooseDestination(index: number) {
+    const destination = matchingDestinations[index];
+    if (!destination) return;
+    setTripForm((form) => ({
+      ...form,
+      destination: destination.name[language],
+    }));
+    setDestinationPickerOpen(false);
+    setDestinationActiveIndex(-1);
+  }
+
+  function handleDestinationKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Escape") {
+      setDestinationPickerOpen(false);
+      setDestinationActiveIndex(-1);
+      return;
+    }
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      if (matchingDestinations.length === 0) return;
+      setDestinationPickerOpen(true);
+      setDestinationActiveIndex((current) =>
+        event.key === "ArrowDown"
+          ? current < matchingDestinations.length - 1
+            ? current + 1
+            : 0
+          : current > 0
+            ? current - 1
+            : matchingDestinations.length - 1,
+      );
+      return;
+    }
+    if (
+      event.key === "Enter" &&
+      destinationPickerOpen &&
+      destinationActiveIndex >= 0
+    ) {
+      event.preventDefault();
+      chooseDestination(destinationActiveIndex);
+    }
+  }
 
   function fillFuzhouExample() {
     setTripForm({
@@ -377,18 +447,91 @@ export function MyHomePage() {
                                 })
                               }
                             />
-                            <input
-                              required
-                              maxLength={80}
-                              placeholder={t("destination")}
-                              value={tripForm.destination}
-                              onChange={(e) =>
-                                setTripForm({
-                                  ...tripForm,
-                                  destination: e.target.value,
-                                })
-                              }
-                            />
+                            <div className="destination-picker">
+                              <input
+                                required
+                                maxLength={80}
+                                role="combobox"
+                                aria-autocomplete="list"
+                                aria-expanded={destinationPickerOpen}
+                                aria-controls="home-destination-options"
+                                aria-activedescendant={
+                                  destinationActiveIndex >= 0
+                                    ? `home-destination-option-${destinationActiveIndex}`
+                                    : undefined
+                                }
+                                placeholder={t("destinationSearchPlaceholder")}
+                                value={tripForm.destination}
+                                onFocus={() => setDestinationPickerOpen(true)}
+                                onKeyDown={handleDestinationKeyDown}
+                                onChange={(e) => {
+                                  setTripForm({
+                                    ...tripForm,
+                                    destination: e.target.value,
+                                  });
+                                  setDestinationPickerOpen(true);
+                                  setDestinationActiveIndex(-1);
+                                }}
+                              />
+                              <button
+                                className="destination-picker-toggle"
+                                type="button"
+                                aria-label={t("destinationPickerToggle")}
+                                aria-expanded={destinationPickerOpen}
+                                onMouseDown={(event) => event.preventDefault()}
+                                onClick={() =>
+                                  setDestinationPickerOpen((open) => !open)
+                                }
+                              >
+                                <CaretDown size={16} weight="bold" />
+                              </button>
+                              {destinationPickerOpen && (
+                                <div
+                                  id="home-destination-options"
+                                  className="destination-picker-options"
+                                  role="listbox"
+                                >
+                                  {matchingDestinations.length > 0 ? (
+                                    matchingDestinations.map((destination, index) => (
+                                      <button
+                                        id={`home-destination-option-${index}`}
+                                        className={
+                                          index === destinationActiveIndex
+                                            ? "is-active"
+                                            : undefined
+                                        }
+                                        type="button"
+                                        role="option"
+                                        aria-selected={
+                                          index === destinationActiveIndex
+                                        }
+                                        key={destination.id}
+                                        onMouseDown={(event) =>
+                                          event.preventDefault()
+                                        }
+                                        onMouseEnter={() =>
+                                          setDestinationActiveIndex(index)
+                                        }
+                                        onClick={() => chooseDestination(index)}
+                                      >
+                                        <MapPin size={16} aria-hidden="true" />
+                                        <span>
+                                          <strong>{destination.name[language]}</strong>
+                                          <small>{destination.district[language]}</small>
+                                        </span>
+                                      </button>
+                                    ))
+                                  ) : (
+                                    <p
+                                      className="destination-picker-empty"
+                                      role="status"
+                                    >
+                                      {t("destinationNoMatches")}
+                                    </p>
+                                  )}
+                                </div>
+                              )}
+                            </div>
                           </div>
                           <div className="form-row date-row">
                             <label>

@@ -52,7 +52,21 @@ const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
     );
     await page.getByRole("button", { name: "浅色", exact: true }).click();
     await page.waitForTimeout(160);
+
+    // 2b. The prefill feeds the Team B destination picker: opening it narrows to the same place
+    await destInput.click();
+    const options = page.locator(".destination-picker-options [role='option']");
+    await options.first().waitFor();
+    assert.equal(
+      await options.count(),
+      1,
+      "the prefilled destination should narrow the picker to that one sample",
+    );
+    assert.match(await options.first().innerText(), /三坊七巷/, "the picker option should be the same place");
     await page.screenshot({ path: path.join(output, "trip-prefill.png"), fullPage: true });
+    // Close the picker so its overlay does not intercept the submit button (see #54).
+    await page.keyboard.press("Escape");
+    await page.locator(".destination-picker-options").waitFor({ state: "hidden" });
 
     // 3. The prefilled form really creates the trip
     await page.locator(".trip-form-actions .button-primary").click();

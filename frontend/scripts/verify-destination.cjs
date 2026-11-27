@@ -32,11 +32,14 @@ const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
   });
 
   try {
-    // 1. List page: all samples rendered
+    // 1. List page: every sample rendered
     await page.goto(`${base}/destinations`, { waitUntil: "networkidle" });
     await page.locator(".destination-card").first().waitFor();
     const cards = page.locator(".destination-card");
-    assert.equal(await cards.count(), 8, "list should render 8 sample destinations");
+    // The sample list is expected to grow (issue #36 takes it from 8 to 9), so assert the floor
+    // and compare the filtered views against this baseline instead of a hard-coded 8.
+    const sampleCount = await cards.count();
+    assert.ok(sampleCount >= 8, `list should render at least 8 sample destinations, got ${sampleCount}`);
     assert.equal(
       await page.locator(".destination-source-badge").innerText(),
       "本地样例数据",
@@ -58,8 +61,21 @@ const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
     await search.fill("");
     await page.getByRole("button", { name: "人文古厝", exact: true }).click();
     await page.waitForTimeout(120);
-    assert.equal(await cards.count(), 4, "heritage category should hold 4 destinations");
-    assert.match(await page.locator(".destination-count").innerText(), /当前显示 4 个/);
+    const heritageCount = await cards.count();
+    assert.ok(
+      heritageCount >= 3 && heritageCount < sampleCount,
+      `heritage category should hold a subset of the samples, got ${heritageCount} of ${sampleCount}`,
+    );
+    const heritageLabels = await page.locator(".destination-cover-category").allInnerTexts();
+    assert.ok(
+      heritageLabels.every((label) => label.includes("人文古厝")),
+      `every card in the heritage filter should be heritage, got ${heritageLabels.join(" / ")}`,
+    );
+    assert.match(
+      await page.locator(".destination-count").innerText(),
+      new RegExp(`当前显示 ${heritageCount} 个`),
+      "the counter should match the number of filtered cards",
+    );
 
     // 4. Empty state
     await search.fill("不存在的关键字");
