@@ -5,26 +5,37 @@ import {
   MapPin,
   PaperPlaneTilt,
 } from "@phosphor-icons/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { socialApi } from "../api/social";
-import { DESTINATION_SAMPLES } from "../data/destinations";
+import { DESTINATION_SAMPLES, type Localized } from "../data/destinations";
 import "../trips.css";
+
+function presetTitle(name: Localized, language: "zh" | "en"): string {
+  return language === "en" ? `A weekend in ${name.en}` : `${name.zh}周末行程`;
+}
 
 export function CreateTripPage() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const [form, setForm] = useState({
-    title: "",
-    destination: "",
+  const language = i18n.language.startsWith("en") ? "en" : "zh";
+  const [searchParams] = useSearchParams();
+  // Team C hand-off: the destination detail page links here with ?from=<destination id>.
+  // Only the two text fields are prefilled; the picker and the submit logic stay Team B's.
+  const presetFrom = searchParams.get("from");
+  const preset =
+    DESTINATION_SAMPLES.find((item) => item.id === presetFrom) ?? null;
+  const presetName = preset ? preset.name[language] : "";
+  const [form, setForm] = useState(() => ({
+    title: preset ? presetTitle(preset.name, language) : "",
+    destination: presetName,
     startDate: "",
     endDate: "",
-  });
+  }));
   const [pickerOpen, setPickerOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const language = i18n.language.startsWith("en") ? "en" : "zh";
 
   const matchingDestinations = useMemo(() => {
     const keyword = form.destination.trim().toLocaleLowerCase();
@@ -123,6 +134,14 @@ export function CreateTripPage() {
         onSubmit={(event) => void submit(event)}
         noValidate
       >
+        {preset && (
+          <p className="field-hint" role="status">
+            {t("dest.prefillFrom", { name: presetName })}{" "}
+            <Link className="link-button" to={`/destinations/${preset.id}`}>
+              {t("dest.backToDestination", { name: presetName })}
+            </Link>
+          </p>
+        )}
         <label>
           {t("tripName")}
           <input
