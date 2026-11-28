@@ -21,7 +21,7 @@ The detail CTA links to `/trips/new?from=<destination id>`. `CreateTripPage` rea
 
 ## Data source
 
-- `frontend/src/data/destinations.ts`: 8 Fuzhou place samples (Sanfang Qixiang, Yantai Hill, Gushan, Pingtan Island, Shangxiahang, West Lake Park, Fudao Trail, Mawei Shipyard Heritage). Fields: bilingual name, category, district, address, summary, highlights, tags, ticket, suggested duration, opening hours, best season, coordinates and heat.
+- `frontend/src/data/destinations.ts`: 9 Fuzhou place samples (Sanfang Qixiang, Yantai Hill, Gushan, Pingtan Island, Shangxiahang, West Lake Park, Fudao Trail, Mawei Shipyard Heritage, Min River Waterfront). Fields: bilingual name, category, district, address, summary, highlights, tags, ticket, suggested duration, opening hours, best season, coordinates and heat.
 - `frontend/src/api/destinations.ts`: calls `GET /api/v1/destinations` first; when the API is unavailable or returns an empty array it falls back to the samples and passes `source` and `reason` to the page.
 
 The page header labels the current data source: "Places API" when the call succeeds, "Local sample data" plus the reason when it falls back. **What we deliberately do not do**: invent trip records, ratings or favourite counts when the API is down, and never present an empty response as a normal result.
