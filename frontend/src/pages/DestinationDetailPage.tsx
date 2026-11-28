@@ -5,7 +5,6 @@ import {
   ArrowLeft,
   ArrowUpRight,
   Clock,
-  Crosshair,
   Hourglass,
   Leaf,
   MapPin,
@@ -102,12 +101,6 @@ export function DestinationDetailPage() {
       label: t("dest.bestSeason"),
       value: pickText(destination.bestSeason, language),
       icon: <Leaf size={17} />,
-    },
-    {
-      key: "coords",
-      label: t("dest.coords"),
-      value: `${destination.coords.lat.toFixed(4)}, ${destination.coords.lng.toFixed(4)}`,
-      icon: <Crosshair size={17} />,
     },
   ];
 
