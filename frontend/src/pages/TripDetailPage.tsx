@@ -170,7 +170,7 @@ function TripDetail({ tripId }: { tripId: number | null }) {
             {t("tripExpensesSection")}
           </h2>
           <p>{t("tripExpensesHint")}</p>
-          <TripExpensePanel tripId={trip.id} title={trip.title} />
+          <TripExpensePanel tripId={trip.id} title={trip.title} showSummary />
         </section>
         <section
           className="trip-detail-card trip-detail-members"
