@@ -12,7 +12,6 @@ import {
   SquaresFour,
   UserCircle,
   Users,
-  SignOut,
   ArrowUpRight,
   CaretRight,
   Sun,
@@ -35,10 +34,11 @@ import { DestinationsPage } from "./pages/DestinationsPage";
 import { DestinationDetailPage } from "./pages/DestinationDetailPage";
 import { CreateTripPage } from "./pages/CreateTripPage";
 import { MyTripsPage } from "./pages/MyTripsPage";
+import { TripDetailPage } from "./pages/TripDetailPage";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { useAuthStore } from "./store/authStore";
 import { UserAvatar } from "./components/UserAvatar";
-import { ConfirmDialog } from "./components/ConfirmDialog";
+import { LogoutAction } from "./components/LogoutAction";
 import { applyTheme, readTheme, type Theme } from "./theme";
 
 function SessionHydrator() {
@@ -84,9 +84,7 @@ function SessionHydrator() {
 export default function App() {
   const { t } = useTranslation();
   const user = useAuthStore((state) => state.user);
-  const clearSession = useAuthStore((state) => state.clearSession);
   const { pathname } = useLocation();
-  const [logoutOpen, setLogoutOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>(readTheme);
   useEffect(() => {
     applyTheme(theme);
@@ -112,13 +110,15 @@ export default function App() {
               ? t("people")
               : pathname === "/ai"
                 ? t("aiAssistant")
-                : pathname.startsWith("/trips")
-                  ? t("myTrips")
-                  : pathname.startsWith("/destinations")
-                    ? t("dest.nav")
-                    : pathname.startsWith("/users/")
-                      ? t("travelerProfile")
-                      : t("overview");
+                : pathname.startsWith("/trips/") && pathname !== "/trips/new"
+                  ? t("tripDetail")
+                  : pathname.startsWith("/trips")
+                    ? t("myTrips")
+                    : pathname.startsWith("/destinations")
+                      ? t("dest.nav")
+                      : pathname.startsWith("/users/")
+                        ? t("travelerProfile")
+                        : t("overview");
   async function switchLanguage(language: "zh" | "en") {
     localStorage.setItem("min-roamer.language", language);
     await i18n.changeLanguage(language);
@@ -257,13 +257,7 @@ export default function App() {
             <Compass size={30} weight="thin" />
             <p>{t("brandTagline")}</p>
             <small>MIN-ROAMER / EST. 2026</small>
-            <button
-              className="sidebar-logout"
-              onClick={() => setLogoutOpen(true)}
-            >
-              <SignOut size={19} />
-              {t("logout")}
-            </button>
+            <LogoutAction />
           </div>
         </aside>
       )}
@@ -278,6 +272,7 @@ export default function App() {
             <Route path="/my" element={<MyHomePage />} />
             <Route path="/trips" element={<MyTripsPage />} />
             <Route path="/trips/new" element={<CreateTripPage />} />
+            <Route path="/trips/:id" element={<TripDetailPage />} />
             <Route path="/people" element={<PeoplePage />} />
             <Route path="/ai" element={<AiAssistantPage key={user?.id} />} />
             <Route path="/users/:id" element={<PublicUserPage />} />
@@ -290,17 +285,6 @@ export default function App() {
           <span>{t("brandTagline")}</span>
         </footer>
       </div>
-      {logoutOpen && (
-        <ConfirmDialog
-          title={t("logoutTitle")}
-          hint={t("logoutHint")}
-          onClose={() => setLogoutOpen(false)}
-          onConfirm={() => {
-            clearSession();
-            setLogoutOpen(false);
-          }}
-        />
-      )}
     </div>
   );
 }

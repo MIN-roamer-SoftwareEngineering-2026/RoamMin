@@ -1,0 +1,429 @@
+/* 弹窗底板微透，两张费用吊牌使用实色，保证数字清晰。 */
+.trip-expense-dialog {
+  position: fixed;
+  margin: 0;
+  width: min(420px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  box-sizing: border-box;
+  overflow: auto;
+  padding: 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: 18px;
+  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  color: var(--text);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 14px 42px rgb(0 0 0 / 18%);
+}
+
+.trip-expense-dialog::backdrop {
+  background: rgb(14 22 32 / 22%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .trip-expense-dialog[open] {
+    animation: trip-expense-appear 160ms ease-out;
+  }
+
+  @keyframes trip-expense-appear {
+    from { opacity: 0.65; }
+    to { opacity: 1; }
+  }
+}
+
+/* 行程名是弹窗标题下的说明，字号比标题小一级。 */
+.trip-expense-dialog .expense-trip-name {
+  margin: 2px 0 14px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+/* 两张吊牌共用轮廓，通过底色和间距区分。 */
+.expense-tag {
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px 14px 14px 14px;
+  background: var(--card-bg);
+}
+
+.expense-tag + .expense-tag {
+  margin-top: 12px;
+}
+
+.expense-tag-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+
+.expense-tag-title::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  box-sizing: border-box;
+  flex: 0 0 8px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+}
+
+.expense-tag-summary {
+  background: var(--soft-surface);
+}
+
+.expense-tag-summary table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+}
+
+.expense-tag-summary th,
+.expense-tag-summary td {
+  padding: 5px 0;
+}
+
+.expense-tag-summary thead th {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 550;
+}
+
+.expense-tag-summary tfoot {
+  border-top: 1px dashed var(--line-strong);
+}
+
+.expense-tag-summary tfoot th,
+.expense-tag-summary tfoot td {
+  padding-top: 9px;
+}
+
+.expense-tag-entry {
+  display: grid;
+  gap: 10px;
+}
+
+.expense-tag-entry .expense-tag-title {
+  margin-bottom: 0;
+}
+
+.expense-tag-entry label {
+  display: grid;
+  gap: 4px;
+  color: var(--text-secondary);
+  font-size: 0.86rem;
+}
+
+.expense-tag-entry input,
+.expense-tag-entry select {
+  width: 100%;
+  min-width: 0;
+  min-height: 36px;
+  box-sizing: border-box;
+  padding: 6px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--field-bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+.expense-tag-entry input:focus-visible,
+.expense-tag-entry select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+/* 弹窗底板透出后方行程卡片的颜色和轮廓。 */
+.trip-expense-dialog {
+  background-color: color-mix(in srgb, var(--surface) 78%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+/* 减弱页面遮罩，让弹窗后面的内容仍然可见。 */
+.trip-expense-dialog::backdrop {
+  background-color: rgb(14 22 32 / 12%);
+}
+
+/* 两张吊牌也微透，通过不同底色区分统计和录入。 */
+.trip-expense-dialog .expense-tag-summary {
+  background-color: color-mix(in srgb, var(--raised) 78%, transparent);
+}
+
+.trip-expense-dialog .expense-tag-entry {
+  background-color: color-mix(in srgb, var(--card-bg) 70%, transparent);
+}
+.expense-tag-summary .expense-empty {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.expense-tag-summary .expense-money {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.expense-tag-summary .expense-expand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 36px;
+  margin-top: 6px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+
+.expense-tag-summary .expense-expand:hover {
+  background: var(--hover-surface);
+}
+.trip-expense-dialog .expense-close {
+  display: grid;
+  place-items: center;
+  flex: none;
+  box-sizing: border-box;
+  width: 27px;
+  height: 27px;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+/* 两条线叠在同一个格子中心，再分别旋转成叉号。 */
+.trip-expense-dialog .expense-close::before,
+.trip-expense-dialog .expense-close::after {
+  content: "";
+  grid-area: 1 / 1;
+  width: 14px;
+  height: 2px;
+  border-radius: 2px;
+  background-color: currentColor;
+}
+
+.trip-expense-dialog .expense-close::before {
+  transform: rotate(45deg);
+}
+
+.trip-expense-dialog .expense-close::after {
+  transform: rotate(-45deg);
+}
+
+.trip-expense-dialog .expense-close:hover {
+  background-color: var(--hover-surface);
+}
+
+.trip-expense-dialog .expense-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+/* 超过三笔时，展开和收起使用同一高度：一行表头 + 三行明细。 */
+.expense-list-window {
+  --expense-row-height: 2rem;
+  overflow-y: auto;
+}
+
+/* 展开后最多容纳一行表头和五笔费用；只有四笔时按实际高度显示。 */
+.expense-list-window[data-expanded="true"] {
+  max-height: calc(6 * var(--expense-row-height));
+  overflow-y: auto;
+}
+
+/* 合计下方只显示细箭头，留出比图标更大的点击区域。 */
+.trip-expense-dialog .expense-list-toggle {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 32px;
+  margin: 4px auto 0;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.trip-expense-dialog .expense-list-toggle:hover {
+  background: var(--hover-surface);
+}
+
+.expense-list-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* 用两条边画 V 形，避免不同电脑的箭头字符大小不一致。 */
+.expense-list-chevron {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+}
+
+.expense-list-toggle[aria-expanded="true"] .expense-list-chevron {
+  transform: translateY(2px) rotate(225deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .expense-list-chevron {
+    transition: transform 160ms ease;
+  }
+}
+
+.expense-list-window table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.expense-list-window th,
+.expense-list-window td {
+  box-sizing: border-box;
+  height: var(--expense-row-height);
+  padding: 0 4px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.expense-list-window thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: var(--raised);
+}
+
+.expense-list-window:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.expense-list-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line-strong);
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+/* 根据弹窗实际宽度安排表单。 */
+.trip-expense-dialog {
+  container-type: inline-size;
+}
+
+.trip-expense-dialog .expense-tag-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+
+.expense-tag-entry .expense-field {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+/* 空间足够时，类别和金额并排；日期、按钮各占一整行。 */
+@container (min-width: 330px) {
+  .expense-tag-entry {
+    grid-template-areas:
+      "heading  heading"
+      "category amount"
+      "date     date"
+      "submit   submit";
+  }
+
+  .trip-expense-dialog .expense-tag-entry {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .expense-tag-entry .expense-tag-title {
+    grid-area: heading;
+  }
+
+  .expense-field-category {
+    grid-area: category;
+  }
+
+  .expense-field-amount {
+    grid-area: amount;
+  }
+
+  .expense-field-date {
+    grid-area: date;
+  }
+
+  .expense-tag-entry .expense-submit {
+    grid-area: submit;
+  }
+}
+
+/* 只调整明细区的滚动条，滑块跟随深浅主题。 */
+.expense-list-window {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted) transparent;
+}
+
+/* “记一笔”作为弹窗里的主要操作。 */
+.trip-expense-dialog .expense-submit {
+  width: 100%;
+  min-height: 35px;
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  background-color: var(--accent);
+  color: var(--accent-ink);
+  font-size: 18px;
+font-weight: 600;
+line-height: 1.0;
+  cursor: pointer;
+}
+
+.trip-expense-dialog .expense-submit:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.trip-expense-dialog .expense-submit:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+/* 日期保留可读性，让金额成为扫读重点。 */
+.expense-list-window tbody time {
+  color: var(--text-secondary);
+  font-size: 0.875em;
+  font-variant-numeric: tabular-nums;
+}
+
+.expense-list-window .expense-money {
+  padding-inline-end: 10px;
+}
+
+/* 连续记账反馈：预留一行，提示出现、消失时布局稳定。 */
+.expense-tag-entry .expense-feedback {
+  grid-column: 1 / -1;
+  min-height: 1.25em;
+  margin: -4px 0 0;
+  color: var(--positive-ink);
+  font-size: 0.85rem;
+  line-height: 1.25;
+  text-align: center;
+}

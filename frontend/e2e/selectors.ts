@@ -17,7 +17,10 @@ export const sel = {
     createDisclosure: "details.create-disclosure > summary",
     createForm: "form.compact-create-form",
     tripName: 'form.compact-create-form input[placeholder="Trip name"]',
-    destination: 'form.compact-create-form input[placeholder="Destination"]',
+    // Destination is now a combobox (destination picker), not a plain
+    // placeholder-based input.
+    destination: 'form.compact-create-form input[role="combobox"]',
+    destinationOption: '#home-destination-options [role="option"]',
     dateInputs: 'form.compact-create-form input[type="date"]',
     // The form now also has a "Use Fuzhou example itinerary" secondary button,
     // so target the primary action explicitly.
