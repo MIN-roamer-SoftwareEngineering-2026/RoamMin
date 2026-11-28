@@ -5,7 +5,7 @@
 //   PLAYWRIGHT_MODULE  path to an installed playwright / playwright-core
 //   QA_BROWSER         browser executable (defaults to the installed Edge)
 //   QA_BASE_URL        defaults to http://localhost:5173
-//   QA_API_URL         defaults to http://127.0.0.1:18080/api/v1
+//   QA_API_URL         defaults to http://127.0.0.1:8080/api/v1
 //   QA_OUTPUT          defaults to artifacts/community
 //   QA_VERSION         version label used in screenshot names (defaults to "local")
 //
@@ -24,7 +24,7 @@ const path = require("node:path");
 const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
 
 const BASE = process.env.QA_BASE_URL || "http://localhost:5173";
-const API = (process.env.QA_API_URL || "http://127.0.0.1:18080/api/v1").replace(/\/$/, "");
+const API = (process.env.QA_API_URL || "http://127.0.0.1:8080/api/v1").replace(/\/$/, "");
 const OUTPUT = path.resolve(process.env.QA_OUTPUT || "artifacts/community");
 const VERSION = process.env.QA_VERSION || "local";
 fs.mkdirSync(OUTPUT, { recursive: true });
