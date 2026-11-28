@@ -2,8 +2,8 @@
 
 - 被测版本：`main` @ **`a7d70ff`**（`fix(start): 启动后默认打开首页而不是登录页 (#23)`）
 - 被测时间：2026-11-23 19:45–19:52（本地真实运行，非 mock）
-- 后端：Spring Boot，`--server.port=18080`，H2 内存库（`jdbc:h2:mem:roammin`）
-- 前端：Vite 5.4.21 + React，`http://localhost:5173`，`/api` 代理到 18080
+- 后端：Spring Boot，`--server.port=8080`，H2 内存库（`jdbc:h2:mem:roammin`）
+- 前端：Vite 5.4.21 + React，`http://localhost:5173`，`/api` 代理到 8080
 - 浏览器：Edge headless 1440×900（puppeteer-core）
 - 脚本：`.tools/pptr/e-verify-1123.mjs`；原始结果：`verify-results.json`
 
@@ -87,13 +87,13 @@ PASS | 页面无 JS 报错 / 无 5xx
 ## 六、复现命令
 
 ```powershell
-# 1. 后端（8080 被 Steam 占用，改 18080 + 内存库）
+# 1. 后端（标准端口 8080 + 内存库）
 cd RoamMin\backend
 $env:JAVA_HOME='<repo>\\.tools\\jdk-17.0.2'
 & "$env:JAVA_HOME\\bin\\java.exe" -jar target\\min-roamer-api-0.1.0-SNAPSHOT.jar `
-  --server.port=18080 "--spring.datasource.url=jdbc:h2:mem:roammin;DB_CLOSE_DELAY=-1"
+  --server.port=8080 "--spring.datasource.url=jdbc:h2:mem:roammin;DB_CLOSE_DELAY=-1"
 
-# 2. 前端（用 vite.local.config.ts 把 /api 代理到 18080）
+# 2. 前端（默认 vite.config.ts 把 /api 代理到 8080）
 cd RoamMin\frontend
 node node_modules\\vite\\bin\\vite.js --config vite.local.config.ts
 
@@ -107,11 +107,11 @@ node scripts\verify-community.cjs
 `frontend/scripts/verify-community.cjs`（与 C 组 `verify-destination.cjs` 同一套约定：Playwright Core + Edge，全部参数可用环境变量覆盖）。
 
 ```powershell
-# 前置：后端 18080 + 前端 5173 已启动（见第六节）；本机需有 Playwright Core
+# 前置：后端 8080 + 前端 5173 已启动（见第六节）；本机需有 Playwright Core
 #   pnpm add playwright-core        （或 npm i playwright-core）
 $env:PLAYWRIGHT_MODULE = '<path-to>/node_modules/playwright-core'   # 可选，默认按包名 require("playwright")
 $env:QA_BASE_URL = 'http://localhost:5173'
-$env:QA_API_URL  = 'http://127.0.0.1:18080/api/v1'
+$env:QA_API_URL  = 'http://127.0.0.1:8080/api/v1'
 $env:QA_OUTPUT   = 'artifacts/community'                            # 截图输出目录
 $env:QA_VERSION  = 'a7d70ff'                                        # 截图文件名里的版本号
 
