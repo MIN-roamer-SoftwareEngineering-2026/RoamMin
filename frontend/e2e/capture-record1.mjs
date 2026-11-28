@@ -154,7 +154,18 @@ try {
   // TC-02 create trip
   await owner.locator("details.create-disclosure > summary").click();
   await owner.locator('form.compact-create-form input[placeholder="行程名称"]').fill(tripTitle);
-  await owner.locator('form.compact-create-form input[placeholder="目的地"]').fill("福州");
+  const destination = owner.locator(
+    'form.compact-create-form input[role="combobox"]',
+  );
+  await destination.fill("福州");
+  const destinationOption = owner
+    .locator('#home-destination-options [role="option"]')
+    .first();
+  if ((await destinationOption.count()) > 0) {
+    await destinationOption.click();
+  } else {
+    await destination.press("Escape");
+  }
   const dates = owner.locator('form.compact-create-form input[type="date"]');
   await dates.nth(0).fill("2026-11-28");
   await dates.nth(1).fill("2026-11-29");
@@ -204,6 +215,17 @@ try {
     .first();
   await row2.waitFor({ timeout: 20000 });
   await shot(owner, "TC-07", "重复邀请提示");
+
+  // TC-09 remove member
+  const memberRow = panel2
+    .locator(".member-list li", { hasText: `@${MEMBER.username}` })
+    .first();
+  await memberRow.getByRole("button").click();
+  await panel2
+    .locator(".member-list li", { hasText: `@${MEMBER.username}` })
+    .first()
+    .waitFor({ state: "detached", timeout: 20000 });
+  await shot(owner, "TC-09", "移除成员");
 
   // TC-08 permission: member inviting someone else must be rejected (403)
   const ownerToken = await owner.evaluate(() => sessionStorage.getItem("min-roamer.token"));
@@ -267,6 +289,7 @@ try {
     "| TC-05 | 对方看到参与行程 | 通过 |",
     "| TC-06 | 刷新后仍在 | 通过 |",
     "| TC-07 | 重复邀请提示 | 通过 |",
+    "| TC-09 | 移除成员 | 通过 |",
     `| TC-08 | 越权拒绝 | ${tc08.passed ? "通过" : "失败"}（实际 ${forbidden.status}） |`,
     "",
     "## 文件",

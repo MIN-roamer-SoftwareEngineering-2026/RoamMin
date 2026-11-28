@@ -18,7 +18,14 @@ export function pickText(value: Localized, language: "zh" | "en") {
   return value[language];
 }
 
-export function DestinationCard({ item }: { item: Destination }) {
+export function DestinationCard({
+  item,
+  distanceLabel,
+}: {
+  item: Destination;
+  /** Optional straight-line distance shown on the cover, used by the nearby recommendations. */
+  distanceLabel?: string;
+}) {
   const { t } = useTranslation();
   const language = currentLanguage();
   return (
@@ -28,6 +35,9 @@ export function DestinationCard({ item }: { item: Destination }) {
         <span className="destination-cover-category">
           {t(`dest.${item.category}`)}
         </span>
+        {distanceLabel && (
+          <span className="destination-cover-distance">{distanceLabel}</span>
+        )}
       </div>
       <div className="destination-card-body">
         <h3>{pickText(item.name, language)}</h3>

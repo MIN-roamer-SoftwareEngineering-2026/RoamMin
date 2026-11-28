@@ -71,13 +71,17 @@ Requires a bearer token. Returns the user's public profile, published trips, and
 
 Requires a bearer token. Lists trips owned by the user or shared with them. Creating a trip accepts `title`, `destination`, and optional `startDate` / `endDate` ISO dates. New trips are private.
 
+### GET /trips/{id}
+
+Requires a bearer token. Returns the requested trip (`id`, `ownerId`, `title`, `destination`, `startDate`, `endDate`, `isPublic`, `createdAt`) to its owner or an invited member. Dates may be null. Returns `404` for a missing or inaccessible trip, including published trips whose workspace the requester has not joined. Use `GET /trips/{id}/members` for the member list and count (including the owner).
+
 ### PUT /trips/{id}/publish and DELETE /trips/{id}/publish
 
 The owner can publish a trip or make it private again.
 
 ### GET /trips/{id}/members, POST /trips/{id}/members, DELETE /trips/members/{memberId}
 
-The owner can list, add, and remove trip members. Adding a member accepts `{ "username": "..." }`; matching is case-insensitive and a user cannot be added twice or add themselves.
+The owner and invited members can list trip members; only the owner can add or remove members. Adding a member accepts `{ "username": "..." }`; matching is case-insensitive and a user cannot be added twice or add themselves.
 
 ### GET /trips/favorites, POST /trips/{id}/favorite, DELETE /trips/{id}/favorite
 

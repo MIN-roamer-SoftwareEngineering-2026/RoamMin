@@ -10,8 +10,10 @@ import {
   Camera,
   CheckCircle,
   LockKey,
+  SignOut,
   UserCircle,
 } from "@phosphor-icons/react";
+import { LogoutAction } from "../components/LogoutAction";
 
 export function ProfilePage() {
   const { t } = useTranslation();
@@ -280,6 +282,14 @@ export function ProfilePage() {
                 <dd>{user?.email}</dd>
               </div>
             </dl>
+          </section>
+          <section className="account-readonly">
+            <h3>
+              <SignOut size={19} />
+              {t("account")}
+            </h3>
+            <p className="field-hint">{t("logoutHint")}</p>
+            <LogoutAction className="button button-secondary" />
           </section>
         </section>
       </div>

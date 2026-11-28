@@ -32,11 +32,14 @@ const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
   });
 
   try {
-    // 1. List page: all samples rendered
+    // 1. List page: every sample rendered
     await page.goto(`${base}/destinations`, { waitUntil: "networkidle" });
     await page.locator(".destination-card").first().waitFor();
     const cards = page.locator(".destination-card");
-    assert.equal(await cards.count(), 8, "list should render 8 sample destinations");
+    // The sample list is expected to grow (issue #36 takes it from 8 to 9), so assert the floor
+    // and compare the filtered views against this baseline instead of a hard-coded 8.
+    const sampleCount = await cards.count();
+    assert.ok(sampleCount >= 8, `list should render at least 8 sample destinations, got ${sampleCount}`);
     assert.equal(
       await page.locator(".destination-source-badge").innerText(),
       "本地样例数据",
@@ -58,8 +61,21 @@ const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
     await search.fill("");
     await page.getByRole("button", { name: "人文古厝", exact: true }).click();
     await page.waitForTimeout(120);
-    assert.equal(await cards.count(), 4, "heritage category should hold 4 destinations");
-    assert.match(await page.locator(".destination-count").innerText(), /当前显示 4 个/);
+    const heritageCount = await cards.count();
+    assert.ok(
+      heritageCount >= 3 && heritageCount < sampleCount,
+      `heritage category should hold a subset of the samples, got ${heritageCount} of ${sampleCount}`,
+    );
+    const heritageLabels = await page.locator(".destination-cover-category").allInnerTexts();
+    assert.ok(
+      heritageLabels.every((label) => label.includes("人文古厝")),
+      `every card in the heritage filter should be heritage, got ${heritageLabels.join(" / ")}`,
+    );
+    assert.match(
+      await page.locator(".destination-count").innerText(),
+      new RegExp(`当前显示 ${heritageCount} 个`),
+      "the counter should match the number of filtered cards",
+    );
 
     // 4. Empty state
     await search.fill("不存在的关键字");
@@ -78,6 +94,31 @@ const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
     );
     assert.equal(await page.locator(".destination-highlights li").count(), 3);
     await page.screenshot({ path: path.join(output, "destination-detail.png"), fullPage: true });
+
+    // 5b. Nearby recommendations: 3 cards, each carrying a straight-line distance
+    const nearbyCards = page.locator(".destination-nearby .destination-card");
+    assert.equal(await nearbyCards.count(), 3, "nearby section should suggest 3 destinations");
+    assert.match(
+      await nearbyCards.first().locator(".destination-cover-distance").innerText(),
+      /公里/,
+      "nearby cards should show their straight-line distance",
+    );
+    const distances = await nearbyCards
+      .locator(".destination-cover-distance")
+      .allInnerTexts();
+    const parsed = distances.map((text) => Number(text.replace(/[^\d.]/g, "")));
+    assert.ok(
+      parsed.every((value, index) => index === 0 || value >= parsed[index - 1]),
+      `nearby list should be sorted from close to far, got ${distances.join(" / ")}`,
+    );
+    await page.screenshot({ path: path.join(output, "destination-nearby.png"), fullPage: true });
+
+    // 5c. Signed-out visitors are sent to the login page instead of the create-trip form
+    assert.equal(
+      await page.locator(".destination-detail-actions a.button-primary").getAttribute("href"),
+      "/login",
+      "the plan-a-trip button should point at /login while signed out",
+    );
 
     // 6. Dark theme
     await page.getByRole("button", { name: "深色", exact: true }).click();

@@ -50,6 +50,11 @@ public class SocialController {
         return ApiResponse.success(trips.allPublicTrips());
     }
 
+    @GetMapping("/trips/{tripId}")
+    public ApiResponse<TripResponse> tripDetail(Authentication auth, @PathVariable Long tripId) {
+        return ApiResponse.success(trips.detail(userId(auth), tripId));
+    }
+
     @PutMapping("/trips/{tripId}/publish")
     public ApiResponse<TripResponse> publish(Authentication auth, @PathVariable Long tripId) {
         return ApiResponse.success(trips.publish(userId(auth), tripId, true));
