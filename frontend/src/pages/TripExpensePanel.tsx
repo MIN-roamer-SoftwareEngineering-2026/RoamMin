@@ -35,11 +35,13 @@ function localToday() {
 type TripExpensePanelProps = {
   title: string;
   tripId: number;
+  showSummary?: boolean;
 };
 
 export default function TripExpensePanel({
   title,
   tripId,
+  showSummary = false,
 }: TripExpensePanelProps) {
   const { i18n } = useTranslation();
   const isEnglish = (i18n.resolvedLanguage ?? i18n.language)
@@ -52,9 +54,9 @@ export default function TripExpensePanel({
   const headingId = useId();
 
   const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [loadState, setLoadState] = useState<"loading" | "ready" | "error">(
-    "loading",
-  );
+  const [loadState, setLoadState] = useState<
+    "loading" | "ready" | "unavailable" | "error"
+  >("loading");
   const [loadAttempt, setLoadAttempt] = useState(0);
 
   const [category, setCategory] = useState<ExpenseCategory>("food");
@@ -77,8 +79,10 @@ export default function TripExpensePanel({
           setExpenses(rows);
           setLoadState("ready");
         }
-      } catch {
-        if (active) setLoadState("error");
+      } catch (reason: unknown) {
+        if (!active) return;
+        const status = (reason as { status?: number } | null)?.status;
+        setLoadState(status === 403 || status === 404 ? "unavailable" : "error");
       }
     }
 
@@ -134,10 +138,16 @@ export default function TripExpensePanel({
     ? `${expenses.length} ${expenses.length === 1 ? "entry" : "entries"}`
     : `${expenses.length} 笔`;
 
-  const loadMessage =
-    loadState === "error"
-      ? text("费用加载失败。", "Could not load expenses.")
-      : text("正在加载费用…", "Loading expenses…");
+  const loadMessage = {
+    loading: text("正在加载费用…", "Loading expenses…"),
+    ready: "",
+    unavailable: text(
+      "该行程不存在，或你没有权限查看此行程的费用。",
+      "This trip does not exist or you do not have access to its expenses.",
+    ),
+    error: text("费用加载失败。", "Could not load expenses."),
+  }[loadState];
+  const summaryText = `${countLabel} · ${text("共 ", "")}${money(total)}`;
 
   const loadNotice = (
     <p className="expense-empty" role="status">
@@ -224,6 +234,17 @@ export default function TripExpensePanel({
 
   return (
     <section style={{ marginTop: 10 }}>
+      {showSummary && (
+        <p role="status">
+          {loadState === "ready" ? (
+            <>
+              {text("费用合计", "Expense total")} · <strong>{summaryText}</strong>
+            </>
+          ) : (
+            loadMessage
+          )}
+        </p>
+      )}
       <button
         ref={trigger}
         type="button"
@@ -415,10 +436,10 @@ export default function TripExpensePanel({
 
       <details style={{ marginTop: 10 }}>
         <summary style={{ cursor: "pointer" }}>
-          {text("费用明细", "Expense details")} ·{" "}
-          {loadState === "ready"
-            ? `${countLabel} · ${text("共 ", "")}${money(total)}`
-            : loadMessage}
+          {text("费用明细", "Expense details")}
+          {!showSummary && (
+            <> · {loadState === "ready" ? summaryText : loadMessage}</>
+          )}
         </summary>
 
         {loadState !== "ready" ? (
